@@ -97,7 +97,7 @@ function NavBar(props) {
     }
   }
   return (
-    <div className={classes.root}>
+    <div >
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           {LogoSwitcher()}

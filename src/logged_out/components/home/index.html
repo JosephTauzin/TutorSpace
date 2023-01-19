@@ -1,0 +1,137 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Echelon Tutoring - Ace the SAT</title>
+  <meta name="description" content="Take your test scores to the next level and achieve excellence with Echelon Tutoring. Helping students increase SAT scores on average by 100 points!">
+  <meta name="author" content="Echelon Tutoring">
+
+  <meta property="og:title" content="Echelon Tutoring - Ace the SAT">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://echelontutoring.com">
+  <meta property="og:description" content="Take your test scores to the next level and achieve excellence with Echelon Tutoring. Helping students increase SAT score on average by 100 points!">
+  <meta property="og:image" content="images/studying.png">
+
+  <!-- 
+  <link rel="icon" href="/favicon.ico">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  -->
+
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+</head>
+
+<body>
+    <nav role="navigation" class="navbar">
+        <div class="logo"><span id="logo">Echelon</span></div>
+        <div class="homeLink navbarLink">Home</div>
+        <div class="contactLink navbarLink"><a href="#contact">Contact</a></div>
+        <div class="signupLink navbarLink">Sign Up</div>
+        <div class="loginLink navbarLink">Login</div>
+    </nav>
+
+
+    <header class="header" data-aos="zoom-in">
+        <div class="headerTitle">
+            <h1>Test Prep for Today's World</h1>
+            <p>Take your test scores to the next level and achieve excellence.</p>
+            <a href="#contact"><button>Learn More</button></a>
+        </div>
+        <div class="headerImage"><img src="./images/studying.png"></div>
+
+
+    </header>
+
+<!-- 
+    Libraries to npm install on react build:
+    https://github.com/michalsnik/aos
+
+-->
+
+    <div class="content-wrapper">
+        <div class="features" data-aos="fade-down" data-aos-duration="500">
+            <h2>What Sets Us Apart</h2>
+            <div class ="featuresContentWrap">
+                <div class="softwareSuccess icon">
+                    <img src="./images/monitor.svg">
+                </div>
+                <div class="refinedPractice icon">
+                    <img src="./images/university.svg">
+                </div>
+                <div class="enableImprove icon">
+                    <img src="./images/improvement.svg">
+                </div>
+                <div class="ssCaption text">
+                    <h3>Software for Success</h3>
+                    <p>With technology we developed specifically for our service, forget about paper tests and printed progress reports - we make it easy to improve.</p>
+                </div>
+                <div class="rpCaption text">
+                    <h3>Refined by Practice</h3>
+                    <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
+                </div>
+                <div class="eiCaption text">
+                    <h3>Enable Improvement</h3>
+                    <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 100 points on the SAT!</p>
+                </div>
+            </div>
+
+            <a href="#contact"><button>Learn More</button></a>
+
+        </div>
+
+        <div class="collegeBanner">
+            <h2 data-aos="fade-right">Taught by Elite Graduates, 99th Percentile Scorers</h2>
+            <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src="./images/collegeBanner.png">
+            <img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src="./images/verticalCollegeBanner.png">
+
+        </div>
+
+        <div class="diagram">
+
+        </div>
+
+        <div class="drivingValue">
+
+        </div>
+
+        <div id="contact" class="contact" data-aos="fade-up">
+            <h2>Get In Touch</h2>
+            <form class="contactForm">
+                <input type="text" name="name" placeholder="Name*" class="contactField" required>
+                <input type="email" name="email" placeholder="Email Address*" class="contactField" required>
+                <input type="text" name="companyName" placeholder="Company Name" class="contactField">
+                <input type="text" name="location" placeholder="Company City/State" class="contactField">
+                <textarea rows="15" name="message" placeholder="What can we do for you?*" class="contactField" required></textarea>
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <footer class="footer">
+        <div class="info">
+            <p>TutorSpace LLC</p>
+            <p>Filler Email and to:@ link</p>
+            <p>Filler Phone Number</p>
+            <p>Privacy Policy (one day when we need one)</p>
+        </div>
+        <div class="spacer"></div>
+    </footer>
+
+    <script src="index.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        easing: 'ease-in-out',
+        duration: '500',
+    });
+    </script>
+</body>
+</html>

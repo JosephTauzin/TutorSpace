@@ -1,0 +1,353 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #673ab7;
+  background: linear-gradient(to right, #512da8, #673ab7);
+}
+.loadingDiv {
+  width:100%;
+  align-items: center;
+  /*background-color: red;*/
+  justify-content: center;
+  margin: auto;
+  padding-left: 37%;
+  margin-top: -2%;
+}
+.quizTopics{
+  width:100%;
+  height: 70px;
+  margin-top:10%;
+  text-align: center;
+  border-radius: 15%;
+  background-color: red;
+  padding-top: 2%;
+}
+.columnDiv{
+  
+  width:20%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+}
+.rowDiv{
+  display:flex; 
+  flex-direction:row;
+  width: 100%;
+}
+.list {
+  color:white;
+  font-size: x-large;
+  font-weight:200 ;
+  text-align: center;
+  margin-bottom: 5%;
+}
+.TopicsDiv{
+  margin-top: -36.5%;
+  margin-bottom: 21.5%;
+  margin-left: 55%;
+}
+.process {
+  color:"#343a40";
+  font-size: x-large;
+  font-weight:500 ;
+  text-align: center;
+  margin-top: 8%;
+  margin-bottom: 18%;
+}
+.check {
+  display: table;
+  width: 100%; /*Optional*/
+  table-layout: fixed; /*Optional*/
+  border-spacing: 10px; /*Optional*/
+}
+.checkbox {
+	margin-left: 100;
+  margin-top: 4%;
+  width:100%;
+  display:table-cell;
+}
+.coloring{
+  background-color: #526572;
+  padding-bottom: 5%;
+}
+.NotepadButtonDiv{
+  margin-top: -7.5%;
+  margin-left: 95%;
+}
+.TitleTextStyle{
+  font-weight: 400;
+  font-size: xx-large;
+  color:whitesmoke;
+}
+
+.TitleTextStyleLight{
+  font-weight: 200;
+  font-size: x-large;
+  color:white;
+  margin-bottom: 0.5%;
+}
+.ExtraInfoTextStyle{
+  font-weight: 200;
+  font-size: x-large;
+  color:black;
+}
+.coloringSub{
+
+  padding-bottom: 70%;
+}
+.hoverbox{
+  height: 100%;
+	width:100%;
+  background-color: #e0e0e0;
+  border-radius: 30%;
+  padding: 5px;
+
+}
+.chooseFile {
+  display: 'flex';
+  justifyContent: 'flex-start';
+  alignItems: 'center';
+  flexDirection: 'row';
+  width: '20vw';
+  padding: 5;
+  borderStyle: 'solid';
+  borderWidth: 1;
+  borderColor: 'green';
+  borderRadius: 5;
+  color: 'green';
+}
+.custom-file-upload {
+  border: 2px solid #ccc;
+  border-radius: 10%;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color:#ccc;
+}
+input[type="file"] {
+  display: none;
+}
+.ButtonDiv {
+  margin-left: 90%;
+  margin-top: -7%;
+}
+.ButtonDivEmail {
+  margin-left: 84.5%;
+  margin-top: -4.5%;
+  margin-bottom:27.8%;
+}
+.ButtonDivWaiting {
+  margin-left: 38%;
+  margin-top: -1%;
+  
+}
+.ButtonDivComplete{
+  margin-left: 30%;
+  margin-top: -1%;
+}
+.StudentAssignments{
+  margin-top: -3.5%;
+  height: 200px;
+
+}
+
+.field {
+  width: 100%;
+  height: 150px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+}
+
+.field:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.field.active {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.field.active textarea {
+  padding: 24px 16px 8px 16px;
+}
+
+.field.active textarea + label {
+  top: 4px;
+  opacity: 1;
+  color: #512da8;
+}
+
+.field.locked {
+  pointer-events: none;
+}
+
+.field textarea {
+  width: 100%;
+  height: 156px;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  color: #282828;
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+    0.1s padding ease-in-out;
+  -webkit-appearance: none;
+}
+
+.field textarea::-webkit-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea:-ms-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.field textarea + label {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.1s all ease-in-out;
+}
+
+.field textarea + label.error {
+  color: #ec392f;
+}
+
+.field p.predicted {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #e0e0e0;
+  opacity: 1;
+  pointer-events: none;
+}
+
+
+
+.fieldSmall {
+  width: 50%;
+  height: 60px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+  margin-bottom: 40px;
+  
+}
+
+.fieldSmall:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.fieldSmall.active {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.fieldSmall.active textarea {
+  padding: 24px 16px 8px 16px;
+}
+
+.fieldSmall.active textarea + label {
+  top: 4px;
+  opacity: 1;
+  color: #512da8;
+}
+
+.fieldSmall.locked {
+  pointer-events: none;
+}
+
+.fieldSmall textarea {
+  width: 100%;
+  height: 56px;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  color: #282828;
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+    0.1s padding ease-in-out;
+  -webkit-appearance: none;
+  
+}
+
+.fieldSmall textarea::-webkit-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea:-ms-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.fieldSmall textarea + label {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.1s all ease-in-out;
+}
+
+.fieldSmall textarea + label.error {
+  color: #ec392f;
+}
+
+.fieldSmall p.predicted {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #e0e0e0;
+  opacity: 1;
+  pointer-events: none;
+}

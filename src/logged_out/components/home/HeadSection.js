@@ -30,7 +30,7 @@ import { FaPlay } from "react-icons/fa";
 import { FaStepBackward } from "react-icons/fa";
 import { FaStepForward } from "react-icons/fa";
 import { wrap } from "@popmotion/popcorn"
-
+import { DateTimePicker, Picklist, PicklistOption } from 'react-rainbow-components';
 import "./styles.scss"
 
 import { IMAGES } from "./Images"
@@ -332,7 +332,7 @@ function HeadSection(props) {
       </div>
 */
   const Headers = ['Test Prep for Today\'s World','Virtual One on One tutoring','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
-  const Paragraphs = ['Take your test scores to the next level and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
+  const Paragraphs = ['Discover which test is right for you, strengthen your weaknesses, and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)
   const [AnimationPause, setAnimationPause] = useState(false)
@@ -347,8 +347,7 @@ function HeadSection(props) {
     }else{
       setAnimationNext(0)
     }
-    console.log('setAnimationNext')
-    console.log(num)
+    
   }
   function ManuallyChangeImage(num){
     //clearTimeout(timer)
@@ -367,8 +366,7 @@ function HeadSection(props) {
   useEffect(() => {
     if(AnimationPause == false){
       const interval = setInterval(() => {
-        console.log("INTERVAL")
-        console.log(AnimationNext)
+    
         setAnimationNext(AnimationNext => AnimationNext+1)
       }, 12500);
       return () => clearInterval(interval);
@@ -393,11 +391,11 @@ function HeadSection(props) {
   function GetParagraphs(){
     return(Paragraphs[AnimationNext2])
   }
-  const [yScale, setyScale]= useState(50)
+  const [yScale, setyScale]= useState(0)
   const [ButtonClass, setButtonClass]= useState('buttons')
   const [LearnMoreClass, setLearnMoreClass] = useState('buttonClassLearnMore')
   useEffect(() => {
-    
+    if(yScale !== 0){
     controlsText.start({ opacity: 1, scale: 1, y: yScale })
     controlsTextSmall.start({ opacity: 1, scale: 1, y: -50 })
     controlsImage.start({opacity:1, scale: 1, y: -50})
@@ -410,7 +408,8 @@ function HeadSection(props) {
 
     return () => clearTimeout(timer);
     }
-  }, [AnimationNext2,ClearTimer,AnimationPause])
+  }
+  }, [AnimationNext2,ClearTimer,AnimationPause, yScale])
 
   const [[imageCount, direction], setImageCount] = useState([0, 0])
 
@@ -459,6 +458,8 @@ function HeadSection(props) {
     const isMobile = width <= 768;
 
     useEffect(()=>{
+      console.log("isMobile")
+      console.log(isMobile)
       if(isMobile == true){
         setyScale(-150)
         setButtonClass('buttonsMobile')
@@ -590,9 +591,7 @@ function HeadSection(props) {
   const windowSize = useRef([window.innerWidth, window.innerHeight]);
   const [Dimensions, setDimensions ] = useState([0,0])
   function InverseHeightWidth(x,y){
-    console.log("HEHEHE")
-    console.log(x)
-    console.log(y)
+   
     const constant = 1
     if(x>y*1.3){
       return(-y/x*constant*0)
@@ -605,6 +604,37 @@ function HeadSection(props) {
   useEffect(()=>{
     setDimensions([window.innerWidth,window.innerHeight])
   },[window.innerWidth,window.innerHeight])
+
+  /*
+<div className = {ButtonClass}>
+        
+          
+          {ShowPlayPauseButtons()}
+      </div>
+  */
+
+      const containerStyles = {
+        maxWidth: 400,
+    };
+    
+    const initialState = {
+        value: new Date('2019-10-25 10:44'),
+        locale: { name: 'en-US', label: 'English (US)' },
+    };
+    
+    const okButtonLocalizedLabel = {
+        'en-US': 'OK',
+        'es-ES': 'Aceptar',
+        'fr-Fr': "D'accord",
+    };
+    
+    const cancelButtonLocalizedLabel = {
+        'en-US': 'Cancel',
+        'es-ES': 'Cancelar',
+        'fr-Fr': 'Annuler',
+    };
+
+
 
   return (
 
@@ -653,11 +683,7 @@ function HeadSection(props) {
         </AnimatePresence>
 
         
-        <div className = {ButtonClass}>
         
-          
-          {ShowPlayPauseButtons()}
-      </div>
      
     </header>
 

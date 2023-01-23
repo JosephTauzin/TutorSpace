@@ -37,7 +37,7 @@ import MeasureUpLogo from "./MeasureUpLogoTransparent.png"
 const styles = (theme) => ({
   appBar: {
     boxShadow: theme.shadows[0],
-    backgroundColor: 'rgb(197, 207, 209)',
+    backgroundColor: 'rgb(231, 236, 236)',
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -240,38 +240,11 @@ function NavBar(props) {
     <Fragment>
       <AppBar position="sticky" className={classes.appBar}>
         <Toolbar className={classes.appBarToolbar}>
-          <Box display="flex" alignItems="center">
-            <Hidden smUp>
-              <Box mr={1}>
-                <IconButton
-                  aria-label="Open Navigation"
-                  onClick={openMobileDrawer}
-                  color="primary"
-                  size="large"
-                >
-                  <MenuIcon />
-                </IconButton>
-              </Box>
-            </Hidden>
-            <Hidden smDown>
-              <Typography
-                variant="h4"
-                className={classes}
-                display="inline"
-                color="#000"
-              >
-                Measure
-              </Typography>
-              <Typography
-                variant="h4"
-                className={classes}
-                display="inline"
-                color="secondary"
-              >
-                Up!
-              </Typography>
-            </Hidden>
-          </Box>
+  
+            <div style={{height:50, marginTop:-0}}>
+            <img src={MeasureUpLogo}/>
+          </div>
+          
           <Box
             display="flex"
             justifyContent="flex-end"

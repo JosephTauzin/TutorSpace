@@ -558,6 +558,7 @@ input:focus, textarea:focus {
         content: "";
         z-index: -1;
         opacity: 0.27;
+        margin-left: -15vw;
 
     }
     .centerText{

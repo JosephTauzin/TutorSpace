@@ -334,6 +334,7 @@ function Dashboard(props) {
   const [NextCurrentStudentDate, setNextCurrentStudentDate] = useState(new Date());
   const [NextClassDate, setNextClassDate] = useState(new Date());
   const [TextOutput, setTextOutput] = useState('')
+  const [TutorNotes, setTutorNotes] = useState('')
   //Placeholder
   const [SATDetailsTotalGlobal, setSATDetailsTotalGlobal] = useState([])
   const [SATCorrectAnswerTotalGlobal, setSATCorrectAnswerTotalGlobal] = useState([])
@@ -1488,6 +1489,45 @@ function UpdateDate(){
       }
   }
 
+  function PullTutorNotes(s){
+    //Placeholder
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+        console.log("NameID")
+        console.log(NameId)
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(s.value == NameId[i][0]){
+            return(NameId[i][2])
+          }
+        }
+      }
+  
+        
+        try{
+        const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+       
+        const unsub = onSnapshot(x, (querySnapshot) => {
+          var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.TutorNotes.stringValue)
+  
+          //console.log(new Date(AssignmentString[0]))
+          
+  
+          setTutorNotes(AssignmentString[0])
+          
+        });
+  
+        if(Type == 'Student' || Type == 'Parent'){
+        
+        }else if(Type == 'Tutor'){
+  
+        }
+      }catch(e){
+
+      }
+  }
+
   function PullZoomLink(){
     function FindMatchingUid(){
       //NameId
@@ -1546,6 +1586,32 @@ function UpdateDate(){
   
       updateDoc(studentDef, {
               Notepad: t
+            
+              });
+            }
+  }
+
+  function UpdateTutorNotes(t){
+    // d could just feed in date
+    console.log('New TutorNotes')
+    console.log(t)
+    if(CurrentStudent !== '' ){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+        
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(CurrentStudent.value == NameId[i][0]){
+            return(NameId[i][1])
+          }
+        }
+      }
+  
+      const studentDef = doc(db, "users", FindMatchingUid());
+  
+      updateDoc(studentDef, {
+              TutorNotes: t
             
               });
             }
@@ -2144,17 +2210,33 @@ function UpdateDate(){
   useEffect(()=>{
     //placeholder
     const delayDebounceFn = setTimeout(() => {
+      UpdateTutorNotes(TutorNotes)
+    }, 5000)
+    return () => clearTimeout(delayDebounceFn)
+   
+  },[TutorNotes])
+
+  useEffect(()=>{
+    //placeholder
+    const delayDebounceFn = setTimeout(() => {
       UpdateZoomLink(ZoomLink)
     }, 5000)
     return () => clearTimeout(delayDebounceFn)
-    //UpdateNotepad(TextOutput)
+ 
   },[ZoomLink])
 
   const handleTextChange = event => {
     // 👇️ update textarea value
   
     setTextOutput(event.target.value);
-    //UpdateNotepad(event.target.value)
+    
+    //setSelectedText(event.target.value)
+  };
+  const handleTextChangeTutorNotes = event => {
+    // 👇️ update textarea value
+  
+    setTutorNotes(event.target.value);
+    
     //setSelectedText(event.target.value)
   };
 
@@ -3120,21 +3202,22 @@ function UpdateDate(){
     
      
       var TempData = TempD
-      console.log("In diagnostics")
+      console.log("In diagnosticsLKNN")
       console.log(TempData)
+      console.log(Arr)
       function CheckMark(arri, tempi){
 
         if(arri == '-' || tempi.value == '-'){
           return('-')
         }else{
-          return('')
+          return(arri)
         }
       }
       for(var i = 0; i < TempData.length; i++){
           console.log()
           TempData[i][3] = {value: CheckMark(Arr[i],TempData[i][3])}
         }
-       
+      console.log(TempData)
       setTimeout(() => {
         setDiagnosticsTestData(TempData)
       }, 1000)
@@ -3319,7 +3402,8 @@ function UpdateDate(){
               
                 var ArrString1 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test1.stringValue)
                 ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString1[0]))
-             
+                ArrString1 = CorrectTestLength(ArrString1[0])
+
               // code block
             }catch(err){
               var ArrString1 = ''
@@ -3327,6 +3411,7 @@ function UpdateDate(){
             try{
               var ArrString2 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test2.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString2[0]))
+              ArrString2 = CorrectTestLength(ArrString2[0])
               // code block
             }catch(err){
               var ArrString2 = ''
@@ -3334,6 +3419,7 @@ function UpdateDate(){
             try{
               var ArrString3 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test3.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString3[0]))
+              ArrString3 = CorrectTestLength(ArrString3[0])
               // code block
             }catch(err){
               var ArrString3 = ''
@@ -3341,6 +3427,7 @@ function UpdateDate(){
             try{
               var ArrString4 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test4.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString4[0]))
+              ArrString4 = CorrectTestLength(ArrString4[0])
               // code block
             }catch(err){
               var ArrString4 = ''
@@ -3348,6 +3435,7 @@ function UpdateDate(){
             try{
               var ArrString5 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test5.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString5[0]))
+              ArrString5 = CorrectTestLength(ArrString5[0])
               // code block
             }catch(err){
               var ArrString5 = ''
@@ -3355,6 +3443,7 @@ function UpdateDate(){
             try{
               var ArrString6 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test6.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString6[0]))
+              ArrString6 = CorrectTestLength(ArrString6[0])
               // code block
             }catch(err){
               var ArrString6 = ''
@@ -3362,6 +3451,7 @@ function UpdateDate(){
             try{
               var ArrString7 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test7.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString7[0]))
+              ArrString7 = CorrectTestLength(ArrString7[0])
               // code block
             }catch(err){
               var ArrString7 = ''
@@ -3369,6 +3459,7 @@ function UpdateDate(){
             try{
               var ArrString8 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test8.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString8[0]))
+              ArrString8 = CorrectTestLength(ArrString8[0])
               // code block
             }catch(err){
               var ArrString8 = ''
@@ -3376,6 +3467,7 @@ function UpdateDate(){
             try{
               var ArrString9 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test9.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString9[0]))
+              ArrString9 = CorrectTestLength(ArrString9[0])
               // code block
             }catch(err){
               var ArrString9 = ''
@@ -3383,6 +3475,7 @@ function UpdateDate(){
             try{
               var ArrString10 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test10.stringValue)
               ArrStringTotal = ArrStringTotal.concat(CorrectTestLength(ArrString10[0]))
+              ArrString10 = CorrectTestLength(ArrString10[0])
               // code block
             }catch(err){
               var ArrString10 = ''
@@ -3395,41 +3488,41 @@ function UpdateDate(){
             console.log("ArrStringLengths")
           
             var TempPushArr = []
-            if(ArrString1[0].split('+').some(r=> IncludesAnswers.includes(r))){ //ArrString1[0].includes(IncludesAnswers)
+            //.some(r=> IncludesAnswers.includes(r))
+            if(!(ArrString1.includes(''))){ //ArrString1[0].includes(IncludesAnswers)
               TempPushArr.push(true)
             }
-            if(ArrString2[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString2.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString3[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString3.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString4[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString4.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString5[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString5.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString6[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString6.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString7[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString7.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString8[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString8.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString9[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString9.includes(''))){
               TempPushArr.push(true)
             }
-            if(ArrString10[0].split('+').some(r=> IncludesAnswers.includes(r))){
+            if(!(ArrString10.includes(''))){
               TempPushArr.push(true)
             }
             console.log("TempPushArr")
             console.log(TempPushArr)
             console.log(ArrString1)
-            console.log(ArrString1[0].split('+'))
-            console.log(ArrString1[0].split('+').some(r=> IncludesAnswers.includes(r)))
+          
             setStandardizedTestsDone(TempPushArr)
             
             break;
@@ -3480,7 +3573,7 @@ function UpdateDate(){
         //setDataTotal(TempData)
         //setTimeout(() => {
           var PercentageCorrectRows = FindPercentageCorrectRows(TempData, index,Test)
-          //SetLineData(TempData)
+       
           var Rows = CreateRows(TempData, 100,Test)
           console.log("In 100")
           console.log(PercentageCorrectRows)
@@ -3566,8 +3659,19 @@ function UpdateDate(){
       FindPercentageCorrectRows(dataTotal)
           SetLineData(dataTotal)
           CreateRows(dataTotal)
+          
     }
   },[PullStudentDataDone])
+  console.log("dataTotal")
+  
+  useEffect(()=>{
+
+    if(PullStudentDataDone == true){
+    FindPercentageCorrectRows(dataTotal)
+          SetLineData(dataTotal)
+          CreateRows(dataTotal)
+    }
+  },[dataTotal])
 
   console.log("lkjnsfglksdfkdsf")
   console.log(ClassroomRows)
@@ -3788,9 +3892,51 @@ function UpdateDate(){
         console.log(CurrentTestNumber)
         console.log(TempArr)
         //Probably want to change this
+        var TempArrAddition = TempArr.slice(1,155)
         
-    
+        var dataTotalCopy = dataTotal
+        var dataTotalLength = dataTotal.length
+        var X = CurrentTestNumber-1
+        var Tempper = []
+        var j = 1
+        for(var i= 0; i<dataTotalLength; i++){
+          if(i >=1+154*X && i<(1+154*(X+1))){
+            Tempper[i] = [
+              {value: dataTotalCopy[i][0].value},
+              {value: dataTotalCopy[i][1].value},
+              {value: dataTotalCopy[i][2].value},
+              {value: dataTotalCopy[i][3].value},
+              {value: dataTotalCopy[i][4].value},
+              {value: TempArr[j]},
+              {value: dataTotalCopy[i][6].value},
+              {value: dataTotalCopy[i][7].value},
+            ]
+            j = j+1
+            
+          }
+          else{
+            Tempper[i] = dataTotalCopy[i]
+          }
+        }
+        /*
+        for(var i = 0; i<TempArr.length; i++){
+          console.log(dataTotalCopy[1+154*X + i])
+          console.log(dataTotalCopy[1+154*X + i][5])
+          dataTotalCopy[1+154*X + i][5].value = TempArr[i]
+        }
+        */
+        /*
+        var FirstPart = TempArrCopy.splice((1+154*X), (1+154*(X+1)))
+        var LastPart = TempArrCopy.splice((2+154*X), TempArrLength)
+        var Finished = FirstPart.concat(TempArr, LastPart)
+        console.log(Finished)
+        setDataTotal(Finished)
+        */
+        console.log(Tempper)
+        setDataTotal(Tempper)
         UpdateStudentData(TempArr, CurrentTestNumber)
+   
+        
       }, 5000)
       return () => clearTimeout(delayDebounceFn)
       }
@@ -3800,7 +3946,7 @@ function UpdateDate(){
   var DiagnosticsCorrectAnswers = "##################C#J#B#J#D#J#B#H#B#H#A#H#A#G#A#J#A#H#D#G#C#F#C#J#B#G#C#J#A#G#A#H#C#H#D#J#####################################K#D#J#A#F#E#G#E#H#D#G#E#H#C#H#B#K#D#F#E#J#C#F#D#K#A#J#D#G#E##########################D#F#B#G#D#G#C#H#B#J#B#F#C#J#A#J#B#G#C#F#########################B#G#A#H#D#J#A#G#C#J#B#J#A#F#B#G#C#J#B###################C#D#B#B#C#A#C#D#A#D#C#D#A#D#C#B#B#A#D#B#B################################B#D#C#A#D#A#D#B#B#A#B#D#A#C#C#D#C#A#D#A#C#B#################C#C#B#A#D#D#D#A#C#B#2#56#3####################D#A#A#D#C#A#B#C#C#B#D#A#C#80#10#0.8#863####"
   var DiagnosticsCorrectAnswersArr = DiagnosticsCorrectAnswers.split('#')
   function CompareAnswers(a,b){
-    if(a == b){
+    if(a.toLowerCase() == b.toLowerCase()){
       return(1)
     }
     else{
@@ -3841,45 +3987,58 @@ function UpdateDate(){
       //setStudentAnswerData(TempArr)
     
       //Probably want to change this
+
+      var arr2 = ['a','b','c','d','e','f','g','h','A','B','C','D','E','F','G','H']
+      var found = TempArr.some(r=> arr2.includes(r))
+
+      
       var CorrectAnswersArr = [0,0,0,0,0,0,0,0]
       for(var a = 0; a<DiagnosticsCorrectAnswersArr.length; a++){
-       if(DiagnosticsTestData[a][0].value=='ACT'){
-        if(DiagnosticsTestData[a][2].value == 'English'){
-          CorrectAnswersArr[0] =  CorrectAnswersArr[0] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+       if(DiagnosticsTestData[a+1][0].value=='ACT'){
+        if(DiagnosticsTestData[a+1][2].value == 'English'){
+          CorrectAnswersArr[0] =  CorrectAnswersArr[0] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Math'){
-          CorrectAnswersArr[1] =  CorrectAnswersArr[1] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Math'){
+          CorrectAnswersArr[1] =  CorrectAnswersArr[1] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Reading'){
-          CorrectAnswersArr[2] =  CorrectAnswersArr[2] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Reading'){
+          CorrectAnswersArr[2] =  CorrectAnswersArr[2] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Science'){
-          CorrectAnswersArr[3] =  CorrectAnswersArr[3] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Science'){
+          CorrectAnswersArr[3] =  CorrectAnswersArr[3] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
        }
-       else if(DiagnosticsTestData[a][0].value=='SAT'){
-        if(DiagnosticsTestData[a][2].value == 'Reading'){
-          CorrectAnswersArr[4] =  CorrectAnswersArr[4] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+       else if(DiagnosticsTestData[a+1][0].value=='SAT'){
+        if(DiagnosticsTestData[a+1][2].value == 'Reading'){
+          CorrectAnswersArr[4] =  CorrectAnswersArr[4] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Writing'){
-          CorrectAnswersArr[5] =  CorrectAnswersArr[5] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Writing'){
+          CorrectAnswersArr[5] =  CorrectAnswersArr[5] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Math (NC)'){
-          CorrectAnswersArr[6] =  CorrectAnswersArr[6] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Math (NC)'){
+          CorrectAnswersArr[6] =  CorrectAnswersArr[6] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
-        else if(DiagnosticsTestData[a][2].value == 'Math (C)'){
-          CorrectAnswersArr[7] =  CorrectAnswersArr[7] + CompareAnswers(DiagnosticsTestData[a][3].value, DiagnosticsCorrectAnswersArr[a])
+        else if(DiagnosticsTestData[a+1][2].value == 'Math (C)'){
+          CorrectAnswersArr[7] =  CorrectAnswersArr[7] + CompareAnswers(DiagnosticsTestData[a+1][3].value, DiagnosticsCorrectAnswersArr[a])
         }
       }
+      
       }
       console.log("JKFKHJBFJD")
+      console.log( DiagnosticsCorrectAnswersArr)
       console.log(CorrectAnswersArr)
+      console.log("JKFKHJBFJDTEMP")
+      console.log(TempArr)
+      console.log(DiagnosticsTestData)
+      //console.log(DiagnosticsAnswersMultiplier(CorrectAnswersArr))
       setDiagnosticsNumCorrect(DiagnosticsAnswersMultiplier(CorrectAnswersArr))
-      UpdateDiagnosticsTest(TempArr)
+      if(found == true){
+        UpdateDiagnosticsTest(TempArr)
+      }
     }, 5000)
     return () => clearTimeout(delayDebounceFn)
     }
-  
+    //PlaceholderABC
 },[DiagnosticsTestData])
 
 
@@ -4209,7 +4368,8 @@ function HandleChangeTabFunction(newValue){
 
     }
   },[AtStart])
-
+  /* This could be called multiple times when it shouldn't
+  */
   function DropDownOnChange(s, index = 1){
       console.log('super s')
       console.log(s)
@@ -4225,6 +4385,7 @@ function HandleChangeTabFunction(newValue){
       PullDiagnosticsData(s)
       PullDate(s)
       PullNotepad(s)
+      PullTutorNotes(s)
       PullDoneAssignments(s)
       //PullQuizResult(s)
       PullClassDate(s)
@@ -4743,12 +4904,13 @@ function HandleChangeTabFunction(newValue){
       TempStudentAnswersArr.push(dataTotal[i][5].value)
       TempCorrectAnswersArr.push(dataTotal[i][6].value)
       var TempOutcome = ''
-     
-      if(dataTotal[i][5].toString() == 'X'){
+      console.log(i)
+      console.log(dataTotal[i][5].value)
+      if(dataTotal[i][5].value.toString() == 'X' || dataTotal[i][5].value.toString() == 'x'){
         TempOutcomeArr.push('Blank')
         TempOutcome = 'Blank'
       }
-      else if(dataTotal[i][5].value.toString() == dataTotal[i][6].value.toString()){
+      else if(dataTotal[i][5].value.toString().toLowerCase() == dataTotal[i][6].value.toString().toLowerCase()){
         TempOutcomeArr.push('Correct')
         TempOutcome = 'Correct'
       }
@@ -4887,10 +5049,10 @@ function HandleChangeTabFunction(newValue){
       var writingRawScore = numCorrect[i][1]
       var mathRawScore = numCorrect[i][2]
               
-      var readingSAT = [10,10,10,11,12,13,14,15,16,16,17,18,18,19,20,20,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,28,29,29,30,30,31,31,32,32,33,33,34,35,35,36,37,38,39,39,40]
+      var readingSAT = [10,10,10,11,12,13,14,15,16,16,17,18,18,19,20,20,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,28,29,29,30,30,31,31,32,32,33,33,34,35,35,36,37,38,39,39,40,40]
                 
-      var writingSAT = [10,10,10,10,11,12,13,14,15,16,16,17,18,19,19,20,21,22,23,23,24,24,25,26,26,27,27,28,29,29,30,31,31,32,32,33,33,34,35,36,37,37,38,39,40]
-      var mathSAT = [200,200,210,230,250,270,280,300,320,340,350,360,370,390,410,420,430,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,600,610,620,630,640,650,660,670,680,690,700,710,710,720,730,730,740,750,750,760,770,780,790,790,800,800]
+      var writingSAT = [10,10,10,10,11,12,13,14,15,16,16,17,18,19,19,20,21,22,23,23,24,24,25,26,26,27,27,28,29,29,30,31,31,32,32,33,33,34,35,36,37,37,38,39,40,40]
+      var mathSAT = [200,200,210,230,250,270,280,300,320,340,350,360,370,390,410,420,430,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,600,610,620,630,640,650,660,670,680,690,700,710,710,720,730,730,740,750,750,760,770,780,790,790,800,800,800]
                 
       var english = (readingSAT[readingRawScore] + writingSAT[writingRawScore]) * 10
       var math = mathSAT[mathRawScore]
@@ -4910,10 +5072,10 @@ function HandleChangeTabFunction(newValue){
     var mathRawScore = numCorrect[6]
 
 
-    var readingSAT = [10,10,10,11,12,13,14,15,16,16,17,18,18,19,20,20,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,28,29,29,30,30,31,31,32,32,33,33,34,35,35,36,37,38,39,39,40]
+    var readingSAT = [10,10,10,11,12,13,14,15,16,16,17,18,18,19,20,20,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,28,29,29,30,30,31,31,32,32,33,33,34,35,35,36,37,38,39,39,40,40]
                 
-    var writingSAT = [10,10,10,10,11,12,13,14,15,16,16,17,18,19,19,20,21,22,23,23,24,24,25,26,26,27,27,28,29,29,30,31,31,32,32,33,33,34,35,36,37,37,38,39,40]
-    var mathSAT = [200,200,210,230,250,270,280,300,320,340,350,360,370,390,410,420,430,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,600,610,620,630,640,650,660,670,680,690,700,710,710,720,730,730,740,750,750,760,770,780,790,790,800,800]
+    var writingSAT = [10,10,10,10,11,12,13,14,15,16,16,17,18,19,19,20,21,22,23,23,24,24,25,26,26,27,27,28,29,29,30,31,31,32,32,33,33,34,35,36,37,37,38,39,40,40]
+    var mathSAT = [200,200,210,230,250,270,280,300,320,340,350,360,370,390,410,420,430,450,460,470,480,490,500,510,520,530,540,550,560,570,580,590,600,600,610,620,630,640,650,660,670,680,690,700,710,710,720,730,730,740,750,750,760,770,780,790,790,800,800,800]
     
     var english = (readingSAT[readingRawScore] + writingSAT[writingRawScore]) * 10
     var math = mathSAT[mathRawScore]
@@ -4938,11 +5100,11 @@ function HandleChangeTabFunction(newValue){
       var englishRawScore = numCorrect[i][0]
       var mathRawScore = numCorrect[i][1]
       var scienceRawScore = numCorrect[i][3]
-      var EnglishACT = [ 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,14,15,15,16,16,16,17,17,18,18,19,19,19,20,20,20,21,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,29,30,31,32,33,34,34,35,35,36]
-      var MathACT = [10,10,10,10,10,11,11,12,12,13,13,14,14,14,15,15,15,15,16,16,16,16,16,17,17,17,18,18,19,19,20,20,21,22,22,23,23,24,24,24,25,25,26,26,27,27,28,28,29,30,30,31,32,33,34,34,35,35,36,36]
+      var EnglishACT = [ 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,14,15,15,16,16,16,17,17,18,18,19,19,19,20,20,20,21,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,29,30,31,32,33,34,34,35,35,36,36]
+      var MathACT = [10,10,10,10,10,11,11,12,12,13,13,14,14,14,15,15,15,15,16,16,16,16,16,17,17,17,18,18,19,19,20,20,21,22,22,23,23,24,24,24,25,25,26,26,27,27,28,28,29,30,30,31,32,33,34,34,35,35,36,36,36]
   
-      var ReadingACT = [10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,15,15,16,17,18,18,19,20,20,21,22,23,23,24,25,26,27,28,29,30,31,32,34,35,36]
-      var ScienceACT = [10,10,10,10,10,10,10,11,12,13,14,15,16,17,17,18,19,19,20,20,21,21,22,23,23,24,24,25,25,26,27,27,28,29,30,31,33,34,35,36]
+      var ReadingACT = [10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,15,15,16,17,18,18,19,20,20,21,22,23,23,24,25,26,27,28,29,30,31,32,34,35,36,36]
+      var ScienceACT = [10,10,10,10,10,10,10,11,12,13,14,15,16,17,17,18,19,19,20,20,21,21,22,23,23,24,24,25,25,26,27,27,28,29,30,31,33,34,35,36,36]
 
       var EnglishScore = EnglishACT[englishRawScore]
       var MathScore = MathACT[mathRawScore]
@@ -4966,11 +5128,11 @@ function HandleChangeTabFunction(newValue){
     var englishRawScore = numCorrect[0]
     var mathRawScore = numCorrect[1]
     var scienceRawScore = numCorrect[3]
-    var EnglishACT = [ 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,14,15,15,16,16,16,17,17,18,18,19,19,19,20,20,20,21,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,29,30,31,32,33,34,34,35,35,36]
-    var MathACT = [10,10,10,10,10,11,11,12,12,13,13,14,14,14,15,15,15,15,16,16,16,16,16,17,17,17,18,18,19,19,20,20,21,22,22,23,23,24,24,24,25,25,26,26,27,27,28,28,29,30,30,31,32,33,34,34,35,35,36,36]
+    var EnglishACT = [ 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,14,15,15,16,16,16,17,17,18,18,19,19,19,20,20,20,21,21,21,22,22,23,23,23,24,24,25,25,26,26,27,27,28,28,29,30,31,32,33,34,34,35,35,36,36]
+    var MathACT = [10,10,10,10,10,11,11,12,12,13,13,14,14,14,15,15,15,15,16,16,16,16,16,17,17,17,18,18,19,19,20,20,21,22,22,23,23,24,24,24,25,25,26,26,27,27,28,28,29,30,30,31,32,33,34,34,35,35,36,36,36]
   
-    var ReadingACT = [10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,15,15,16,17,18,18,19,20,20,21,22,23,23,24,25,26,27,28,29,30,31,32,34,35,36]
-    var ScienceACT = [10,10,10,10,10,10,10,11,12,13,14,15,16,17,17,18,19,19,20,20,21,21,22,23,23,24,24,25,25,26,27,27,28,29,30,31,33,34,35,36]
+    var ReadingACT = [10,10,10,10,10,10,10,10,11,11,12,12,13,14,14,15,15,16,17,18,18,19,20,20,21,22,23,23,24,25,26,27,28,29,30,31,32,34,35,36,36]
+    var ScienceACT = [10,10,10,10,10,10,10,11,12,13,14,15,16,17,17,18,19,19,20,20,21,21,22,23,23,24,24,25,25,26,27,27,28,29,30,31,33,34,35,36,36]
 
     var EnglishScore = EnglishACT[englishRawScore]
     var MathScore = MathACT[mathRawScore]
@@ -5366,7 +5528,7 @@ function HandleChangeTabFunction(newValue){
     
   }
   const [DiagnosticsResults, setDiagnosticsResults] = useState([])
-
+  
   useEffect(()=>{
     //DiagnosticsNumCorrect
     console.log("DiagnosticsTestData")
@@ -5650,16 +5812,23 @@ function HandleChangeTabFunction(newValue){
   }
 
  
-
+  const [dropdownDone, setdropdownDone] = useState(false)
   useEffect(()=>{
+
     if(UserName && Type){
       if(Type == 'Student' || Type == 'Parent'){
-        if(NewArrFinished == true){
-       
+
+        if(NewArrFinished == true && dropdownDone == false){
+            console.log("lkjfskljfdkdjskdsf")
+            console.log(UserName)
+            console.log(Type)
+            console.log(NewArrFinished)
+            console.log(dropdownDone)
             //setPageSwitch(1)
             try{
               setTimeout(() => {
                 DropDownOnChange({value:UserName.toString() })
+                setdropdownDone(true)
               }, 1000)
             }catch(e){
               console.log("Student not found")
@@ -5892,6 +6061,77 @@ function HandleChangeTabFunction(newValue){
       )
     }
   }
+  function ShowAreasOfImprovement(){
+    var MathList  = []
+    var EnglishList = []
+    try{
+    for(var i = 0; i<MathrowsGlobal.length; i++){
+      var Temp = [MathrowsGlobal[i].Category,MathrowsGlobal[i].Percent]
+      MathList.push(Temp)
+    }
+    for(var i = 0; i<VerbalrowsGlobal.length; i++){
+      var Temp = [VerbalrowsGlobal[i].Category,VerbalrowsGlobal[i].Percent]
+      EnglishList.push(Temp)
+    }
+
+    MathList.sort(sortFunction);
+    EnglishList.sort(sortFunction);
+   
+    function sortFunction(a, b) {
+        if (a[1] === b[1]) {
+            return 0;
+        }
+        else {
+            return (a[1] < b[1]) ? -1 : 1;
+        }
+    }
+    
+    return([MathList[0][0],MathList[1][0],EnglishList[0][0],EnglishList[1][0]])
+  }catch(e){
+    return([])
+  }
+  }
+  function ShowTopicsCovered(){
+    function NewList(assignments){
+      var List = []
+    for(var i  = 0; i< assignments.length; i++){
+      var Name = assignments[i][0]
+      var IsCoverd = assignments[i][1]
+      if(IsCoverd == true){
+        List.push([Name,true])
+      }
+    }
+    return(List)
+    }
+    if(CurrentTest == 'SAT'){
+      return(
+        NewList(TopicsFull).map(obj=>{
+          return(
+          <>
+        
+          <p className="TextStyleLight"><li>{obj[0]}</li></p>
+          
+          </>
+          )
+        })
+      )
+    }else if(CurrentTest == 'ACT'){
+      return(
+        NewList(TopicsFullACT).map(obj=>{
+          return(
+          <>
+        
+
+          <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} style={{color:"black"}} labelStyle={{color:"black"}} checked= {obj[1]}  />} label={obj[0]} />
+
+          </>
+          )
+        })
+      )
+    }
+
+    
+  }
   if(PageSwitch == 10){
     
     return(
@@ -6087,7 +6327,7 @@ function HandleChangeTabFunction(newValue){
           
         </Box>
         <div className={'SpreadsheetDiv'}>
-          <Spreadsheet data={data} onChange={setData} darkMode= {false}/>
+          <Spreadsheet data={data} onChange={setData} darkMode= {false} hideRowIndicators={true} hideColumnIndicators={true} />
         </div>
        
        
@@ -7241,6 +7481,66 @@ function HandleChangeTabFunction(newValue){
     }
   }
 
+  function EditTutorNotes(){
+    /*
+    
+          <div className={'NotepadButtonDiv'}>
+          <Button onClick={() => { openModal(); } } className={'NotepadButton'} title={'Notepad'}>
+            <FaRegStickyNote size={40} />
+          </Button>
+          </div>
+    */
+  
+   if(Type=='Student'){
+    return(null)
+   }
+   function ShowEditButton(){
+    if(Type=='Tutor'){
+      return(<div className={'NotepadButtonDiv2'}>
+      <Button onClick={() => { openModal(); } } className={'NotepadButton'} title={'Notepad'}>
+        <FaRegStickyNote size={40} />
+      </Button>
+      </div>)
+    }
+    else{
+      return(null)
+    }
+   }
+    return(
+    <>
+    <p className={'TitleTextStyleLight'}>Tutor Notes:</p>
+    {ShowEditButton()}
+    <Modal
+      isOpen={modalIsOpen}
+      onAfterOpen={afterOpenModal}
+      onRequestClose={closeModal}
+      style={ModalCustomStyles}
+      contentLabel="Example Modal"
+      overlayClassName="Overlay"
+    >
+        <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{ marginTop: -5 }}>Tutor Notes</h2>
+        <Button onClick={closeModal} className={'NotepadClose'}>
+          {
+            /*
+            <FaTimes size ={40}/>
+            */
+          }
+        </Button>
+
+
+        <div className={'field active false'}>
+          <textarea
+            id={2}
+            type="text"
+            value={TutorNotes}
+            placeholder={'Enter Text Here'}
+            onChange={handleTextChangeTutorNotes}
+            rows="6" />
+        </div>
+      </Modal></>
+    )
+  }
+
   if(PageSwitch == 1){
     return (
       <>
@@ -7280,7 +7580,33 @@ function HandleChangeTabFunction(newValue){
         <div className={'ChartDiv'}>
           {GetChart()}
         </div>
+        <div className="rowDiv">
+          <div className="columnDivImprovement">
+          <div className='TopicsCoveredDiv'>
+          <p  className={'TitleTextStyleLight'}>Topics Covered:</p>
+          {ShowTopicsCovered()
+          }
+          </div>
+          <p className="TitleTextStyleLight">Areas For Improvement:</p>
+          {ShowAreasOfImprovement().map(obj=>{
+            return(<p className="TextStyleLight"><li>{obj}</li></p>)
+          })
+          }
+          </div>
+          
+        <div className="columnDivImprovement">
+        
+          
+          {EditTutorNotes()}
+          <div className="TutorNotes">
+          <p className="TextStyleLight">{TutorNotes}</p>
          
+          </div>
+          </div>
+          </div>
+          
+          
+          
           <p className={'TitleTextStyleLight'}>Test Synopsis:</p>
 
           <EnhancedTableToolbar numSelected={selectedMath.length} />

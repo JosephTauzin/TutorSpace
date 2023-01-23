@@ -3,7 +3,7 @@
 }
 
 body {
-  background: rgb(231, 236, 236);
+  background: rgb(197, 207, 209);
   
 }
 .loadingDiv {
@@ -164,7 +164,7 @@ body {
   display:table-cell;
 }
 .coloring{
-  background-color: rgb(231, 236, 236);
+  background-color: rgb(212, 220, 221);
   padding-bottom: 5%;
 }
 .NotepadButtonDiv{

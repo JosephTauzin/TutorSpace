@@ -1,8 +1,8 @@
 {
   "name": "MeasureUp!",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "homepage": "https://josephtauzin.github.io/TutorWeb/",
+  "homepage": "http://measureupprep.com/",
   "description": "At MeasureUp! We help our clients reach their full academic potential!",
   "dependencies": {
     "@aldabil/react-scheduler": "^2.5.7",

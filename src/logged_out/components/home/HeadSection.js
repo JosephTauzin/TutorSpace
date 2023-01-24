@@ -331,7 +331,7 @@ function HeadSection(props) {
         </div>
       </div>
 */
-  const Headers = ['Test Prep for Today\'s World','Virtual One on One tutoring','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
+  const Headers = ['Test Prep for Today\'s World','Virtual One on One Classroom','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
   const Paragraphs = ['Discover which test is right for you, strengthen your weaknesses, and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)

@@ -20,7 +20,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import ReactHover, { Trigger, Hover } from "react-hover";
 import SubscriptionInfo from "./SubscriptionInfo";
 import { CirclesWithBar } from 'react-loader-spinner'
-import "./style.css";
+
 import { auth, getNames, db, storage} from "../../../firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayRemove, setDoc } from "firebase/firestore";
@@ -92,25 +92,6 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils'
 import { alpha } from '@mui/material/styles';
 
-/*==
-const handleSubmission = () => {
- 
-  fetch(
-    'http://127.0.0.1:5000/text',
-    {
-      method: 'POST',
-      body: 'Test',
-    }
-  )
-    .then((response) => response.json())
-    .then((result) => {
-      console.log('Success:', result);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-};
-*/
 
 
 class Input extends React.Component {
@@ -456,14 +437,7 @@ function Dashboard(props) {
   function refreshPage() {
     window.location.reload(false);
   }
-  /*
-  useEffect(()=>{
-    console.log("Refreshheddd")
-    setTimeout(() => {
-      refreshPage()
-    }, 1500)
-  },[])
-  */
+ 
 
   const menuItems = [
     
@@ -510,8 +484,7 @@ function Dashboard(props) {
 
     
     //['Solving algebraic equations', false, 50, '8']
-    console.log("TopicsMathX")
-    console.log(TopicsMathX)
+   
     
     
  
@@ -545,9 +518,7 @@ function Dashboard(props) {
 
     
     //['Solving algebraic equations', false, 50, '8']
-    console.log("TopicsMathX")
-    console.log(TopicsMathX)
-    console.log(TopicsBookCapterCopy2)
+   
     
  
     //var TopicsBookCapterCopy = TopicsBookCapter
@@ -578,18 +549,16 @@ function Dashboard(props) {
   useEffect(() => {
     try{
       const x = query(usersRef, where("uid", "==", auth.currentUser.uid.toString()));
-      console.log("SUPER")
-      console.log(x)
+      
       //const q = query(collection(db, "users"))
       const unsub = onSnapshot(x, (querySnapshot) => {
-      //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
+     
       //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
-      //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+
       setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
 
       var UserType = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Type.stringValue)
-      console.log("Should set tutor")
-      console.log(UserType[0])
+     
       setType(UserType[0]);
       if(UserType == 'Parent'){
         setParentStudentName(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ParentName.stringValue))
@@ -616,9 +585,9 @@ function Dashboard(props) {
       
         //const q = query(collection(db, "users"))
         const unsub = onSnapshot(x, (querySnapshot) => {
-        //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
+        
         //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
-        //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+ 
         //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
 
         
@@ -627,11 +596,9 @@ function Dashboard(props) {
         //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
         
         if(Type == 'Tutor'){
-          console.log("HEHEHEHEHEHE")
-          console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
+         
           var TempStudentsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue)
-          console.log(TempStudentsTotal)
-          console.log(Students[0])
+        
           var StudentsTemp = []
           try{
             for(var i = 0; i < Students[0].length; i++){
@@ -657,7 +624,7 @@ function Dashboard(props) {
     }catch(err){
      
       setErrorMessage(err.toString())
-      console.log("IN ERROR")
+
       setTimeout(() => {
         setErrorUpdate(ErrorUpdate+1);
       }, 1000)
@@ -669,8 +636,7 @@ function Dashboard(props) {
     if(ClassroomStudents){
       try{
         var CS = ClassroomStudents[0]
-        console.log('CS')
-        console.log(CS)
+    
         var TempArr = []
         for(var i = 0; i< CS.length; i++){
           TempArr.push(CS[i].stringValue)
@@ -686,8 +652,7 @@ function Dashboard(props) {
     if(ClassroomStudentsACT){
       try{
         var CS = ClassroomStudentsACT[0]
-        console.log('CSACT')
-        console.log(CS)
+      
         var TempArr = []
         for(var i = 0; i< CS.length; i++){
           TempArr.push(CS[i].stringValue)
@@ -707,38 +672,7 @@ function Dashboard(props) {
     return false;
   };
 
-  /*
-  useEffect(() => {
-    try{
-      const x = query(usersRef, where("Type", "==", "Student"));
-      
-      //const q = query(collection(db, "users"))
-      const unsub = onSnapshot(x, (querySnapshot) => {
-      //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
-      //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
-      //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
-      //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
 
-      
-     
-        
-      //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
-        
-      console.log("HEHEHEHEHEHE")
-      console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
-      setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
-  });
-     
-     //setErrorMessage(unsub())
-    // return cleanup function
-    //return () => subscriber();
-    }catch(err){
-     
-      
-      //setErrorUpdate(ErrorUpdate+1)
-    }
-  }, []); // empty dependencies array => useEffect only called once
-  */
 
 
   /*
@@ -749,29 +683,26 @@ function Dashboard(props) {
   useEffect(() => {
     try{
       const z = query(usersRef);
-      //console.log(x)
+  
      //const q = query(collection(db, "users"))
      var NewwerArr  = []
      var NewArr = NameId
     const unsub = onSnapshot(z, (querySnapshot) => {
-      //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
-      //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
-      //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+      
       
   
       if(NameId){
       
         
         querySnapshot.docs.map(d => NewArr[NewArr.length] = ([d._document.data.value.mapValue.fields.name.stringValue, d.id,d._document.data.value.mapValue.fields.uid.stringValue,d._document.data.value.mapValue.fields.Type.stringValue]) )
-        console.log("kjsgrdbjuisgfhji")
-        console.log(NewArr)
+    
        
         for(var t = 0; t<NewArr.length; t++){
           if(NewArr[t][3] !== 'Parent'){
             NewwerArr.push(NewArr[t])
           }
         }
-        console.log(NewwerArr)
+   
         setNameId(NewwerArr)
         setNewArrFinished(true)
        
@@ -789,8 +720,7 @@ function Dashboard(props) {
     // return cleanup function
     //return () => subscriber();
     catch(err){
-      console.log("Error")
-      console.log(err)
+   
       setErrorMessage(err.toString())
     }
   }, []); // empty dependencies array => useEffect only called once
@@ -804,8 +734,7 @@ function Dashboard(props) {
 
 
     .then((url) => {
-      console.log("HeyNeato")
-      console.log(url)
+     
       /*
       // `url` is the download URL for 'images/stars.jpg'
 
@@ -864,21 +793,17 @@ function Dashboard(props) {
         var x = query(quizesRef, where("Topic", "==", X)); //, where("Topic", "==", CurrentQuizTopic.toString().toLowerCase())
       }else if(CurrentTest == 'ACT'){
         var x = query(quizesRefACT, where("Topic", "==", X)); //, where("Topic", "==", CurrentQuizTopic.toString().toLowerCase())
-        console.log("IN ACT")
+      
       }
       const unsub = onSnapshot(x, (querySnapshot) => {
-        console.log(X)
-        console.log(x)
-        console.log("HAHSHAHHSHSAS")
-        console.log(CurrentTest)
-        console.log(querySnapshot.docs.map(d => d.id[0]))
+       
         //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
         //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
         //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields));
         
         setQuizDataId(querySnapshot.docs.map(d => d.id))
         setQuizData( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields));
-        console.log("Finished")
+       
       });
   
      //setErrorMessage(unsub())
@@ -895,8 +820,7 @@ function Dashboard(props) {
 
   function UpdateQuizAnswers(QuizAnswersArr){
     try{
-      console.log("QuizAnswersArr")
-      console.log(QuizAnswersArr)
+      
     
       var X = MakeCamelCase(CurrentQuizTopic.toString()).replaceAll(' ','').toString()
       if(CurrentTest == 'SAT'){
@@ -908,9 +832,7 @@ function Dashboard(props) {
       /*
       const unsub = onSnapshot(x, (querySnapshot) => {
       
-        //console.log(querySnapshot.docs[0]._document.data.value.mapValue.fields.name.stringValue)
-        //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
-        //console.log("Data", querySnapshot.docs.map(d => d._document.data.value.mapValue.fields));
+     
         
         setQuizDataId(querySnapshot.docs.map(d => d.id))
         setQuizData( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields));
@@ -921,11 +843,10 @@ function Dashboard(props) {
         Answers: QuizAnswersArr,
         Topic: X
       }
-      console.log("REEEE")
-      console.log(QuizAnswersArr)
+    
       setTimeout(()=>{
         if(QuizAnswersArr.length==0){
-          console.log("hehe")
+         
         }
         else{
           setDoc(doc(db, "Quizes", X), docData)
@@ -958,8 +879,7 @@ function PullAllDates(s = CurrentStudent){
     try{
     //NameId
     //CurrentStudent
-    console.log("PullAllDates")
-    console.log(s)
+  
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
@@ -976,23 +896,21 @@ function PullAllDates(s = CurrentStudent){
 
       for(var i = 0; i< NameId.length; i++){
       
-        console.log(NameId)
-        console.log("Name IDDDDDDDDD")
+
           var CurrName = NameId[i][2]
           const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
           var NewArr = []
           const unsub = onSnapshot(x, (querySnapshot) => {
-            console.log("IN unsub")
+          
             var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
             var NameString = querySnapshot.docs.map(d=> d._document.data.value.mapValue.fields.name.stringValue)
             var TutorString = querySnapshot.docs.map(d=> d._document.data.value.mapValue.fields.Tutor.stringValue)
-            //console.log(new Date(AssignmentString[0]))
+           
             //var DateX = new Date(MeetingDateString[0].toString())
 
             //var newDateObj = new Date(DateX.getTime() + 90*60000);
             var CombinedString = NameString + '-' + TutorString
-            console.log("This is the time")
-            console.log(MeetingDateString[0])
+       
             var Meetings = MeetingDateString[0]
             var DateSet = false
             function containsObject(obj, list) {
@@ -1009,12 +927,12 @@ function PullAllDates(s = CurrentStudent){
             var TempDate = ''
             var TempDateX = ''
             try{
-            console.log(Meetings[0].length)
+              console.log(Meetings[0].length)
             }catch(e){
               return(null)
             }
             if(Meetings[0].length==0){
-              console.log("CAPPP")
+       
               setEvents([])
               return(null)
             }
@@ -1025,16 +943,11 @@ function PullAllDates(s = CurrentStudent){
 
               //Placeholder
               var today = new Date();
-              console.log("Pulldate")
-             
-              console.log(DateSet)
-              console.log(DateX)
-              console.log(DateX.getTime())
+              
               TempDateX = DateX
               
               var IsInPast = dateInPast(DateX, today)
-              console.log(DateX)
-              console.log(TempDateX)
+              
               if(IsInPast == false && DateSet == false){
                 TempDate = TempDateX
                 DateSet = true
@@ -1044,27 +957,24 @@ function PullAllDates(s = CurrentStudent){
               }
               
               //setNextCurrentStudentDate(DateX)
-              console.log("PullSecond")
-              console.log(TempDate)
-              console.log(DateX)
+              
               var TempDict ={
                 event_id: (CombinedString + '-' + (i+1).toString()),
                 title: CombinedString,
                 start: TempDateX,
                 end: newDateObj
               }
-              console.log(TempDict)
+        
               if(containsObject(TempDict, EventBuilder) == false){
                 EventBuilder.push(TempDict)
               }
              
             }
-            console.log(EventBuilder)
+
             if(DateSet == true){
               setNextCurrentStudentDate(TempDate)
             }
-            console.log("EventBuilder")
-            console.log(EventBuilder)
+          
 
             const uniqueArray = EventBuilder.filter((value, index) => {
               const _value = JSON.stringify(value);
@@ -1072,7 +982,7 @@ function PullAllDates(s = CurrentStudent){
                 return JSON.stringify(EventBuilder) === _value;
               });
             });
-            console.log(uniqueArray)
+          
             setEvents(uniqueArray)
             //setNextCurrentStudentDate(DateX)
             
@@ -1127,7 +1037,7 @@ function DeleteAllDates(s, num){
         
       });
       setTimeout(()=>{
-        console.log(UpdatedArr)
+        
         updateDoc(studentDef, {
             HistMeetingTimes: UpdatedArr
               
@@ -1172,7 +1082,7 @@ function AddNewDates(s, newTime){
       const unsub = onSnapshot(x, (querySnapshot) => {
         var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
 
-        //console.log(new Date(AssignmentString[0]))
+
         
         var NewMeetingDateString = MeetingDateString[0]
         
@@ -1201,7 +1111,7 @@ function AddNewDates(s, newTime){
 }
 
 function SetAllMeetings(){
-  console.log("SEt all meetings")
+  
     const x = query(usersRef) //query(usersRef, where("id", "==", FindMatchingUid()));
     
       
@@ -1209,9 +1119,9 @@ function SetAllMeetings(){
       const unsub = onSnapshot(x, (querySnapshot) => {
         //var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
 
-        //console.log(new Date(AssignmentString[0]))
+       
         console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
-        //console.log(MeetingDateString)
+       
         var Total = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields)
         var NewArr = []
         var NameArr = []
@@ -1223,11 +1133,11 @@ function SetAllMeetings(){
  
             for(var y = 0; y< Total[i].HistMeetingTimes.arrayValue.values.length; y++){
               if(Total[i].HistMeetingTimes.arrayValue.values[y].stringValue != ''){
-                console.log(Total[i])
+             
                 NewArr.push(Total[i].HistMeetingTimes.arrayValue.values[y].timestampValue)
                 NameArr.push(Total[i].name.stringValue)
                 TutorArr.push(Total[i].Tutor.stringValue)
-                console.log(NewArr)
+             
               }
             }
      
@@ -1250,11 +1160,10 @@ function SetAllMeetings(){
               start: DateX,
               end: newDateObj
             }
-            console.log(TempDict)
+           
             EventBuilder.push(TempDict)
           }
-          console.log(EventBuilder)
-          console.log("ALMOSTY")
+          
           setEvents(EventBuilder)
 
      
@@ -1306,14 +1215,12 @@ function UpdateAllDates(s, newTime,num){
       const unsub = onSnapshot(x, (querySnapshot) => {
         var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
 
-        //console.log(new Date(AssignmentString[0]))
+      
         
         var NewMeetingDateString = MeetingDateString[0]
-        console.log(NewMeetingDateString)
-        console.log(num)
-        console.log(NewMeetingDateString[num])
+     
         NewMeetingDateString[num].timestampValue = newTime
-        console.log(NewMeetingDateString)
+       
         
         for(var i = 0; i < NewMeetingDateString.length; i++){
           UpdatedArr.push(new Date(NewMeetingDateString[i].timestampValue))
@@ -1361,17 +1268,16 @@ function PullTest(s){
 
         //console.log(new Date(AssignmentString[0]))
         if(Array.isArray(TestString) ==true){
-          console.log("NEAT")
+       
           setCurrentTest(TestString[0])
           return(TestString[0])
         }else{
           setCurrentTest(TestString)
           return(TestString)
         }
-        console.log(Array.isArray(TestString))
+       
         //setNextCurrentStudentDate(DateX)
-        console.log("TESTString")
-        console.log(TestString[0])
+       
       });
     }catch(e){
 
@@ -1399,11 +1305,10 @@ function PullDate(s){
       const unsub = onSnapshot(x, (querySnapshot) => {
         var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.NextMeetingDate.timestampValue)
 
-        //console.log(new Date(AssignmentString[0]))
+ 
         var DateX = new Date(AssignmentString[0].toString())
         var today = new Date();
-        console.log("Pulldate")
-        console.log(dateInPast(DateX, today));
+
 
         //setNextCurrentStudentDate(DateX)
         
@@ -1455,8 +1360,7 @@ function UpdateDate(){
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
-        console.log("NameID")
-        console.log(NameId)
+        
         for(var i = 0; i< NameId.length; i++){
         
           if(s.value == NameId[i][0]){
@@ -1472,7 +1376,7 @@ function UpdateDate(){
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Notepad.stringValue)
   
-          //console.log(new Date(AssignmentString[0]))
+        
           
   
           setTextOutput(AssignmentString[0])
@@ -1494,8 +1398,7 @@ function UpdateDate(){
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
-        console.log("NameID")
-        console.log(NameId)
+    
         for(var i = 0; i< NameId.length; i++){
         
           if(s.value == NameId[i][0]){
@@ -1511,7 +1414,7 @@ function UpdateDate(){
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.TutorNotes.stringValue)
   
-          //console.log(new Date(AssignmentString[0]))
+       
           
   
           setTutorNotes(AssignmentString[0])
@@ -1548,7 +1451,6 @@ function UpdateDate(){
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ZoomLink.stringValue)
   
-          //console.log(new Date(AssignmentString[0]))
           
   
           setZoomLink(AssignmentString[0])
@@ -1567,8 +1469,7 @@ function UpdateDate(){
 
   function UpdateNotepad(t){
     // d could just feed in date
-    console.log('New Text')
-    console.log(t)
+ 
     if(CurrentStudent !== '' ){
       function FindMatchingUid(){
         //NameId
@@ -1593,8 +1494,7 @@ function UpdateDate(){
 
   function UpdateTutorNotes(t){
     // d could just feed in date
-    console.log('New TutorNotes')
-    console.log(t)
+  
     if(CurrentStudent !== '' ){
       function FindMatchingUid(){
         //NameId
@@ -1618,8 +1518,7 @@ function UpdateDate(){
   }
 
   function UpdateCurrentTest(test){
-    console.log('New test')
-    console.log(test)
+
     if(CurrentStudent !== '' ){
       function FindMatchingUid(){
         //NameId
@@ -1644,8 +1543,7 @@ function UpdateDate(){
 
   function UpdateZoomLink(t){
     // d could just feed in date
-    console.log('New zoom')
-    console.log(t)
+  
     if(CurrentStudent !== '' ){
       function FindMatchingId(ID){
         //NameId
@@ -1682,31 +1580,29 @@ function UpdateDate(){
             }
           }
         }
-        console.log(Type)
+       
         try{
         if(Type == 'Student' || Type == 'Parent'){
           const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
           var NewArr = []
           const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassDate.timestampValue)
-  
-          //console.log(new Date(AssignmentString[0]))
+
           var DateX = new Date(AssignmentString[0].toString())
   
           setNextClassDate(DateX)
           
         });
         }else if(Type == 'Tutor'){
-          console.log("HAIUSDABNJFDKNSDA")
+        
           const x = query(usersRef, where("uid", "==", auth.currentUser.uid.toString()));//query(usersRef, where("id", "==", FindMatchingUid()));
           var NewArr = []
           const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassDate.timestampValue)
   
-          //console.log(new Date(AssignmentString[0]))
+        
           var DateX = new Date(AssignmentString[0].toString())
-          console.log("HAIUSDABNJFDvghvhjgv")
-          console.log(DateX)
+        
           setNextClassDate(DateX)
           
         });
@@ -1718,8 +1614,7 @@ function UpdateDate(){
 
   useEffect(()=>{
     if(Type == 'Tutor'){
-      console.log("TYPPPEE")
-      console.log()
+     
       PullClassDate()
     }
   },[auth.currentUser, Type])
@@ -1836,19 +1731,17 @@ function UpdateDate(){
     const unsub = onSnapshot(studentDef, (querySnapshot) => {
       
       var AssignmentString2 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.assignmentsDone.stringValue)
-      //console.log(new Date(AssignmentString[0]))
+     
       var AS = AssignmentString2[0]
       var Arr = AS.split('%')
-      console.log("ARRAARRARR")
-      console.log(Arr.slice(1,Arr.length))
+  
       setAssignmentsDoneGlobal(Arr.slice(1,Arr.length))
 
       if(CurrentTest == 'SAT'){
         var TopicsName = ''
         var ArrName = ''
         var TopicCopy = TopicsFull
-        console.log("TopicsCopy")
-        console.log(TopicCopy)
+       
         var ArrDone = []
         var Bools = TopicsBool
         var ArrX = Arr.slice(1,Arr.length)
@@ -1864,29 +1757,25 @@ function UpdateDate(){
             }
           }
         }
-        console.log(ArrDone)
-        console.log(ArrX)
+    
 
         var DiffArr = diffSimilarArray(ArrDone, ArrX)
-        console.log("DiffArr")
-        console.log(DiffArr)
+       
         for(var y = 0; y<DiffArr.length; y++){
           var TempArr = [DiffArr[y], true, 101]
           TopicCopy.push(TempArr)
           Bools.push(true)
         }
-        console.log(TopicCopy)
+      
         setTopicsFull(TopicCopy)
         setTopics(TopicCopy)
-        console.log("Bools")
-        console.log(Bools)
+      
         setTopicsBool(Bools)
       }else if(CurrentTest == 'ACT'){
         var TopicsName = ''
         var ArrName = ''
         var TopicCopy = TopicsFullACT
-        console.log("TopicsCopy")
-        console.log(TopicCopy)
+ 
         var ArrDone = []
         var Bools = TopicsBool
         var ArrX = Arr.slice(1,Arr.length)
@@ -1902,22 +1791,19 @@ function UpdateDate(){
             }
           }
         }
-        console.log(ArrDone)
-        console.log(ArrX)
+        
 
         var DiffArr = diffSimilarArray(ArrDone, ArrX)
-        console.log("DiffArr")
-        console.log(DiffArr)
+    
         for(var y = 0; y<DiffArr.length; y++){
           var TempArr = [DiffArr[y], true, 101]
           TopicCopy.push(TempArr)
           Bools.push(true)
         }
-        console.log(TopicCopy)
+    
         setTopicsFullACT(TopicCopy)
         setTopicsACT(TopicCopy)
-        console.log("Bools")
-        console.log(Bools)
+       
         setTopicsBool(Bools)
       }
     });
@@ -1960,28 +1846,24 @@ function UpdateDate(){
     const X = query(usersRef, where("uid", "==", FindMatchingUidQuery())) //query(usersRef, where("id", "==", FindMatchingUid()));
     var AssignmentsArc = ''
     var AssignmentsDone = ''
-    console.log("Before AA")
+   
     const unsub = onSnapshot(X, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.assignmentsArc.stringValue)
           var AssignmentString2 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.assignmentsDone.stringValue)
-          //console.log(new Date(AssignmentString[0]))
-          
-          console.log(querySnapshot.docs.map(d => d._document.data.value))
+       
 
           AssignmentsArc = AssignmentString[0]
           AssignmentsDone = AssignmentString2[0]
-          console.log("AssignmentsArc")
-          console.log(AssignmentsArc)
+     
     });
 
     setTimeout(() => {
      var ArrString = ''
      var FinishedTopic = ''
-      console.log('StudentAssignmentsXX')
-      console.log(StudentAssignments)
+    
       for(var i = 0; i < StudentAssignments.length; i++){
         for(var x = 0; x<3; x++){
-          console.log(StudentAssignments[i][x])
+      
           ArrString = ArrString + StudentAssignments[i][x].toString() + '+'
         }
         if(StudentAssignments[i][1] == true){
@@ -1992,8 +1874,7 @@ function UpdateDate(){
         ArrString = ArrString.slice(0, -1)
         ArrString = ArrString + '%'
       }
-      console.log("What's up bro")
-      console.log(ArrString)
+    
 
       if(Type == 'Student' || Type == 'Parent'){
 
@@ -2025,8 +1906,7 @@ function UpdateDate(){
 
 
   function UpdateStudentAssignments(StudentAssignments){
-    console.log('CurrentStudent')
-    console.log(CurrentStudent)
+
     if(CurrentStudent !== '' ){
       function FindMatchingUid(){
         //NameId
@@ -2039,19 +1919,19 @@ function UpdateDate(){
           }
         }
       }
-      console.log("Beanie")
+     
       const studentDef = doc(db, "users", FindMatchingUid());
       var ArrString = ''
       
       for(var i = 0; i < StudentAssignments.length; i++){
         for(var x = 0; x<3; x++){
-          console.log(StudentAssignments[i][x])
+       
           ArrString = ArrString + StudentAssignments[i][x].toString() + '+'
         }
         ArrString = ArrString.slice(0, -1)
         ArrString = ArrString + '%'
       }
-      console.log(ArrString)
+      
 
       if(Type == 'Student' || Type == 'Parent'){
         updateDoc(studentDef, {
@@ -2066,7 +1946,7 @@ function UpdateDate(){
   }
 
   function UpdateStudentAssignmentsClassroom(StudentAssignments, Student){
-    console.log('CurrentStudent')
+ 
     
     if(CurrentStudent !== '' ){
       function FindMatchingUid(){
@@ -2080,19 +1960,19 @@ function UpdateDate(){
           }
         }
       }
-      console.log("Beanie")
+    
       const studentDef = doc(db, "users", FindMatchingUid());
       var ArrString = ''
       
       for(var i = 0; i < StudentAssignments.length; i++){
         for(var x = 0; x<3; x++){
-          console.log(StudentAssignments[i][x])
+        
           ArrString = ArrString + StudentAssignments[i][x].toString() + '+'
         }
         ArrString = ArrString.slice(0, -1)
         ArrString = ArrString + '%'
       }
-      console.log(ArrString)
+  
 
       if(Type == 'Student' || Type == 'Parent'){
         updateDoc(studentDef, {
@@ -2125,11 +2005,10 @@ function UpdateDate(){
         try{
         const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
         var NewArr = []
-        console.log("Extra")
+       
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.assignments.stringValue)
-          console.log("JNKJLN NL:")
-          console.log(AssignmentString)
+         
           var AssignmentArr = AssignmentString[0].split('%')
           
          
@@ -2158,8 +2037,7 @@ function UpdateDate(){
             }
         
         }
-          console.log("NEW ARRRRRAESFEDLNFD")
-          console.log(NewArr)
+        
           setStudentAssignments(NewArr)
         });
 
@@ -2277,7 +2155,7 @@ function UpdateDate(){
     var CurNum = 0
     //var TotalNum = parseInt(QuizData[0]['nrOfQuestions'].stringValue)
       function camelcase(stringCurr){
-        console.log(stringCurr)
+    
         var StringArr= stringCurr.split('')
         var TempString = ''
         var TotalString = ''
@@ -2288,7 +2166,7 @@ function UpdateDate(){
                     TempString = character
                 }
                 else{
-                    console.log(TempString)
+                  
                     TotalString = TotalString  + TempString + " "
                     TempString = character
                 }
@@ -2315,9 +2193,7 @@ function UpdateDate(){
     }
 
     function GetCorrectAnswers(Arr, char){
-      console.log("Correct Ansewrs")
-      console.log(Arr)
-      console.log(char)
+   
       var ArrX = Arr.filter(x => isNaN(x))
       for(var i = 1; i < ArrX.length+1; i++){
         if(ArrX[i-1] == char){
@@ -2341,7 +2217,7 @@ function UpdateDate(){
     function CreateRandomAnswers( DecimalCorrectNumber, TotalArr){
       var FilterArr = [DecimalCorrectNumber]
       FilterArr = FilterArr.filter(x => isNaN(x))
-      console.log(FilterArr)
+   
   
       function GetUniqueValues(Arr){
           var TempArr = []
@@ -2479,38 +2355,32 @@ function UpdateDate(){
        
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.QuizResults.stringValue)
-          console.log("QuizResults1")
-          console.log(AssignmentString)
+         
           if(AssignmentString[0].length == 0){
-            console.log("YOURE DONE")
+         
             return(null)
           }
-          //console.log(new Date(AssignmentString[0]))
+         
           
           //Breakingpoint
           setQuizResultsGlobal(AssignmentString[0])
           var TempArr = AssignmentString[0].split('%')
           var Pusher = []
-          console.log("TopicsFullCCC")
-          console.log(TopicsFull)
+       
 
-          //console.log()
+       
           for(var i = 0; i < TempArr.length; i++){
             var InnerArr = TempArr[i].split('+')
             var InnerChapter = ''
-            console.log("Inner Arr")
-            console.log(InnerArr)
-            console.log(TopicsBookCapterConst)
+           
 
             if(CurrentTest == 'SAT'){
 
               for(var x =0; x<TopicsFull.length; x++){
                 var Camel = TopicsFull[x][0].toString().replaceAll(' ','').toLowerCase()
-                console.log(Camel)
-                //console.log(MakeCamelCase(InnerArr[0].replaceAll(' ','')))
+                
                 if(Camel ==InnerArr[0].replaceAll(' ','').toLowerCase()){
-                  console.log("In Inner")
-                  console.log( TopicsBookCapterConst[x])
+                 
                   InnerChapter = TopicsBookCapterConst[x]
                   break
                 }
@@ -2522,11 +2392,9 @@ function UpdateDate(){
             }else if(CurrentTest == 'ACT'){
               for(var x =0; x<TopicsFullACT.length; x++){
                 var Camel = TopicsFullACT[x][0].toString().replaceAll(' ','').toLowerCase()
-                console.log(Camel)
-                //console.log(MakeCamelCase(InnerArr[0].replaceAll(' ','')))
+                
                 if(Camel ==InnerArr[0].replaceAll(' ','').toLowerCase()){
-                  console.log("In Inner")
-                  console.log( TopicsBookCapterConstACT[x])
+               
                   InnerChapter = TopicsBookCapterConstACT[x]
                   break
                 }
@@ -2598,16 +2466,14 @@ function UpdateDate(){
       try{
         const unsub = onSnapshot(X, (querySnapshot) => {
               QuizResultsString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.QuizResults.stringValue)
-              console.log(QuizResultsString)
-              //console.log(new Date(AssignmentString[0])) 
+            
               
                   
         }
         )
         }
       catch(err){
-        console.log("SUPPPPPPPER DUPPPPER ERROR")
-        console.log(err)
+     
         QuizResultsString = ''
       }
       /*
@@ -2617,8 +2483,7 @@ function UpdateDate(){
         return(null)
       }
       */
-      console.log("beforedes")
-      console.log(QuizResultsString)
+  
       var des = DoubleCheck(QuizResultsString)
       if(des == 'exit'){
         return(null)
@@ -2626,9 +2491,7 @@ function UpdateDate(){
       const studentDef = doc(db, "users", FindMatchingUid());
       
       setTimeout(()=>{
-        console.log(Data)
-        console.log(QuizResultsString)
-        console.log(Data + '%' + QuizResultsString)
+    
                
         updateDoc(studentDef, {
                         QuizResults: Data + '%' + QuizResultsString
@@ -2645,31 +2508,26 @@ function UpdateDate(){
   }
 
   function setQuizResults(obj){
-    console.log("Quiz results")
-    console.log(obj);
-    console.log(obj.userInput)
-    console.log(CurrentStudent)
+ 
     var UserInput = obj.userInput
     if(UserInput.length !== 0){
       var numberOfCorrectAnswers = obj.numberOfCorrectAnswers
       var numberOfIncorrectAnswers = obj.numberOfIncorrectAnswers
       //CurrentQuizTopic
       var TempString = CurrentQuizTopic + '+' + numberOfCorrectAnswers.toString() + '+' + numberOfIncorrectAnswers.toString()
-      console.log(TempString)
+    
       UpdateQuizResult(TempString)
     }
   }
 
 
   useEffect(()=>{
-    console.log("CurrentStudent changeeeeeddd")
+    console.log("CurrentStudent changed")
   },[CurrentStudent])
-  console.log("Student")
-  console.log(CurrentStudent)
+  
   useEffect(()=>{
     if(QuizData){
-      console.log("QuizData")
-      console.log(QuizData)
+      
       QuizBuilder()
     }
     
@@ -2750,14 +2608,11 @@ function UpdateDate(){
 
   useEffect(()=>{
     if(CurrentQuizData && CurrentTest){
-      console.log('CurrentQuizData')
-      console.log(CurrentQuizData)
-      console.log(CurrentStudent)
+  
       var Quizzer = <Quiz quiz={CurrentQuizData} onComplete={(obj)=>setQuizResults(obj)} showInstantFeedback={true}/>
-      console.log(Quizzer)
-      console.log("DONEDONEDONE")
+     
       //CurrentQuiz.push(Quizzer)
-      //console.log(A)
+     
       //setCurrentQuiz(A)
       /*
       if(CurrentQuizNum == -1){
@@ -2999,9 +2854,7 @@ function UpdateDate(){
   }
   
   function SATCorrectAnswerBank(num, CurrTest = 0){
-    console.log("CURRREIUEHIAUJA")
-    console.log(num)
-    console.log(CurrTest)
+   
     if(CurrTest == 0){
       CurrTest = CurrentTest
     }
@@ -3150,7 +3003,7 @@ function UpdateDate(){
     //var SATCorrectAnswer = "B,B,C,A,C,D,D,B,C,B,A,B,D,A,A,C,C,D,A,B,A,B,D,D,C,B,D,C,A,A,D,B,A,C,B,D,C,C,B,C,B,B,A,A,D,C,B,A,D,B,D,A,D,B,A,C,C,D,B,C,A,A,B,B,A,B,C,C,C,A,D,D,B,D,D,D,B,A,B,C,B,D,C,A,A,A,A,B,D,C,A,B,B,C,D,D,D,A,C,B,C,A,B,C,B,A,D,D,B,A,D,2,1600,7,0.8,100,B,C,D,C,D,D,C,D,A,B,A,C,C,C,A,C,B,A,B,D,C,B,B,A,D,B,C,C,D,D,4,107,0.625,96,6,3,1.02,6.11"
     //var SATCorrectAnswerArr = SATCorrectAnswer.split(',')
     var Arr = [[{ value: "Test" }, { value: "Section" },{ value: "Question" }, { value: "Subject" },{ value: "Detail" },{ value: "Student answer" },{value:'Correct Answer'},{ value: "Outcome" }]]
-    console.log("INSAT")
+ 
     
     if(CurrTest == 'SAT'){
       var TempArr = []
@@ -3202,9 +3055,7 @@ function UpdateDate(){
     
      
       var TempData = TempD
-      console.log("In diagnosticsLKNN")
-      console.log(TempData)
-      console.log(Arr)
+      
       function CheckMark(arri, tempi){
 
         if(arri == '-' || tempi.value == '-'){
@@ -3214,10 +3065,10 @@ function UpdateDate(){
         }
       }
       for(var i = 0; i < TempData.length; i++){
-          console.log()
+        
           TempData[i][3] = {value: CheckMark(Arr[i],TempData[i][3])}
         }
-      console.log(TempData)
+
       setTimeout(() => {
         setDiagnosticsTestData(TempData)
       }, 1000)
@@ -3234,7 +3085,7 @@ function UpdateDate(){
   const[PullStudentDataDone, setPullStudentDataDone] = useState(false)
 
   function PullStudentData(s , index, num = 0, Test = 0){
-    console.log(CurrentTest)
+   
     var TempD = SATCorrectAnswerBank(index, Test)
   
    
@@ -3397,7 +3248,7 @@ function UpdateDate(){
               break;
         case 99: case 100:
           var ArrStringTotal = ['Student answer']
-          console.log("In good place")
+       
             try{
               
                 var ArrString1 = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test1.stringValue)
@@ -3480,12 +3331,11 @@ function UpdateDate(){
             }catch(err){
               var ArrString10 = ''
             }
-            console.log("DataTotalRaw")
-            console.log(ArrStringTotal)
+            
             setDataTotalRaw(ArrStringTotal)
             var IncludesAnswers = ['A', 'B','C','D','X','a','b','c','d','x']
             //setStandardizedTestsDone
-            console.log("ArrStringLengths")
+           
           
             var TempPushArr = []
             //.some(r=> IncludesAnswers.includes(r))
@@ -3519,9 +3369,7 @@ function UpdateDate(){
             if(!(ArrString10.includes(''))){
               TempPushArr.push(true)
             }
-            console.log("TempPushArr")
-            console.log(TempPushArr)
-            console.log(ArrString1)
+           
           
             setStandardizedTestsDone(TempPushArr)
             
@@ -3532,23 +3380,19 @@ function UpdateDate(){
       }
       //var ArrString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Test1.stringValue)
       
-      console.log("Almost done")
+      
       //return(null)
       if(index == 99){
         var Arr = ArrStringTotal
-        console.log("Arr length")
-        console.log("In 99")
-        console.log(Arr.length)
-        console.log(Arr)
+     
      
         var TempData = TempD
-        console.log(TempData)
+    
         for(var i = 0; i < Arr.length; i++){
-          console.log()
+ 
           TempData[i][5] = {value: Arr[i]}
         }
-        console.log("TempData")
-        console.log(TempData)
+     
         setDataTotal(TempData)
         setPullStudentDataDone(true)
         setAtStart(AtStart + 1)
@@ -3556,41 +3400,30 @@ function UpdateDate(){
        
       }
       else if(index == 100){
-        console.log("IN 100")
+       
         var Arr = ArrStringTotal
-        console.log("Arr length")
-        //console.log(Arr.length)
-        console.log(Arr)
+        
      
         var TempData = TempD
-        console.log(TempData)
+       
         for(var i = 0; i < Arr.length; i++){
          
           TempData[i][5] = {value: Arr[i]}
         }
-        console.log("TempData")
-        console.log(TempData)
+       
         //setDataTotal(TempData)
         //setTimeout(() => {
           var PercentageCorrectRows = FindPercentageCorrectRows(TempData, index,Test)
        
           var Rows = CreateRows(TempData, 100,Test)
-          console.log("In 100")
-          console.log(PercentageCorrectRows)
-          console.log(Rows)
+          
           ClassroomRows.push(Rows)
-          console.log(ClassroomRows)
-          //return(Rows)
-          console.log("num")
-          console.log(num)
-          console.log(ClassroomRows.length)
+          
           if(ClassroomRows.length == num){
             for(var i = 1; i< ClassroomRows.length; i++){
               for(var y = 0; y < ClassroomRows[0][i].length; y++){
               
-                console.log("Super neato")
-                console.log(ClassroomRows[0][i][y])
-                console.log(ClassroomRows.length)
+               
                 for(var z = 0; z < 2; z++){
                   ClassroomRows[0][z][y].Right += ClassroomRows[i][z][y].Right
                   ClassroomRows[0][z][y].Wrong += ClassroomRows[i][z][y].Wrong
@@ -3606,8 +3439,7 @@ function UpdateDate(){
             }
           }
          
-          console.log("Final product")
-          console.log(ClassroomRows)
+         
           setMathrowsGlobalClassroom(ClassroomRows[0][0])
           setVerbalrowsGlobalClassroom(ClassroomRows[0][1])
           return(ClassroomRows)
@@ -3618,30 +3450,7 @@ function UpdateDate(){
       }
       else{
 
-        /*
-        var Arr = ArrString[0].split('+')
-      
-        var TempData = TempD
-        for(var i = 0; i < Arr.length; i++){
-          TempData[i][5] = {value: Arr[i]}
-        }
-      
-        console.log("Amazing")
-        console.log(TempData)
-        console.log(index)
-        console.log(CurrentTestNumber)
-        console.log(AtStart)
-        */
-        //setData(TempData)
-        //setDataTotal(TempData)
-        /*
-        setTimeout(() => {
-          FindPercentageCorrectRows(TempData)
-          SetLineData(TempData)
-          CreateRows(TempData)
-          setAtStart(AtStart + 1)
-        }, 1000)
-        */
+       
       }
       
     });
@@ -3662,7 +3471,7 @@ function UpdateDate(){
           
     }
   },[PullStudentDataDone])
-  console.log("dataTotal")
+
   
   useEffect(()=>{
 
@@ -3673,87 +3482,54 @@ function UpdateDate(){
     }
   },[dataTotal])
 
-  console.log("lkjnsfglksdfkdsf")
-  console.log(ClassroomRows)
+
 
 
   function LoopThroughStudents(studentsArr, Test = 'SAT'){
     var RowsTotal= []
-    console.log("LoopThroughStudents")
-    console.log(studentsArr.length)
-    console.log(Test)
+    
     for(var i = 0; i<studentsArr.length; i++){
       var RowsTemp  =  PullStudentData(studentsArr[i] , 100,studentsArr.length, Test )
-      console.log('RowsTemp')
+     
       RowsTotal.push(RowsTemp)
-      console.log(RowsTemp)
+     
     }
 
     
     
   }
-  /*
-  useEffect(()=>{
-    console.log("HSAHJUFSAHJAFKSHJAFS")
-    console.log(ClassroomRows)
-    console.log(ClassroomStudents)
-    if(ClassroomRows !== [] && ClassroomStudents !== []){
-      
-      try{
-        console.log("In correct ClassroomRows")
-        console.log(ClassroomRows.length)
-        console.log(ClassroomStudents[0].length)
-        if(ClassroomRows.length == ClassroomStudents[0].length){
-          console.log("In correct ClassroomRows")
-          //setMathrowsGlobalClassroom(ClassroomRows[0][0])
-          //setVerbalrowsGlobalClassroom(ClassroomRows[0][1])
-        }
-      }catch(err){
-
-      }
-    }
-  },[ClassroomRows])
-  */
+ 
   //var LoopStudentsDone = false
-  console.log("MathrowsGlobalClassroom")
-  console.log(MathrowsGlobalClassroom)
+ 
   const [LoopStudentsDone, setLoopStudentsDone] =useState(false)
   
   const [NumUseEffect1, setNumUseEffect1] = useState(0)
  
   useEffect(()=>{
-    console.log("NumUseEffect1")
-    console.log(NumUseEffect1)
-    console.log(ClassroomRows)
+    
    
     
     if(ClassroomRows.length == 0){
       if(NumUseEffect1 > 0){
         if(ClassroomTest == 'SAT'){
           var Arr = []
-          console.log("NumUseEffect1")
-          console.log(NumUseEffect1)
+         
           for(var i = 0; i<ClassroomStudents[0].length; i++){
             Arr.push(ClassroomStudents[0][i].stringValue)
-            console.log(ClassroomStudents[0][i])
-            console.log(ClassroomStudents[0][i].stringValue)
+  
           }
-          console.log("ARRRRRRRSS")
-          console.log(Arr)
+        
 
           LoopThroughStudents(Arr, ClassroomTest)
         }
         else if(ClassroomTest == 'ACT'){
           var Arr = []
-          console.log("NumUseEffect1")
-          console.log(NumUseEffect1)
+
           for(var i = 0; i<ClassroomStudentsACT[0].length; i++){
             Arr.push(ClassroomStudentsACT[0][i].stringValue)
-            console.log(ClassroomStudentsACT[0][i])
-            console.log(ClassroomStudentsACT[0][i].stringValue)
+            
           }
-          console.log("ARRRRRRRSS")
-          console.log(Arr)
+       
 
           LoopThroughStudents(Arr, ClassroomTest)
         }
@@ -3765,79 +3541,35 @@ function UpdateDate(){
   function ClassroomTestChange(ClassroomTest){
     setClassroomRows([])
     setClassroomTest(ClassroomTest)
-    /*
-    setTimeout(()=>{
-      console.log("lksfdksjfskld")
-      console.log(ClassroomRows)
-      if(ClassroomRows.length == 0){
-        if(NumUseEffect1 > 0){
-          if(ClassroomTest == 'SAT'){
-            var Arr = []
-            console.log("NumUseEffect1")
-            console.log(NumUseEffect1)
-            for(var i = 0; i<ClassroomStudents[0].length; i++){
-              Arr.push(ClassroomStudents[0][i].stringValue)
-              console.log(ClassroomStudents[0][i])
-              console.log(ClassroomStudents[0][i].stringValue)
-            }
-            console.log("ARRRRRRRSS")
-            console.log(Arr)
   
-            LoopThroughStudents(Arr, ClassroomTest)
-          }
-          else if(ClassroomTest == 'ACT'){
-            var Arr = []
-            console.log("NumUseEffect1")
-            console.log(NumUseEffect1)
-            for(var i = 0; i<ClassroomStudentsACT[0].length; i++){
-              Arr.push(ClassroomStudentsACT[0][i].stringValue)
-              console.log(ClassroomStudentsACT[0][i])
-              console.log(ClassroomStudentsACT[0][i].stringValue)
-            }
-            console.log("ARRRRRRRSS")
-            console.log(Arr)
-  
-            LoopThroughStudents(Arr, ClassroomTest)
-          }
-        }
-      }
-    },1000)
-    */
   }
 
 
 
   useEffect(()=>{
-    console.log("lkjsfdnlknfsdlkjfndsl")
-    console.log(LoopStudentsDone)
+   
     if((ClassroomStudents !== [] && ClassroomStudentsACT !== [])  && (CurrentTest !== null) && (LoopStudentsDone == false) && (CurrentStudent !== '') ){
       var Arr = []
 
       try{
         if(ClassroomTest == 'SAT'){
-          console.log("Beginings")
-          console.log(ClassroomStudents)
+          
           for(var i = 0; i<ClassroomStudents[0].length; i++){
             Arr.push(ClassroomStudents[0][i].stringValue)
-            console.log(ClassroomStudents[0][i])
-            console.log(ClassroomStudents[0][i].stringValue)
+         
           }
-          console.log("ARRRRRRRSS")
-          console.log(Arr)
+         
 
           LoopThroughStudents(Arr, ClassroomTest)
           setLoopStudentsDone(true)
         }
         else if(ClassroomTest == 'ACT'){
-          console.log("BeginingsACT")
-          console.log(ClassroomStudentsACT)
+         
           for(var i = 0; i<ClassroomStudentsACT[0].length; i++){
             Arr.push(ClassroomStudentsACT[0][i].stringValue)
-            console.log(ClassroomStudentsACT[0][i])
-            console.log(ClassroomStudentsACT[0][i].stringValue)
+        
           }
-          console.log("ARRRRRRRSS")
-          console.log(Arr)
+          
 
           LoopThroughStudents(Arr, ClassroomTest)
           setLoopStudentsDone(true)
@@ -3875,8 +3607,7 @@ function UpdateDate(){
   useEffect(()=>{
 
       setTriSwitchSpreadSheetValues(TriSwitchSpreadSheetValues+1 )
-      console.log("In data")
-      console.log(TriSwitchSpreadSheetValues)
+      
       if(TriSwitchSpreadSheetValues>=1){
       
       const delayDebounceFn = setTimeout(() => {
@@ -3888,9 +3619,7 @@ function UpdateDate(){
         TempArr = TempArr.map(v => v === undefined ? '' : v);
         TempArr = Array.from(TempArr, v => v === undefined ? '' : v);
         //setStudentAnswerData(TempArr)
-        console.log("In update student data")
-        console.log(CurrentTestNumber)
-        console.log(TempArr)
+ 
         //Probably want to change this
         var TempArrAddition = TempArr.slice(1,155)
         
@@ -3918,21 +3647,8 @@ function UpdateDate(){
             Tempper[i] = dataTotalCopy[i]
           }
         }
-        /*
-        for(var i = 0; i<TempArr.length; i++){
-          console.log(dataTotalCopy[1+154*X + i])
-          console.log(dataTotalCopy[1+154*X + i][5])
-          dataTotalCopy[1+154*X + i][5].value = TempArr[i]
-        }
-        */
-        /*
-        var FirstPart = TempArrCopy.splice((1+154*X), (1+154*(X+1)))
-        var LastPart = TempArrCopy.splice((2+154*X), TempArrLength)
-        var Finished = FirstPart.concat(TempArr, LastPart)
-        console.log(Finished)
-        setDataTotal(Finished)
-        */
-        console.log(Tempper)
+       
+     
         setDataTotal(Tempper)
         UpdateStudentData(TempArr, CurrentTestNumber)
    
@@ -3955,7 +3671,7 @@ function UpdateDate(){
   }
   const [DiagnosticsNumCorrect, setDiagnosticsNumCorrect] = useState([])
   function DiagnosticsAnswersMultiplier(CorrectAnswersArr){
-    console.log(CorrectAnswersArr)
+ 
     CorrectAnswersArr[0] = Math.round(CorrectAnswersArr[0] * 2.08)
     CorrectAnswersArr[1] = Math.round(CorrectAnswersArr[1] * 2)
     CorrectAnswersArr[2] = Math.round(CorrectAnswersArr[2] * 2)
@@ -3965,14 +3681,13 @@ function UpdateDate(){
     CorrectAnswersArr[6] = Math.round(CorrectAnswersArr[6] * 1.5384)
     CorrectAnswersArr[7] = Math.round(CorrectAnswersArr[7] * 2.2359)
     CorrectAnswersArr[6] = CorrectAnswersArr[6] + CorrectAnswersArr[7]
-    console.log("CorrectAnswersArr")
-    console.log(CorrectAnswersArr)
+ 
     return(CorrectAnswersArr)
   }
   useEffect(()=>{
 
     setTriSwitchSpreadSheetValuesDiagnostics(TriSwitchSpreadSheetValuesDiagnostics+1 )
-    console.log("In data D")
+    
     
     if(TriSwitchSpreadSheetValuesDiagnostics>=1){
     
@@ -4024,13 +3739,8 @@ function UpdateDate(){
       }
       
       }
-      console.log("JKFKHJBFJD")
-      console.log( DiagnosticsCorrectAnswersArr)
-      console.log(CorrectAnswersArr)
-      console.log("JKFKHJBFJDTEMP")
-      console.log(TempArr)
-      console.log(DiagnosticsTestData)
-      //console.log(DiagnosticsAnswersMultiplier(CorrectAnswersArr))
+    
+      
       setDiagnosticsNumCorrect(DiagnosticsAnswersMultiplier(CorrectAnswersArr))
       if(found == true){
         UpdateDiagnosticsTest(TempArr)
@@ -4043,14 +3753,7 @@ function UpdateDate(){
 
 
 
-  
-  /*
-  const excelToJson = require('convert-excel-to-json');
-  const resultExcel = excelToJson({
-    sourceFile: '../../../SAT.xlsx'
-  });
-  console.log(resultExcel)
-  */
+
 
 
 
@@ -4079,7 +3782,7 @@ function UpdateDate(){
           if(CurrentTest == 'SAT'){
             var AssignmentArr = AssignmentString[0].split('%')
             var NewTopics = TopicsFull
-            console.log(NewTopics)
+          
             var TopicBools = []
             for(var i = 0; i < TopicsFull.length; i++){
               //NewTopics[i][1] = AssignmentArr[i]
@@ -4093,15 +3796,14 @@ function UpdateDate(){
               }
               //TopicBools[i] = AssignmentArr[i]
             }
-            console.log("NewTopicsfsadsdsf")
-            console.log(NewTopics)
+          
             setTopicsBool(TopicBools)
             
             setTopicsFull(NewTopics)
           }else if(CurrentTest == 'ACT'){
             var AssignmentArr = AssignmentString[0].split('%')
             var NewTopics = TopicsFullACT
-            console.log(NewTopics)
+      
             var TopicBools = []
             for(var i = 0; i < TopicsFullACT.length; i++){
               //NewTopics[i][1] = AssignmentArr[i]
@@ -4115,8 +3817,7 @@ function UpdateDate(){
               }
               //TopicBools[i] = AssignmentArr[i]
             }
-            console.log("NewTopicsfsadsdsf")
-            console.log(NewTopics)
+        
             setTopicsBool(TopicBools)
       
             setTopicsFullACT(NewTopics)
@@ -4145,12 +3846,11 @@ function UpdateDate(){
 
 
   function ChangeSpreadsheetData(index){
-    console.log("ChangeSpreadsheetData")
-    console.log(TestIndexConst)
+  
     setTriSwitchSpreadSheetValues(0)
     if(CurrentStudent !== ''){
       PullStudentData(CurrentStudent, index)
-      //console.log("Why is this"+ index.toString())
+   
     }
   }
  
@@ -4188,7 +3888,7 @@ function UpdateDate(){
  
     StudentAssignmentCopy[StudentAssignmentCopy.length-1] = NewArr
     
-    //console.log(StudentAssignments.push(NewArr))
+
  
     //Placeholder
     UpdateStudentAssignments(StudentAssignmentCopy)
@@ -4203,7 +3903,7 @@ function UpdateDate(){
  
     StudentAssignmentCopy[StudentAssignmentCopy.length-1] = NewArr
     
-    //console.log(StudentAssignments.push(NewArr))
+
  
     //Placeholder
     if(ClassroomTest == 'SAT'){
@@ -4221,16 +3921,14 @@ function UpdateDate(){
   function ChangeCheck(num){
     var CurrentCheck = StudentAssignments[num][1]
     var CurrentArr = StudentAssignments
-    console.log("In check changes")
-    console.log(CurrentArr)
+ 
     if(CurrentCheck == true){
       CurrentArr[num][1] = false
       setStudentAssignments(CurrentArr)
       UpdateStudentAssignments(CurrentArr)
     }else{
       CurrentArr[num][1] = true
-      console.log("Last currentArr")
-      console.log(CurrentArr)
+     
       setStudentAssignments(CurrentArr)
       UpdateStudentAssignments(CurrentArr)
     }
@@ -4285,9 +3983,7 @@ function UpdateDate(){
   const [BinaryBool, setBinaryBool] = useState(false)
   
   const handleChangeTab = (event, newValue) => {
-    console.log("handle Chnage Tab")
-    console.log(event.value)
-    console.log(newValue)
+   
     ChangeSpreadsheetData(newValue + 1)
     setValueTab(newValue);
     setCurrentTestNumber(newValue + 1)
@@ -4302,8 +3998,7 @@ function UpdateDate(){
   
 
 function HandleChangeTabFunction(newValue){
-    console.log("handle Chnage Tab Function")
-    console.log(newValue)
+   
     
     //setValueTab(newValue);
     setCurrentTestNumber(newValue)
@@ -4371,9 +4066,7 @@ function HandleChangeTabFunction(newValue){
   /* This could be called multiple times when it shouldn't
   */
   function DropDownOnChange(s, index = 1){
-      console.log('super s')
-      console.log(s)
-      console.log(s.value)
+     
       //Pull
       var LocalCurrTest = PullTest(s)
       setCurrentStudent(s)
@@ -4393,9 +4086,7 @@ function HandleChangeTabFunction(newValue){
       PullAllDates(s)
       setBinaryBool(!(BinaryBool))
       setNewMeetingString(s.value+'-'+UserName.toString())
-      console.log('LocalCurrTest')
-      console.log(LocalCurrTest)
-      console.log(CurrentTest)
+      
       
   }
 
@@ -4429,8 +4120,7 @@ function HandleChangeTabFunction(newValue){
   //const[PageSwitchDone, setPageSwitchDone] = useState(false)
   var PageSwitchDone = false
   useEffect(()=>{
-    console.log("IMMM")
-    console.log(CurrentTest)
+    
     if((PageSwitch == 1 || PageSwitch == 0) && (CurrentTest !== null) && (PageSwitchDone == false) && (CurrentStudent !== '')) {
       PullStudentData(CurrentStudent , 99)
       PullQuizResult(CurrentStudent)
@@ -4447,11 +4137,11 @@ function HandleChangeTabFunction(newValue){
       
       var NewArr = []
       var StudentLength = StudentsTotalBool.length
-      //console.log(StudentLength)
+      
       for(var i = 0; i<StudentLength; i++){
         NewArr[NewArr.length] = StudentsTotalBool[i][0]
       }
-      //console.log(NewArr)
+   
       
         const options = NewArr
       
@@ -4474,11 +4164,10 @@ function HandleChangeTabFunction(newValue){
     }
     if(Students){
       try{
-      console.log("Students")
-      console.log(index)
+    
       var NewArr = []
       var StudentLength = Students[0].length
-      //console.log(StudentLength)
+   
       for(var i = 0; i<StudentLength; i++){
         NewArr[NewArr.length] = Students[0][i].stringValue
       }
@@ -4507,14 +4196,12 @@ function HandleChangeTabFunction(newValue){
       }catch(e){
 
       }
-      console.log(NewArr)
+     
       
         const options = NewArr
       
         const defaultOption = 'Please Choose Your Student';
-        console.log("In inital")
-        console.log(ClassroomStudents)
-        console.log(ClassroomStudentsACT)
+        
         
 
         return(<Dropdown options={options} onChange={(s)=>{DropDownOnChange(Remove(s),index)}} value={defaultOption} placeholder="Select an option" />)
@@ -4550,7 +4237,7 @@ function HandleChangeTabFunction(newValue){
     const studentDef = doc(db, "users", FindMatchingUid());
 
     var ArrString = ''
-    console.log("inupdate")
+    
     if(CurrentTest == 'SAT'){
       for(var i = 0; i < TopicsFull.length; i++){
         ArrString = ArrString + TopicsFull[i][1] + '+' + (TopicsFull[i][2]) + '%'
@@ -4670,15 +4357,15 @@ function HandleChangeTabFunction(newValue){
   }
 
   function ChangeTopicStudentChecklist(name){
-    console.log("ChangeTopicStudentChecklist")
+   
     
     var NewTopicsBool = StudentsTotalBool
     var TempFunc = ''
     for(var i = 0; i<StudentsTotalBool.length; i++){
       if(StudentsTotalBool[i][0] == name){
-        console.log(name)
+      
         NewTopicsBool[i][1] = !(NewTopicsBool[i][1])
-        console.log(NewTopicsBool)
+  
         if(!(NewTopicsBool[i][1]) == true){
           TempFunc = 'remove'
         }
@@ -4687,7 +4374,7 @@ function HandleChangeTabFunction(newValue){
         }
       }
     }
-    console.log(NewTopicsBool)
+
     setStudentsTotalBool(NewTopicsBool)
     setTimeout(() => {
       UpdateStudents(name, TempFunc)
@@ -4695,8 +4382,7 @@ function HandleChangeTabFunction(newValue){
     }, 100)
     
   }
-  console.log("TopicsFull")
-  console.log(TopicsFull)
+
 
   function Checked(name){
     if(CurrentTest == 'SAT'){
@@ -4818,9 +4504,7 @@ function HandleChangeTabFunction(newValue){
     if(CurrTest == 0){
       CurrTest = CurrentTest
     }
-    console.log("dataTotal")
-    console.log(data)
-    console.log(CurrTest)
+  
     var dataTotal = data
     var MathConceptsString = 'Absolute value#Expressions#Inequalities#Lines#Solving algebraic equations#Systems of equations#Word problems#Complex numbers#Constructing models#Exponents and radicals#Exponential and linear growth#Functions#Matching coefficients#Quadratics#Synthetic division#Experiment design#Mean, median, and mode#Percents#Probability#Ratio and proportion#Reading data#Scatter plots#Angles#Circles#Triangles#Trigonometry#Volume'
     var MathChapterString = '20#6#11#14/15#NA#10#12#19#7#1#3#16#9#17#18#28#27#2#26#5#25#28#21#23#22#24#29'
@@ -4866,8 +4550,7 @@ function HandleChangeTabFunction(newValue){
       for(var i = 0; i < MathConceptsArrACT.length; i++){
         var TempArr = [MathConceptsArrACT[i], MathChapterArrACT[i], 0 , 0, 0, '0']
         MathArr.push(TempArr)
-        console.log("MATHARRRRR")
-        console.log(MathArr)
+      
       }
 
       for(var i = 0; i < VerbalConceptsArrACT.length; i++){
@@ -4876,8 +4559,7 @@ function HandleChangeTabFunction(newValue){
       }
       
     }
-    console.log(MathArr)
-    console.log(dataTotal)
+ 
     var TempDetailArr = []
     var TempOutcomeArr = []
     var TempStudentAnswersArr = []
@@ -4904,8 +4586,7 @@ function HandleChangeTabFunction(newValue){
       TempStudentAnswersArr.push(dataTotal[i][5].value)
       TempCorrectAnswersArr.push(dataTotal[i][6].value)
       var TempOutcome = ''
-      console.log(i)
-      console.log(dataTotal[i][5].value)
+
       if(dataTotal[i][5].value.toString() == 'X' || dataTotal[i][5].value.toString() == 'x'){
         TempOutcomeArr.push('Blank')
         TempOutcome = 'Blank'
@@ -4971,9 +4652,7 @@ function HandleChangeTabFunction(newValue){
       TotalTestNumConst = 215
     }
 
-    console.log("VERBALAJDSNFKJDNDA")
-    console.log(VerbalArr)
-    console.log(MathArr)
+   
     if(CurrTest == 'SAT'){
     for(var i = 1; i< 11; i++){
       for(var x = (154*(i-1))-1; x<TempOutcomeArr.length; x++){
@@ -5087,8 +4766,7 @@ function HandleChangeTabFunction(newValue){
   function GetACTScores(data){
     //numCorrect = [ReadingScore, WritingScore, MathScore]
     var numCorrect = GetDataFromSpreadsheet(data)[2]
-    console.log("ACTTTTT")
-    console.log(numCorrect)
+  
     var EnglishArr = []
     var MathArr = []
     var ReadingArr = []
@@ -5147,11 +4825,9 @@ function HandleChangeTabFunction(newValue){
     if(CurrTest == 0){
       CurrTest = CurrentTest
     }
-    console.log("Sup bro")
+   
     var Arrs = GetDataFromSpreadsheet(data, CurrTest)
-    console.log("FIndPercentCorrectRows")
-    console.log(CurrTest)
-    console.log(Arrs)
+   
     var Mathrows = []
     var Verbalrows = []
     if(CurrTest == 'SAT'){
@@ -5161,18 +4837,14 @@ function HandleChangeTabFunction(newValue){
       for(var i = 0; i < VerbalConceptsArr.length; i++){
         Verbalrows.push(Arrs[1][i][5])
       }
-      console.log('rows')
-      console.log(Mathrows)
-      console.log(Verbalrows)
+    
       setMathrowsGlobalPercent(Mathrows)
       setVerbalrowsGlobalPercent(Verbalrows)
 
       var TopicsMathX = TopicsMath
       var TopicsVerbalX = TopicsVerbal
       Mathrows.splice(4,1)
-      console.log('rows2')
-      console.log(TopicsMathX)
-      console.log(Mathrows)
+      
       
       for(var i = 0; i<Mathrows.length; i++){
         TopicsMathX[i][2] = parseInt(Mathrows[i])
@@ -5188,18 +4860,14 @@ function HandleChangeTabFunction(newValue){
       for(var i = 0; i < VerbalConceptsArrACT.length; i++){
         Verbalrows.push(Arrs[1][i][5])
       }
-      console.log('rows')
-      console.log(Mathrows)
-      console.log(Verbalrows)
+
       setMathrowsGlobalPercent(Mathrows)
       setVerbalrowsGlobalPercent(Verbalrows)
 
       var TopicsMathX = TopicsMathACT
       var TopicsVerbalX = TopicsVerbalACT
       Mathrows.splice(4,1)
-      console.log('rows2')
-      console.log(TopicsMathX)
-      console.log(Mathrows)
+     
       
       for(var i = 0; i<Mathrows.length; i++){
         TopicsMathX[i][2] = parseInt(Mathrows[i])
@@ -5210,16 +4878,14 @@ function HandleChangeTabFunction(newValue){
     }
 
     
-    console.log(TopicsMathX)
+  
     var ToSlice = []
     for(var i = 0; i<TopicsVerbalX.length; i++){
       if(TopicsVerbalX[i][2]>100){
         ToSlice.push(i)
       }
     }
-    console.log('ToSlice')
-    console.log(ToSlice)
-    console.log(TopicsVerbalX)
+
 
     for(var i = 0; i<ToSlice.length; i++){
       TopicsVerbalX.splice(ToSlice[i]-i,1)
@@ -5237,14 +4903,11 @@ function HandleChangeTabFunction(newValue){
       CurrTest = CurrentTest
     }
     //const [DataRows, setDataRows] = useState()
-    console.log("In Create Rows")
-    console.log(data)
-    console.log(CurrTest)
+ 
     if(CurrTest == 'SAT'){
-      console.log("In Rows")
+     
       var Arrs = GetDataFromSpreadsheet(data,CurrTest)
-      console.log("Arrs")
-      console.log(Arrs)
+     
       var Mathrows = []
       var Verbalrows = []
       for(var i = 0; i < MathConceptsArr.length; i++){
@@ -5262,10 +4925,9 @@ function HandleChangeTabFunction(newValue){
       setMathrowsGlobal(Mathrows)
       setVerbalrowsGlobal(Verbalrows)
     }else if(CurrTest == 'ACT'){
-      console.log("In Rows")
+  
       var Arrs = GetDataFromSpreadsheet(data,CurrTest)
-      console.log("Arrs")
-      console.log(Arrs)
+    
       var Mathrows = []
       var Verbalrows = []
       for(var i = 0; i < MathConceptsArrACT.length; i++){
@@ -5276,8 +4938,7 @@ function HandleChangeTabFunction(newValue){
       }
 
       
-      console.log(Mathrows)
-      console.log(Verbalrows)
+    
       if(index == 100){
         return([Mathrows,Verbalrows])
       }
@@ -5397,16 +5058,12 @@ function HandleChangeTabFunction(newValue){
     { x: 10, y: 1},
   ])
 
-  console.log("SATLineDataTotal")
-  console.log(SATLineDataTotal)
-
+  
   function SetLineData(data){
   
     if(CurrentTest == 'SAT'){
       var TempArr = GetSATScores(data)
-      console.log("Tempdataaaaaa")
-      console.log(TempArr)
-      console.log(StandardizedTestsDone.length)
+     
       if(StandardizedTestsDone.length == 1 ){
         TempArr[0][1] = TempArr[0][0]
         TempArr[1][1] = TempArr[1][0]
@@ -5531,13 +5188,11 @@ function HandleChangeTabFunction(newValue){
   
   useEffect(()=>{
     //DiagnosticsNumCorrect
-    console.log("DiagnosticsTestData")
-    console.log(DiagnosticsNumCorrect)
+  
     var Second = GetSATDiagnostics(DiagnosticsNumCorrect)
     var First = GetACTDiagnostics(DiagnosticsNumCorrect)
     var Combiend = First.concat(Second)
-    console.log('Combined')
-    console.log(Combiend)
+    
     setDiagnosticsResults(Combiend)
   },[DiagnosticsNumCorrect])
 
@@ -5729,8 +5384,7 @@ function HandleChangeTabFunction(newValue){
       return('Hide')
     }
   }
-  console.log("dataAssignments")
-  console.log(dataAssignments)
+
   function ShowOrHide(){
     if(ShowOrHideAnswers == 'Hide'){
       setShowOrHideAnswers('Show')
@@ -5755,7 +5409,7 @@ function HandleChangeTabFunction(newValue){
   useEffect(()=>{
     if(UpdateQuizSpreadsheetNum>0){
       setTimeout(()=>{
-        console.log("Updated!!")
+      
         if(Type=='Tutor'){
           setSpreadsheetUpdate(<Spreadsheet data={dataAssignments} onChange={setDataAssignments} darkMode= {false}/>)
           }
@@ -5764,12 +5418,12 @@ function HandleChangeTabFunction(newValue){
         var Num = 0
         for(var i = 0; i< dataAssignments.length; i++){
           Dict = dataAssignments[i][0].value
-          console.log(Dict)
+        
           Arr.push(Dict)
           Num = Num + 1
         }
 
-        console.log(Arr)
+        
         UpdateQuizAnswers(Arr)
       }, 1000)
     }
@@ -5779,20 +5433,17 @@ function HandleChangeTabFunction(newValue){
   useEffect(()=>{
     if(QuizData ){
       
-      console.log("IN QUIZZ DATA")
-      console.log(QuizData)
+      
       var TotalData = []
-      console.log(dataAssignments)
-      console.log(dataAssignments.length)
+ 
       if(true){
-        console.log("INNNNNIT")
+ 
         var NewData = []
         for(var i = 0; i< QuizData[0]['Answers'].arrayValue.values.length; i++){
           NewData = [{value:QuizData[0]['Answers'].arrayValue.values[i].stringValue}]
           TotalData.push(NewData)
         }
-        console.log("TotalData")
-        console.log(TotalData)
+      
         setDataAssignments(TotalData)
       }
     }
@@ -5801,12 +5452,12 @@ function HandleChangeTabFunction(newValue){
   function AddLine(){
     //setStudentAnswerData
   
-    console.log("Addline")
+
     var NewLine = [{value:''}]
     var TempDA = dataAssignments
 
     var TD = dataAssignments.concat([NewLine])
-    console.log(TD)
+  
 
     setDataAssignments(TD)
   }
@@ -5819,11 +5470,7 @@ function HandleChangeTabFunction(newValue){
       if(Type == 'Student' || Type == 'Parent'){
 
         if(NewArrFinished == true && dropdownDone == false){
-            console.log("lkjfskljfdkdjskdsf")
-            console.log(UserName)
-            console.log(Type)
-            console.log(NewArrFinished)
-            console.log(dropdownDone)
+    
             //setPageSwitch(1)
             try{
               setTimeout(() => {
@@ -5885,16 +5532,14 @@ function HandleChangeTabFunction(newValue){
       return("Add Student")
     }
   }
-  console.log('StudentsTotal')
-  console.log(StudentsTotal)
+  
   function GetMasterStudentDropDown(index = 1){
     function Remove(name){
 
       return({value:name.value.replace(' (SAT Class)','').replace(' (ACT Class)','')})
     }
     if(Students && StudentsTotal){
-      console.log("Students")
-      console.log("YOU know it")
+     
       var NewArr = StudentsTotal
       
 
@@ -5916,7 +5561,7 @@ function HandleChangeTabFunction(newValue){
         }
       }
 
-      console.log(NewArr)
+
       
         const options = NewArr
       
@@ -5966,8 +5611,7 @@ function HandleChangeTabFunction(newValue){
     }
   }
 
-  console.log("AdminBool")
-  console.log(AdminBool)
+
 
   function FrontPageIsTutor(){
     if(Type == 'Tutor'){
@@ -6402,26 +6046,24 @@ function HandleChangeTabFunction(newValue){
 
 
   function ChangeEvent(eventDict){
-    console.log("ChangeEvent")
-    console.log(eventDict)
+    
     try{
       var Title = eventDict.event_id
       var TitleSplit = Title.split('-')
       var Tutor = TitleSplit[1]
       var Student = TitleSplit[0]
-      console.log(TitleSplit)
+ 
       var Num = parseInt(TitleSplit[2])-1
-      console.log(Student)
+
     
       //UpdateAllDates(Student, eventDict.start, Num)
     }catch(err){
-      console.log("In Error")
-      console.log(eventDict)
+   
       var Title = eventDict.title
       var TitleSplit = Title.split('-')
       var Tutor = TitleSplit[1]
       var Student = TitleSplit[0].trim()
-      console.log(TitleSplit)
+    
       AddNewDates(Student, eventDict.startTime)
 
     }
@@ -6429,14 +6071,14 @@ function HandleChangeTabFunction(newValue){
   }
 
   function DeleteEvent(eventDict){
-    console.log("HAHAHA")
+
     var Title = eventDict.event_id
     var TitleSplit = Title.split('-')
     var Tutor = TitleSplit[1]
     var Student = TitleSplit[0]
-    console.log(TitleSplit)
+
     var Num = parseInt(TitleSplit[2])-1
-    console.log(Student)
+  
    
     DeleteAllDates(Student, Num)
    
@@ -6444,9 +6086,7 @@ function HandleChangeTabFunction(newValue){
 
   function GetChecks(name){
     //TopicsFull
-    console.log("GetChecks")
-    console.log(name)
-    console.log(HWrowsGlobal)
+ 
  
     //Put intermediary for when you complete the section
     
@@ -6560,10 +6200,7 @@ function HandleChangeTabFunction(newValue){
     ];
       
     function descendingComparator(a, b, orderBy) {
-      console.log("in descendingComparator")
-      console.log(a)
-      console.log(b)
-      console.log(orderBy)
+      
       if (b[orderBy] < a[orderBy]) {
         return -1;
       }
@@ -6582,23 +6219,20 @@ function HandleChangeTabFunction(newValue){
     // This method is created for cross-browser compatibility, if you don't
     // need to support IE11, you can use Array.prototype.sort() directly
     function stableSort(array, comparator) {
-      console.log('array')
-      console.log(array)
+    
       const stabilizedThis = array.map((el, index) => [el, index]);
       stabilizedThis.sort((a, b) => {
         const orderX = comparator(a[0], b[0]);
-        console.log(comparator)
-        console.log(orderX)
+      
       
         if (orderX != 0) {
-          console.log("In order")
+        
           return orderX;
         }
-        console.log("Not in order")
+     
         return a[1] - b[1];
       });
-      console.log("In stable sort")
-      console.log(stabilizedThis.map((el) => el[0]))
+      
       return stabilizedThis.map((el) => el[0]);
     }
   
@@ -6768,34 +6402,28 @@ function HandleChangeTabFunction(newValue){
     
 
   const handleRequestSort = (event, property) => {
-    console.log("ORDEREEERER")
-    console.log(property)
+  
     
     const isAsc = orderBy === property && order === 'asc';
-    console.log(isAsc)
-    console.log(isAsc ? 'desc' : 'asc')
+    
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
   const handleRequestSortMath = (event, property) => {
-    console.log("ORDEREEERER")
-    console.log(property)
+    
     
     const isAsc = orderByMath === property && orderMath === 'asc';
-    console.log(isAsc)
-    console.log(isAsc ? 'desc' : 'asc')
+   
     setOrderMath(isAsc ? 'desc' : 'asc');
     setOrderByMath(property);
   };
 
   const handleRequestSortVerbal = (event, property) => {
-    console.log("ORDEREEERER")
-    console.log(property)
+   
     
     const isAsc = orderByVerbal === property && orderVerbal === 'asc';
-    console.log(isAsc)
-    console.log(isAsc ? 'desc' : 'asc')
+
     setOrderVerbal(isAsc ? 'desc' : 'asc');
     setOrderByVerbal(property);
   };
@@ -6915,8 +6543,7 @@ function HandleChangeTabFunction(newValue){
   }
 
   function GetClassroomStudents(){
-    console.log('ClassroomTest')
-    console.log(ClassroomTest)
+    
     if(ClassroomTest == 'SAT'){
       return(
         <>
@@ -6977,10 +6604,7 @@ function HandleChangeTabFunction(newValue){
   }
  
   function SwitchSATACTTopicsList(type){
-    console.log("SwitchSATACTTopicsList")
-    console.log(type)
-    console.log(CurrentTest)
-    console.log(TopicsMathACT)
+    
     if(type == 'Verbal'){
       if(CurrentTest == 'SAT'){
         return(
@@ -7315,10 +6939,7 @@ function HandleChangeTabFunction(newValue){
         )
   }
  
-  console.log(StudentAssignments)
-  console.log("StandardizedTestsDone")
-  console.log(StandardizedTestsDone.length)
-  console.log(ACTLineDataTotal.slice(0,1))
+
   function ChangeTestLength(num){
     if(num == 1){
       return(2)
@@ -7939,8 +7560,7 @@ function HandleChangeTabFunction(newValue){
 
   const CustomEditor = ({ scheduler }) => {
     const event = scheduler.edited;
-    console.log("scheduler")
-    console.log(scheduler)
+
     // Make your own form/state
     const [state, setState] = useState({
       title: event?.title || NewMeetingString,
@@ -8067,16 +7687,16 @@ function HandleChangeTabFunction(newValue){
   }
 
   function SwitchCalendar(){
-    console.log("SwitchCalendar")
+   
     var Switcher = !(CalendarSwitch)
     setCalendarSwitch(Switcher)
     
     setTimeout(() => {
       if(Switcher){
-        console.log("INNNSwitchCalendar")
+   
         SetAllMeetings()
       }else{
-        console.log("INNNSwitchCalendarBADDD")
+      
         PullAllDates()
       }
     }, 350)

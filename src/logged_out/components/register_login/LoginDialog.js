@@ -89,6 +89,7 @@ function LoginDialog(props) {
       await logInWithEmailAndPassword(loginEmail.current.value, loginPassword.current.value);
     
       history.push("/c/dashboard");
+      window.location.reload();
     }catch(err){
       alert(err.message);
       setIsLoading(false);

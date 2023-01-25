@@ -157,8 +157,7 @@ function HeadSection(props) {
     setValue(newValue);
   };
   const handleChangeTest = (event, newValue) => {
-    console.log('NEWVAL')
-    console.log(newValue.props)
+  
     setCurrTest(newValue.props.value);
     if(newValue.props.value == 'ACT'){
       setValue(28)
@@ -185,11 +184,10 @@ function HeadSection(props) {
       download: true,
       complete: function (input) {
            const records = input.data;
-           console.log('RECRODS')
-           console.log(records)
+         
            var RecordsArr = []
            for(var i = 0; i<records.length-1; i++){
-            console.log(records[i])
+       
             var Name = records[i][1]
             
             var Rank = parseInt((records[i][2].split(',')[0]).toString().replace('#',''))
@@ -197,7 +195,7 @@ function HeadSection(props) {
             var GPA = parseFloat(records[i][5])
             var SATScore = parseInt(records[i][6].split('/')[0])
             var ACTScore = parseInt(records[i][6].split('/')[1])
-            console.log(TempArr)
+ 
             var TempArr = [Name,Acceptance,GPA,SATScore,ACTScore]
 
             if(value>=SATScore && CurrTest == 'SAT'){
@@ -236,7 +234,7 @@ function HeadSection(props) {
 
           RecordsArr = RecordsArr.slice(0,6)
 
-          console.log(RecordsArr)
+       
           setTotalRecords(RecordsArr)
       }
     });
@@ -331,7 +329,7 @@ function HeadSection(props) {
         </div>
       </div>
 */
-  const Headers = ['Test Prep for Today\'s World','Virtual One on One Classroom','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
+  const Headers = ['Test Prep for Today\'s World','Private, One on One Classroom','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
   const Paragraphs = ['Discover which test is right for you, strengthen your weaknesses, and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)
@@ -458,8 +456,7 @@ function HeadSection(props) {
     const isMobile = width <= 768;
 
     useEffect(()=>{
-      console.log("isMobile")
-      console.log(isMobile)
+    
       if(isMobile == true){
         setyScale(-150)
         setButtonClass('buttonsMobile')

@@ -22,7 +22,7 @@ import { CenterFocusStrong } from "@mui/icons-material";
 const styles = (theme) => ({
   footerInner: {
     backgroundColor: theme.palette.common.darkBlack,
-    paddingTop: theme.spacing(8),
+    paddingTop: theme.spacing(7),
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     paddingBottom: theme.spacing(6),

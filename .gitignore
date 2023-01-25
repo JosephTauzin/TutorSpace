@@ -110,3 +110,6 @@ build/
 #lockfiles
 yarn.lock
 
+
+# Local Netlify folder
+.netlify

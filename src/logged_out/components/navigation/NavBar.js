@@ -14,7 +14,7 @@ import MeasureUpLogo from "./MeasureUpLogoTransparent.png"
 const styles = theme => ({
   appBar: {
     boxShadow: theme.shadows[0],
-    backgroundColor: '#FBFCF8'
+    backgroundColor: 'transparent'
   },
   toolbar: {
     display: "flex",

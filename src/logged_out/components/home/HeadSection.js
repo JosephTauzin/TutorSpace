@@ -95,7 +95,7 @@ const styles = (theme) => ({
       width: "auto",
     },
     borderRadius:20,
-    background:'transparent',
+    background:'#FBFCF8',
     marginLeft:-400,
     width:1000,
   },

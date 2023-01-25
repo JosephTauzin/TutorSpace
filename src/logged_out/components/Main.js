@@ -16,7 +16,7 @@ AOS.init({ once: true });
 
 const styles = (theme) => ({
   wrapper: {
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: '#FBFCF8',
     overflowX: "hidden",
   },
 });
@@ -32,13 +32,13 @@ function Main(props) {
   const selectHome = useCallback(() => {
     smoothScrollTop();
     document.title =
-      "WaVer - Free template for building a SaaS or admin application";
+      "At MeasureUp! We help our clients reach their full academic potential!";
     setSelectedTab("Home");
   }, [setSelectedTab]);
 
   const selectBlog = useCallback(() => {
     smoothScrollTop();
-    document.title = "WaVer - Blog";
+    document.title = "Blog";
     setSelectedTab("Blog");
   }, [setSelectedTab]);
 

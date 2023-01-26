@@ -54,6 +54,12 @@ function NavBar(props) {
       name: "Contact",
       icon: <HomeIcon className="text-white" />
     },
+
+    {
+      link: "",
+      name: "Blog",
+      icon: <HomeIcon className="text-white" />
+    },
   
     {
       name: "Sign Up",
@@ -105,6 +111,21 @@ function NavBar(props) {
            
             <Hidden mdDown>
               {menuItems.map(element => {
+                if(element.name == 'Blog'){
+                  return(
+                    <a href="https://measureupprep.medium.com/"  target="_blank">
+                    
+                    <Button
+                      color="Orange"
+                      size="large"
+                      classes={{ text: classes.menuButtonText }}
+                    >
+                      {element.name}
+                    </Button>
+                  
+                  </a>
+                  )
+                }
                 if(element.name == 'Contact'){
                   return(
                     <a href="#contact">

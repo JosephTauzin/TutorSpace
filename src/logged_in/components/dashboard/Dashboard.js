@@ -5671,7 +5671,7 @@ function HandleChangeTabFunction(newValue){
   function ErrorScreen(){
     if(ErrorScreenOn == true){
       return(
-        <p  className={'TitleTextStyleLight'}>There appears to be an error loading your information. Please refresh the page and, if the problem persist, reach out at joseph@tutorspace.app for assistance.</p>
+        <p  className={'TitleTextStyleLight'}>There appears to be an error loading your information. If you're a new member, please reach out to joseph@measureupprep.com for assistance with setting up your account. Otherwise, please refresh the page.</p>
       )
     }
   }

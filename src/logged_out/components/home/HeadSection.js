@@ -32,13 +32,14 @@ import { FaStepForward } from "react-icons/fa";
 import { wrap } from "@popmotion/popcorn"
 import { DateTimePicker, Picklist, PicklistOption } from 'react-rainbow-components';
 import "./styles.scss"
-
+import Modal from 'react-modal';
 import { IMAGES } from "./Images"
 import studying from "./images/studying.png"
 import VirtualClass from "./images/VirtualClass.png"
 import Progress from "./images/Software.png"
 import Goals from "./images/Goals.png"
 import ReportCard from "./images/ReportCard.png"
+import { useExitIntent } from 'use-exit-intent'
 
 
 
@@ -232,7 +233,7 @@ function HeadSection(props) {
             }
           }
 
-          RecordsArr = RecordsArr.slice(0,6)
+          RecordsArr = RecordsArr.slice(0,35)
 
        
           setTotalRecords(RecordsArr)
@@ -329,8 +330,8 @@ function HeadSection(props) {
         </div>
       </div>
 */
-  const Headers = ['Test Prep for Today\'s World','Private, One on One Classroom','Custom Lession Plans','Follow Along Weekly' ,'Your Success Network']
-  const Paragraphs = ['Discover which test is right for you, strengthen your weaknesses, and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
+  const Headers = ['Test Prep for Today\'s World','Private, One on One Classroom','Custom Lesson Plans','Follow Along Weekly' ,'Your Success Network']
+  const Paragraphs = ['Learn whether the ACT or SAT is right for you, then strengthen your weaknesses and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)
   const [AnimationPause, setAnimationPause] = useState(false)
@@ -339,9 +340,46 @@ function HeadSection(props) {
   const controlsTextSmall = useAnimationControls()
   const controlsImage = useAnimationControls()
 
+
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+
+
+  const ModalCustomStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width:'60%',
+      backgroundColor:'#526572',
+      borderRadius:10,
+    },
+  };
+  let subtitle;
+  
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    // references are now sync'd and can be accessed.
+    subtitle.style.color = 'black';
+    subtitle.style.fontWeight = '200';
+    subtitle.style.fontSize = '40px';
+  }
+  
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+
+
   function SwitchAnimationNext(num){
     if(num< Headers.length-1){
-      setAnimationNext(num+1)
+      setAnimationNext(num)
     }else{
       setAnimationNext(0)
     }
@@ -486,7 +524,7 @@ function HeadSection(props) {
     if(isMobile == false){
       return(
         <>
-        <h2 style={{textAlign:'center'}}>200+ points go a long way to reaching your dream school</h2>
+        <h2 style={{textAlign:'center'}}>200+ SAT points go a long way to reaching your dream school</h2>
    
 
     <div className="TotalBox">
@@ -634,6 +672,28 @@ function HeadSection(props) {
         'fr-Fr': 'Annuler',
     };
 
+    function DotList({ currentDot }) {
+      const dots = [0,1, 2, 3, 4];
+      return (
+        <div>
+          {dots.map((dot, index) => (
+            <><Button onClick={()=>{setAnimationNext(dot)}} size="small" key={index} style={{ color: '#E26D5C', marginLeft: 0, fontWeight: dot === currentDot ? 'bold' : '200', opacity: dot === currentDot ? 1 : 0.5, fontSize: dot === currentDot ? 30 : 30 }}>
+              
+              &#9679;
+
+            </Button></>
+          ))}
+        </div>
+      );
+    }
+
+
+  const { registerHandler } = useExitIntent()
+
+  registerHandler({
+    id: 'openModal',
+    handler: () => console.log('Hello from handler!')
+  })
 
 
   return (
@@ -642,7 +702,27 @@ function HeadSection(props) {
       
       
       
-      
+      <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={ModalCustomStyles}
+          contentLabel="Example Modal"
+          overlayClassName="Overlay"
+        >
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{marginTop:-5}}>Notebook</h2>
+          <Button onClick={closeModal} className={'NotepadClose'} >
+            {
+            /*
+            <FaTimes size ={40}/>
+            */
+            }
+          </Button>
+          
+       
+          
+        </Modal>
+
       
       <Fragment>
       <div className = "TopPadding">
@@ -659,7 +739,7 @@ function HeadSection(props) {
 
             <h1>{GetHeader()}</h1>
             <p>{GetParagraphs()}</p>
-            <a href="#contact"><button class={LearnMoreClass}>Learn More</button></a>
+            <a href="https://calendly.com/measureupprep/30min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
             
         </motion.div>
 
@@ -682,11 +762,13 @@ function HeadSection(props) {
           </motion.div>
         </AnimatePresence>
 
-        
+        <div className="dotDiv">
+          <DotList currentDot={AnimationNext2} />
+        </div>
         
      
     </header>
-
+    
 
       <div class="content-wrapper">
       <div class="collegeBanner">
@@ -734,7 +816,7 @@ function HeadSection(props) {
     <div class="content-wrapper">
     <div id="contact" class="contact" data-aos="fade-up">
             <h2 style={{textAlign:'center'}}>Get In Touch</h2>
-            <p style={{fontSize:25, marginTop:20}}>Contact us for a free diagnostics test!</p>
+            <p style={{fontSize:25, marginTop:20}}>Contact us for a free 30 minute diagnostics session!</p>
             <form class="contactForm" action="https://usebasin.com/f/a15221a633b7" method="POST">
                 <input type="text" name="name" placeholder="Name*" class="contactField" required/>
                 <input type="email" name="email" placeholder="Email Address*" class="contactField" required/>

@@ -4,6 +4,7 @@ import { Switch } from "react-router-dom";
 import PropsRoute from "../../shared/components/PropsRoute";
 import Home from "./home/Home";
 import Blog from "./blog/Blog";
+import About from "./about/about"
 import BlogPost from "./blog/BlogPost";
 import useLocationBlocker from "../../shared/functions/useLocationBlocker";
 
@@ -32,6 +33,12 @@ function Routing(props) {
         component={Blog}
         selectBlog={selectBlog}
         blogPosts={blogPosts}
+      />
+       <PropsRoute
+        exact
+        path="/about"
+        component={About}
+      
       />
       <PropsRoute path="/" component={Home} selectHome={selectHome} />
     </Switch>

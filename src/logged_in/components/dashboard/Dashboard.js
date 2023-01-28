@@ -7726,7 +7726,7 @@ function HandleChangeTabFunction(newValue){
         
           navigation: true}}
         week={{ 
-          weekDays: [0, 1, 2, 3, 4, 5,6], 
+          weekDays: [0, 1, 2, 3, 4, 5, 6], 
           weekStartOn: 0, 
           startHour: 9, 
           endHour: 17,
@@ -7749,22 +7749,8 @@ function HandleChangeTabFunction(newValue){
     [{ value: "Vanilla" }, { value: "Chocolate" }],
     [{ value: "Strawberry" }, { value: "Cookies" }],
   ];
-
-
-  if(PageSwitch == 5){
-    return(
-      <>
-      {GetNavigation()}
-      <Fragment>
-        <p className={'TitleTextStyleLight'}>Diagnostics Tests:</p>
-        <p className={'TitleTextStyleLight'}></p>
-        <div className="rowDiv">
-        <Spreadsheet data={DiagnosticsTestData} onChange ={setDiagnosticsTestData} darkMode= {false}/>
-
-        <div className="columnDivDiagnostics">
-
-        
-        <div>
+  /*
+<div>
             <div>
               <p className={'TitleTextStyleLight'}>SAT: {DiagnosticsResults[7]}</p>
             </div>
@@ -7785,7 +7771,27 @@ function HandleChangeTabFunction(newValue){
             </div>
           </div>
         </div>
+  */
+
+  if(PageSwitch == 5){
+    return(
+      <>
+      {GetNavigation()}
+      <Fragment>
+        <p className={'TitleTextStyleLight'}>Diagnostics Tests:</p>
+        <p className={'TitleTextStyleLight'}></p>
+        <div className="rowDiv">
+        <Spreadsheet data={DiagnosticsTestData} onChange ={setDiagnosticsTestData} darkMode= {false}/>
+
+        <div className="columnDivDiagnostics">
+
+        
+        
         <p className="TextStyleLight"> </p>
+       
+        <p className={'TitleTextStyleLight'}>Instructions:</p>
+        <p className="TextStyleLightInstructions">Download the Diagnostics Tests and complete only the questions not yet marked on the answer sheet. Once complete, enter your answers here and email joseph@measureuprep.com to review your results and schedule your first session with a live tutor!</p>
+       
         <div className=''>
         <p className="TitleTextStyleLight">Files: </p>
         <Button target="_blank" href="https://drive.google.com/drive/folders/1USBdffOfZFpc5sYlPL41u-7ihY3sNd4K?usp=share_link">
@@ -7793,9 +7799,7 @@ function HandleChangeTabFunction(newValue){
           <FaGoogleDrive size ={50}/>
         </Button>
         </div>
-        <p className={'TitleTextStyleLight'}>Instructions:</p>
-        <p className="TextStyleLightInstructions">Download the Diagnostics Tests and complete only the questions not yet marked on the answer sheet. Once complete, enter your answers here and email joseph@measureuprep.com to schedule your first session with a live tutor!</p>
-        </div>
+       </div>
         </div>
       </Fragment>
       

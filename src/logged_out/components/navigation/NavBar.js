@@ -49,6 +49,13 @@ function NavBar(props) {
       name: "Home",
       icon: <HomeIcon className="text-white" />
     },
+    /*
+    {
+      link: "/about",
+      name: "About",
+      icon: <HomeIcon className="text-white" />
+    },
+    */
     {
       link: "#contact",
       name: "Contact",
@@ -62,15 +69,17 @@ function NavBar(props) {
     },
   
     {
-      name: "Sign Up",
-      onClick: openRegisterDialog,
-      icon: <HowToRegIcon className="text-white" />
-    },
-    {
       name: "Login",
       onClick: openLoginDialog,
       icon: <LockOpenIcon className="text-white" />
-    }
+    },
+    /*
+    {
+      name: "Schedule Free Session!",
+      link: '',
+      icon: <LockOpenIcon className="text-white" />
+    },
+    */
   ];
 
   const [width, setWidth] = useState(window.innerWidth);
@@ -86,7 +95,7 @@ function NavBar(props) {
   }, []);
 
   const isMobile = width <= 768;
-
+  //window.location.href
   function LogoSwitcher(){
     if(isMobile == true){
       return(
@@ -102,6 +111,13 @@ function NavBar(props) {
       )
     }
   }
+  const [page, setPage] = useState()
+  useEffect(()=>{
+   
+    
+  },[window.location.href])
+  //&& !(window.location.href.includes('about'))
+  //&& window.location.href.includes('about')
   return (
     <div >
       <AppBar position="relative" className={classes.appBar}>
@@ -126,6 +142,7 @@ function NavBar(props) {
                   </a>
                   )
                 }
+               
                 if(element.name == 'Contact'){
                   return(
                     <a href="#contact">
@@ -142,22 +159,46 @@ function NavBar(props) {
                   )
                 }
                 if (element.link) {
-                  return (
-                    <Link
-                      key={element.name}
-                      to={element.link}
-                      className={classes.noDecoration}
-                      onClick={handleMobileDrawerClose}
-                    >
-                      <Button
-                        color="Orange"
-                        size="large"
-                        classes={{ text: classes.menuButtonText }}
+        
+                  if(element.name == 'About' ){
+                    return (
+                      <Link
+                        key={element.name}
+                        to={element.link}
+                        className={classes.noDecoration}
+                        onClick={handleMobileDrawerClose}
                       >
-                        {element.name}
-                      </Button>
-                    </Link>
-                  );
+                        <Button
+                          color="Orange"
+                          size="large"
+                          classes={{ text: classes.menuButtonText }}
+                        >
+                          {element.name}
+                        </Button>
+                      </Link>
+                    );
+                  }
+                  else if(element.name == 'Home' ){
+                    return (
+                      <Link
+                        key={element.name}
+                        to={element.link}
+                        className={classes.noDecoration}
+                        onClick={handleMobileDrawerClose}
+                      >
+                        <Button
+                          color="Orange"
+                          size="large"
+                          classes={{ text: classes.menuButtonText }}
+                        >
+                          {element.name}
+                        </Button>
+                      </Link>
+                    );
+                  }
+                  else{
+                    return(null)
+                  }
                 }
                 return (
                   <Button

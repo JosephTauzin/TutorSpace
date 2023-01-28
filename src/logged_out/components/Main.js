@@ -4,6 +4,7 @@ import AOS from "aos/dist/aos";
 import withStyles from '@mui/styles/withStyles';
 import NavBar from "./navigation/NavBar";
 import Footer from "./footer/Footer";
+
 import "aos/dist/aos.css";
 import CookieRulesDialog from "./cookies/CookieRulesDialog";
 import CookieConsent from "./cookies/CookieConsent";
@@ -28,7 +29,7 @@ function Main(props) {
   const [blogPosts, setBlogPosts] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(null);
   const [isCookieRulesDialogOpen, setIsCookieRulesDialogOpen] = useState(false);
-
+ 
   const selectHome = useCallback(() => {
     smoothScrollTop();
     document.title =
@@ -133,6 +134,7 @@ function Main(props) {
         selectBlog={selectBlog}
       />
       <Footer />
+      
     </div>
   );
 }

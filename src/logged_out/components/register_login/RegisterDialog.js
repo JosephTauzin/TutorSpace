@@ -112,8 +112,7 @@ function RegisterDialog(props) {
   ]);
 
   function GetStudentNameForm(){
-    console.log("GetStudentNameForm")
-    console.log(registerType)
+    
     try{
       if(registerType.value == 'Parent'){
         return(

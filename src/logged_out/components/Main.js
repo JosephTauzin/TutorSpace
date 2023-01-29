@@ -33,13 +33,13 @@ function Main(props) {
   const selectHome = useCallback(() => {
     smoothScrollTop();
     document.title =
-      "At MeasureUp! We help our clients reach their full academic potential!";
+      "MeasureUp! Prep | Modernized Test Prep for the SAT and ACT";
     setSelectedTab("Home");
   }, [setSelectedTab]);
 
   const selectBlog = useCallback(() => {
     smoothScrollTop();
-    document.title = "Blog";
+    document.title = "MeasureUp! Prep | Blog Posts";
     setSelectedTab("Blog");
   }, [setSelectedTab]);
 

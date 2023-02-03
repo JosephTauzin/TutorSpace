@@ -40,7 +40,7 @@ import Progress from "./images/Software.png"
 import Goals from "./images/Goals.png"
 import ReportCard from "./images/ReportCard.png"
 import { useExitIntent } from 'use-exit-intent'
-
+import { FaTimes } from "react-icons/fa";
 
 
 
@@ -352,16 +352,19 @@ function HeadSection(props) {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      width:'60%',
-      backgroundColor:'#526572',
-      borderRadius:10,
+      width:'70%',
+      backgroundColor:'white',
+      borderRadius:15,
+      fontSize:6,
     },
   };
   let subtitle;
   
 
   function openModal() {
-    setIsOpen(true);
+    if(isMobile == false){
+      setIsOpen(true);
+    }
   }
 
   function afterOpenModal() {
@@ -370,7 +373,7 @@ function HeadSection(props) {
     subtitle.style.fontWeight = '200';
     subtitle.style.fontSize = '40px';
   }
-  
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -692,7 +695,7 @@ function HeadSection(props) {
 
   registerHandler({
     id: 'openModal',
-    handler: () => console.log('Hello from handler!')
+    handler: () => openModal()
   })
 
 
@@ -700,6 +703,7 @@ function HeadSection(props) {
 
     <body>
       
+     
       
       
       <Modal
@@ -710,17 +714,27 @@ function HeadSection(props) {
           contentLabel="Example Modal"
           overlayClassName="Overlay"
         >
-          <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{marginTop:-5}}>Notebook</h2>
-          <Button onClick={closeModal} className={'NotepadClose'} >
-            {
-            /*
-            <FaTimes size ={40}/>
-            */
-            }
+          <div className="rowDiv">
+          <div className="modalText">
+            <p  >Sign Up For A Free Session With A Dedicated Expert. On Your Schedule.</p>
+          
+            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={'buttonClassLearnMoreModal'}>Schedule Free Session!</button></a>
+          
+          
+          </div>
+         
+          <div className="modalPic">
+            <img src={studying}  />
+          </div>
+          <Button onClick={closeModal} className={'CloseModel'} >
+
+          {
+            isMobile ? <FaTimes size ={20}/> : <FaTimes size ={30} color={'black'}/>
+
+
+          }
           </Button>
-          
-       
-          
+          </div>
         </Modal>
 
       
@@ -739,7 +753,7 @@ function HeadSection(props) {
 
             <h1>{GetHeader()}</h1>
             <p>{GetParagraphs()}</p>
-            <a href="https://calendly.com/measureupprep/30min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
+            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
             
         </motion.div>
 
@@ -795,7 +809,7 @@ function HeadSection(props) {
                 </div>
                 <div class="ssCaption text">
                     <h3>Software for Success</h3>
-                    <p>With technology we developed specifically for our service, forget about paper tests and printed progress reports - we make it easy to improve.</p>
+                    <p>With technology we developed specifically for our service, forget about paper tests and printed progress reports - we make it easy to track improvement.</p>
                 </div>
                 <div class="rpCaption text">
                     <h3>Refined by Practice</h3>
@@ -803,7 +817,7 @@ function HeadSection(props) {
                 </div>
                 <div class="eiCaption text">
                     <h3>Enable Improvement</h3>
-                    <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150 points on the SAT!</p>
+                    <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
                 </div>
             </div>
 

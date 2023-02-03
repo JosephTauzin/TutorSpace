@@ -42,12 +42,17 @@ import { FaVideo } from "react-icons/fa";
 import { FaSchool } from "react-icons/fa";
 import { FaRegSquare } from "react-icons/fa";
 import {FaChalkboardTeacher} from "react-icons/fa";
+import {FaChalkboard} from "react-icons/fa";
+import {FaEraser} from "react-icons/fa";
+import {FaPen} from "react-icons/fa";
+import {FaTrash} from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
 import { FaDesktop } from "react-icons/fa";
 import { FaPowerOff } from "react-icons/fa";
 import {FaUser} from "react-icons/fa"
 import {FaBook} from "react-icons/fa"
 import {FaCalendar} from "react-icons/fa"
+import {FaCalculator} from "react-icons/fa"
 import {FaGoogleDrive} from "react-icons/fa"
 import Modal from 'react-modal';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -62,7 +67,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {VictoryChart, VictoryArea, VictoryLine, VictoryLabel, VictoryLegend, VictoryAxis} from "victory";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
-import { ConstructionOutlined, ContactsOutlined, ElevatorSharp, RestaurantRounded } from "@mui/icons-material";
+import { ConnectedTvOutlined, ConstructionOutlined, ContactsOutlined, ElevatorSharp, RestaurantRounded } from "@mui/icons-material";
 import { Scheduler } from "@aldabil/react-scheduler";
 import DateTimePicker from 'react-datetime-picker';
 import { faCropSimple } from "@fortawesome/free-solid-svg-icons";
@@ -91,6 +96,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils'
 import { alpha } from '@mui/material/styles';
+import {
+  CanvasPath,
+  ExportImageType,
+  ReactSketchCanvas,
+  ReactSketchCanvasProps,
+  ReactSketchCanvasRef,
+} from "react-sketch-canvas";
+
+import { SketchPicker, TwitterPicker, GithubPicker, CirclePicker } from 'react-color'
+
+
+
 
 
 
@@ -432,6 +449,8 @@ function Dashboard(props) {
   const [Tutor, setTutor] = useState()
   const [ErrorScreenOn, setErrorScreenOn] = useState(false)
 
+  const [AdminInfo, setAdminInfo] = useState(null)
+
 
 
   function refreshPage() {
@@ -598,6 +617,9 @@ function Dashboard(props) {
         if(Type == 'Tutor'){
          
           var TempStudentsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue)
+          var MeetingDateTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.NextMeetingDate.timestampValue)
+          var TempTutorsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Tutor.stringValue)
+          var TempEmailTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.email.stringValue)
         
           var StudentsTemp = []
           try{
@@ -609,6 +631,7 @@ function Dashboard(props) {
           }
           setStudentsTotalBool(AddBoolToArr(TempStudentsTotal, StudentsTemp))
           setStudentsTotal(TempStudentsTotal)
+          setAdminInfo([TempStudentsTotal, TempTutorsTotal, MeetingDateTotal,TempEmailTotal])
 
         }
 
@@ -1487,6 +1510,31 @@ function UpdateDate(){
   
       updateDoc(studentDef, {
               Notepad: t
+            
+              });
+            }
+  }
+
+  function UpdateImprovement(t){
+    // d could just feed in date
+ 
+    if(CurrentStudent !== '' ){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+        
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(CurrentStudent.value == NameId[i][0]){
+            return(NameId[i][1])
+          }
+        }
+      }
+  
+      const studentDef = doc(db, "users", FindMatchingUid());
+  
+      updateDoc(studentDef, {
+              Improvement: t
             
               });
             }
@@ -3855,11 +3903,17 @@ function UpdateDate(){
   }
  
   const [NewAssignment, setNewAssignment] = useState('')
- 
+  const [NewQuiz, setQuiz] = useState('')
 
   const handleTitleChange = event => {
     // 👇️ update textarea value
     setNewAssignment(event.target.value);
+   
+  };
+
+  const handleQuizChange = event => {
+    // 👇️ update textarea value
+    setQuiz(event.target.value);
    
   };
 
@@ -4950,7 +5004,7 @@ function HandleChangeTabFunction(newValue){
   }
 
   
-
+ 
  
   const rows = [
     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
@@ -5058,6 +5112,16 @@ function HandleChangeTabFunction(newValue){
     { x: 10, y: 1},
   ])
 
+  useEffect(()=>{
+    if(SATLineDataTotal){
+    if(!(SATLineDataTotal.length == 0)){
+      var Start = SATLineDataTotal[0].x
+      var End = SATLineDataTotal.slice(0, ChangeTestLength(StandardizedTestsDone.length)).x
+      var Improvement = End - Start
+      //UpdateImprovement(Improvement)
+    }
+  }
+  },[SATLineDataTotal])
   
   function SetLineData(data){
   
@@ -5213,29 +5277,40 @@ function HandleChangeTabFunction(newValue){
     if(Type == 'Tutor' && !(CurrentTest == 'Diagnostics')){
       return(
         <><div className={'NavDiv'}>
-
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } }>
-            <FaDesktop size={50} />
-          </Button>
-
-
+          <Tooltip title="Dashboard">
+            <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } }>
+              <FaDesktop size={50} />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Profile">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } }>
             <FaUser size={50} />
           </Button>
-
+          </Tooltip>
+          <Tooltip title="Quiz">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } }>
             <FaBook size={50} />
           </Button>
-
+          </Tooltip>
+          <Tooltip title="Classroom">
           {GetClassroomIcon()}
-
+          </Tooltip>
+          <Tooltip title="Calendar">
           <Button className={'IconDiv'} onClick={() => setPageSwitch(4)}>
             <FaCalendar size={50} />
 
           </Button>
+          </Tooltip>
+          <Tooltip title="Whiteboard">
+          <Button className={'IconDiv'} onClick={() => setPageSwitch(6)}>
+            <FaChalkboard size={50} />
+
+          </Button>
+          </Tooltip>
 
 
         </div><div className={'IconDivLogOffTutor'}>
+            <Tooltip title = "">
             <Link
               to={menuItems[0].link}
 
@@ -5247,20 +5322,24 @@ function HandleChangeTabFunction(newValue){
             >
               <FaPowerOff size={50} color={'black'} />
             </Link>
+            </Tooltip>
           </div></>
       )
     }
     else if(CurrentTest == 'Diagnostics' && Type == 'Tutor'){
       return(
         <><div className={'NavDiv'}>
-
+          <Tooltip title="Dashboard">
         <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } }>
           <FaDesktop size={50} />
         </Button>
+        </Tooltip>
 
 
-
-      </div><div className={'IconDivLogOffTutor'}>
+      </div>
+      
+      <div className={'IconDivLogOffTutor'}>
+          <Tooltip title = "">
           <Link
             to={menuItems[0].link}
 
@@ -5272,6 +5351,7 @@ function HandleChangeTabFunction(newValue){
           >
             <FaPowerOff size={50} color={'black'} />
           </Link>
+          </Tooltip>
         </div></>
       )
     }
@@ -5279,13 +5359,16 @@ function HandleChangeTabFunction(newValue){
       return(
       <>
       <div  className={'NavDiv'}>
+        <Tooltip title="Diagnostics">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } }>
             <FaSchool size={50} />
           </Button>
+        </Tooltip>
           <p></p>
 
         </div>
         <div className={'IconDivLogOffTutor'}>
+            <Tooltip title = "">
             <Link
               to={menuItems[0].link}
 
@@ -5297,6 +5380,7 @@ function HandleChangeTabFunction(newValue){
             >
               <FaPowerOff size={50} color={'black'} />
             </Link>
+            </Tooltip>
           </div></>
       )
     }
@@ -5304,21 +5388,27 @@ function HandleChangeTabFunction(newValue){
       return(
       <><div className={'NavDiv'}>
 
-
+        <Tooltip title="Profile">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } }>
             <FaUser size={50} />
           </Button>
+        </Tooltip>
           <p></p>
+          <Tooltip title="Quiz">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } }>
             <FaBook size={50} />
           </Button>
+          </Tooltip>
           <p></p>
+          <Tooltip title="Diagnostics">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } }>
             <FaSchool size={50} />
           </Button>
+          </Tooltip>
           <p></p>
 
         </div><div className={'IconDivLogOffTutor'}>
+            <Tooltip title = "">
             <Link
               to={menuItems[0].link}
 
@@ -5330,6 +5420,7 @@ function HandleChangeTabFunction(newValue){
             >
               <FaPowerOff size={50} color={'black'} />
             </Link>
+            </Tooltip>
           </div></>
           
         
@@ -5376,9 +5467,44 @@ function HandleChangeTabFunction(newValue){
   const [ShowOrHideAnswers, setShowOrHideAnswers] = useState('Hide')
   const [SpreadsheetUpdate, setSpreadsheetUpdate] = useState()
   const [PlusButtonUpdate, setPlusButtonUpdate] = useState(<Button className="PlusDiv" onClick={()=>AddLine()}><p className='PlusStyle'>+</p></Button>)
+
+
+  //Whiteboard Vals
+
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [isEraser, setisEraser] = useState(false)
+  const [penColor, setPenColor] = useState('black')
+  const [penSize, setPenSize] = useState(5)
+  const [currPDF, setcurrPDF] = useState('')
+  const [showPDF, setshowPDF] = useState(false)
+  const [whiteboardStyle, setwhiteboardStyle] = useState('sketchDivOutside')
+  const [showCalculator, setshowCalculator] = useState(false)
+
+
+  useEffect(()=>{
+    if(FormatLink() == null){
+      setwhiteboardStyle('sketchDivOutside')
+      
+      
+    }
+    else{
+      setwhiteboardStyle('sketchDivOutsideSmall')
+      
+  }
+  },[currPDF])
+
+  function onDocumentLoadSuccess({ numPages }) {
+    setNumPages(numPages);
+  }
+
+
+
+
+
   function OppositeShowOrHide(){
     if(ShowOrHideAnswers == 'Hide'){
-      return('Show')
+      return('Show/Change')
     }
     else{
       return('Hide')
@@ -5496,6 +5622,7 @@ function HandleChangeTabFunction(newValue){
   },[UpdatedCurrentTest])
   
   
+  
   function GetStudentChecklist(){
     if(AddStudentBinary){
       return(
@@ -5611,9 +5738,69 @@ function HandleChangeTabFunction(newValue){
     }
   }
 
-
+  
 
   function FrontPageIsTutor(){
+    function createData(Tutor, Student, NextMeeting, Email) {
+      return { Tutor, Student, NextMeeting, Email };
+    }
+    var rows = [
+      
+    ];
+
+    function humanReadableDate(datetime) {
+      const date = new Date(datetime);
+      const options = { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" };
+      return date.toLocaleDateString("en-US", options);
+    }
+    
+
+    if(AdminInfo !== null){
+      for(var x = 0; x < AdminInfo.length; x++){
+        rows.push(createData(AdminInfo[1][x], AdminInfo[0][x], humanReadableDate(AdminInfo[2][x]), AdminInfo[3][x]))
+      }
+    }
+    console.log("rows", rows)
+    function IsAdmin(){
+      if(AdminBool == true){
+        return(
+          <>
+          <p className="TextStyleLight">Admin Info:</p>
+          <p className="TextStyleLight"> </p>
+          <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Tutor</TableCell>
+                <TableCell align="right">Student</TableCell>
+                <TableCell align="right">Next Meeting Time</TableCell>
+                <TableCell align="right">Email</TableCell>
+                
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow
+                  key={row.name}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.Tutor}
+                  </TableCell>
+                  <TableCell align="right">{row.Student}</TableCell>
+                  <TableCell align="right">{row.NextMeeting}</TableCell>
+                  <TableCell align="right">{row.Email}</TableCell>
+                  
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        </>
+        )
+      }
+    }
+    //AdminInfo
     if(Type == 'Tutor'){
       return(
       <Fragment>
@@ -5633,6 +5820,9 @@ function HandleChangeTabFunction(newValue){
           {GetStudentChecklist()}
           {GetMasterButton()}
           
+          {IsAdmin()}
+
+         
         </div>
       </Fragment>
       )
@@ -5799,10 +5989,11 @@ function HandleChangeTabFunction(newValue){
 
         
         <div className={'NotepadButtonDiv'}>
+          <Tooltip title="Notepad">
           <Button onClick={()=>{openModal()}} className={'NotepadButton'} title={'Notepad'}>
             <FaRegStickyNote size={40}/>
           </Button>
-         
+         </Tooltip>
         </div>
 
      
@@ -6791,7 +6982,53 @@ function HandleChangeTabFunction(newValue){
     }
   }
   
+  function CreateNewQuiz(QuizName){
+    //Placeholder Quiz
+    //When looking back at this in the future. You must change the Topics variable at the begining of the file to add new quiz name. Must also move it to database.
+    
+   
+    
+    console.log("Creating New Quiz: " + QuizName)
+    if(QuizName.length == 0){
+      return(null)
+    }
+    if(CurrentStudent !== '' ){
+      
   
+     
+  
+      setDoc(doc(db, "Quizes", QuizName), {
+        Topic: MakeCamelCase(QuizName.toString()).replaceAll(' ','').toString(),
+        Answers: []
+      
+      });
+  }
+}
+
+function ShowCreateQuiz(){
+  return(null)
+  if(AdminBool ==true){
+  return(
+    <><p className={'TitleTextStyleLight'}>Create New Quiz:</p><div className="">
+      <div className={'fieldSmall active false'}>
+        <textarea
+          id={2}
+          type="text"
+          value={NewQuiz}
+          placeholder={'Enter New Quiz Name Here'}
+          onChange={handleQuizChange}
+          className='textareaTransparent' />
+      </div>
+      <div className={'ButtonDivNewQuiz'}>
+        <Button onClick={() => { CreateNewQuiz(NewQuiz); } } variant="outlined" color="black">Create New Quiz</Button>
+      </div>
+    </div></>
+  )
+  }
+  else{
+    return(null)
+  }
+}
 
   if(PageSwitch == 2){
     return (
@@ -6881,7 +7118,8 @@ function HandleChangeTabFunction(newValue){
          
           </Modal>
 
-
+          {ShowCreateQuiz()}
+         
           <p className={'TitleTextStyleLight'}>HW Synopsis:</p>
           <EnhancedTableToolbar numSelected={selected.length} />
             <TableContainer component={Paper}>
@@ -7092,6 +7330,16 @@ function HandleChangeTabFunction(newValue){
     }
   }
   function GetLinkGoogleDrive(){
+    if(Type == 'Tutor'){
+      if(CurrentTest == 'SAT'){
+        return("https://drive.google.com/drive/folders/1daoJfmxJujpIy4RHXtlH8WgXgmUDfKzD?usp=share_link")
+      }
+      else if(CurrentTest == 'ACT'){
+        return('https://drive.google.com/drive/folders/1WbbmzPky7mPmnaY17r4XivQNgEsfPqhT?usp=share_link')
+      }else{
+        return('')
+      }
+    }
     if(CurrentTest == 'SAT'){
       return("https://drive.google.com/drive/folders/1RMdshcuXhmuj6VWznVg5k2jBnsgLpTfF?usp=share_link")
     }
@@ -7118,9 +7366,11 @@ function HandleChangeTabFunction(newValue){
    function ShowEditButton(){
     if(Type=='Tutor'){
       return(<div className={'NotepadButtonDiv2'}>
+        <Tooltip title="Notepad">
       <Button onClick={() => { openModal(); } } className={'NotepadButton'} title={'Notepad'}>
         <FaRegStickyNote size={40} />
       </Button>
+      </Tooltip>
       </div>)
     }
     else{
@@ -7702,6 +7952,7 @@ function HandleChangeTabFunction(newValue){
     }, 350)
   }
 
+  
 
   if(PageSwitch == 4){
     return (
@@ -7741,6 +7992,8 @@ function HandleChangeTabFunction(newValue){
       <Button variant="outlined" color="black" onClick={()=>{SwitchCalendar()}} >
        {CalendarSwitchFunc()}
       </Button>
+
+      
       </>
       )
   }
@@ -7802,6 +8055,287 @@ function HandleChangeTabFunction(newValue){
        </div>
         </div>
       </Fragment>
+      
+      </>
+    )
+  }
+
+  const stylesSketch = {
+    border: '0.0625rem solid #9c9c9c',
+    borderRadius: '0.25rem',
+  };
+  
+  
+
+  /*
+
+<div>
+        <Document file= {urlPDF} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+          <Page pageNumber={pageNumber} />
+        </Document>
+        <p>
+          Page {pageNumber} of {numPages}
+        </p>
+      </div>
+*/
+const canvasRef = React.createRef(null);
+
+
+const eraserHandler = () => {
+  const eraseMode = canvasRef.current?.eraseMode;
+  //console.log(eraseMode)
+
+  //if (eraseMode) {
+    
+    if(isEraser == false){
+      setisEraser(true)
+      eraseMode(true);
+    }else{
+      setisEraser(false)
+      eraseMode(false);
+    }
+  //}
+  
+  
+};
+
+const clearHandler = () => {
+  const clearCanvas = canvasRef.current?.clearCanvas;
+
+  if (clearCanvas) {
+    clearCanvas();
+  }
+};
+
+function SwitchIcon(){
+  
+
+  if (isEraser == false) {
+    return(
+      <FaEraser size ={35} />
+    )
+  }else{
+    return(
+      <FaPen size ={35} />
+    )
+  }
+}
+function SwitchIconLabel(){
+  
+
+  if (isEraser == false) {
+    return(
+      "Eraser"
+    )
+  }else{
+    return(
+      "Pen"
+    )
+  }
+}
+function IncreaseStrokeWidth(){
+  setPenSize(penSize+2)
+}
+function DecreaseStrokeWidth(){
+  setPenSize(penSize-2)
+}
+
+
+var valueGroups = {
+  title: 'Mr.',
+  firstName: 'Micheal',
+  secondName: 'Jordan'
+}
+var optionGroups = {
+  title: [
+    { value: 'mr', label: 'Mr.' },
+    { value: 'ms', label: 'Ms.' },
+    { value: 'dr', label: 'Dr.' },
+  ],
+  firstName: [
+    { value: 'John', label: 'John' },
+    { value: 'Micheal', label: 'Micheal' },
+    { value: 'Elizabeth', label: 'Elizabeth' },
+  ],
+  secondName: [
+    { value: 'Lennon', label: 'Lennon' },
+    { value: 'Jackson', label: 'Jackson' },
+    { value: 'Jordan', label: 'Jordan' },
+    { value: 'Legend', label: 'Legend' },
+    { value: 'Taylor', label: 'Taylor' }
+  ],
+}
+
+var pdfLinksSAT = ['1m1ILrGW4PEbDVJ13fmcAxEZxyEO3WgBE','1vLyCwsfdCWPNzffJC2LCkJ9uFPlBz_oD','1PVRRrp4ixtsK-CEh3Ao-zulWmAxOdzhG','1Ow-Zfvrj7UrTT71ii8_Ivzi6wPPSTWEP','1LotFzgn8hOQTmrXIjryCibqxPHAGmPyH','1UwwQJsXnIN_XTDebuckYJB--K2p5w8Xx','1BF0EFI4fZuCHtw4N-DTflvD_mneNgNXg','1IG-9JUVlhw5fybYnkwlzcbVU6YgbmMAU','1L4Ix7aKsVrNnWsaGRU107bj_Flc4Dtmm','1Bm5WNRw4oICRpXpZhf0rV2vItQgRLLi7','1FKdqKsW87FmV1V8J7291lT7Jk_skrHHT','19LJgs1oPagA7pLSMDfCBUEodA_z7s5dM','17h5GjU7aEpZdTCmQViuK7JKKb-Eev6-a']
+var pdfLinksACT = ['1tvIecv6wR8VF-UQt9RgfdcqcnYZ_9JAa','1ZMC5eZALFBGji3-T-otgCClQQp50zfPs','1aLikRZWW5GRzA4iMGjbBWqsnAoNOhvYW','19rNXL5DRIwwOSVaj_7J7gCoCYWByeDl6','13siuyTAB1KxZqkOvAPZ9_a72VO1_hNRd','1LZQswWfQjJ7Xc9Hu-MOvsbO-KmCMV-74','17JvXhik4czV_fTJaeaPUyZMs1bFeknNC','1IfAZJEJJGF4TNm5sQ1IlTp58NFJgd6X9','14khBy-ei1HDftExWwuYt96tgisXJKQci','1iV5TtPPJGxN0Z97iSsb7DPEOfAhdnlxO','1_ZNyYCkW1f3JC5ias8ZNfmVeVzDq4nh6','1RjOEeEmfmhmXdUjkeVDwXiCMYYV9V_bi','17h5GjU7aEpZdTCmQViuK7JKKb-Eev6-a']
+//https://drive.google.com/file/d/1FKdqKsW87FmV1V8J7291lT7Jk_skrHHT/view?usp=sharing
+function GetCorrectPDFLink(){
+  //currPDF
+  
+  if(currPDF.includes('Grammar')){
+    return(10)
+  }
+  else if(currPDF.includes('Math')){
+    return(11)
+  }
+  else if(currPDF.includes('Reading')){
+    return(12)
+  }
+  
+  else if(currPDF.includes('2')){
+    return(1)
+  }
+  else if(currPDF.includes('3')){
+    return(2)
+  }
+  else if(currPDF.includes('4')){
+    return(3)
+  }
+  else if(currPDF.includes('5')){
+    return(4)
+  }
+  else if(currPDF.includes('6')){
+    return(5)
+  }
+  else if(currPDF.includes('7')){
+    return(6)
+  }
+  else if(currPDF.includes('8')){
+    return(7)
+  }
+  else if(currPDF.includes('9')){
+    return(8)
+  }
+  else if(currPDF.includes('10')){
+    return(9)
+  }
+  else if(currPDF.includes('1')){
+    return(0)
+  }
+  else{
+    return(null)
+  }
+}
+function FormatLink(){
+  var num = GetCorrectPDFLink()
+  if(num == null){
+    return(null)
+  }else{
+    if(CurrentTest == 'ACT'){
+      return('https://drive.google.com/file/d/'+pdfLinksACT[num]+'/preview')
+    }
+    else if(CurrentTest == 'SAT'){
+      return('https://drive.google.com/file/d/'+pdfLinksSAT[num]+'/preview')
+    }
+  }
+}
+
+function GetPDF(){
+  if(FormatLink() == null){
+
+    return(null)
+    
+  }
+  else{
+   
+    return(
+
+      <div className="PDFViewer">
+        <iframe src={FormatLink()} height="100%" width="100%" allow="autoplay"></iframe>
+      </div>
+    )
+}
+}
+/*
+useEffect(()=>{
+  if(FormatLink() == null){
+    setwhiteboardStyle('sketchDivOutside')
+    return(null)
+    
+  }
+  else{
+    setwhiteboardStyle('sketchDivOutsideSmall')
+    return(
+
+      <div className="PDFViewer">
+      <iframe src={FormatLink()} height="100%" width="100%" allow="autoplay"></iframe>
+      </div>
+    )
+}
+},[currPDF])
+*/
+//https://drive.google.com/file/d/1m1ILrGW4PEbDVJ13fmcAxEZxyEO3WgBE/view?usp=sharing
+//hhttps://drive.google.com/file/d/19LJgs1oPagA7pLSMDfCBUEodA_z7s5dM/view?usp=sharing
+//setshowPDF
+
+function GetCalculator(){
+  if(showCalculator){
+    return(
+      <div className="calculatorDiv">
+        <iframe src="https://www.desmos.com/calculator/g7izucn6nn" width="100%" height="100%"></iframe>
+      </div> 
+    )
+  }else{
+    return(null)
+  }
+}
+if(PageSwitch == 6){
+    return(
+      <>
+      {GetNavigation()}
+    
+        <div className={whiteboardStyle}>
+        <div className="sketchDiv">
+          <ReactSketchCanvas
+            style={stylesSketch}
+            ref={canvasRef}
+            strokeWidth={penSize}
+            eraserWidth={20}
+            strokeColor={penColor}
+
+          />
+      </div>
+      </div>
+      <div className="rowDivWhiteboard">
+        <Tooltip title="Calculator">
+        <Button onClick={()=>{setshowCalculator(!(showCalculator))}}>
+          <FaCalculator size ={35} />
+        </Button>
+        </Tooltip>
+        <Tooltip title={SwitchIconLabel()}>
+        <Button onClick={eraserHandler}>
+          
+          {SwitchIcon()}
+        </Button>
+        </Tooltip>
+       
+        <Tooltip title="Increase Size">
+        <Button onClick={()=>{IncreaseStrokeWidth()}}>
+          <p className="TitleTextStyleBold">+</p>
+        </Button>
+        </Tooltip>
+        <Tooltip title="Decrease Size">
+        <Button onClick={()=>{DecreaseStrokeWidth()}}>
+          <p  className="TitleTextStyleBold">-</p>
+        </Button>
+        </Tooltip>
+        <Tooltip title="Clear">
+        <Button onClick={clearHandler}>
+          <FaTrash size ={35} />
+        </Button>
+        </Tooltip>
+        <CirclePicker
+        onChange={(color) => {setPenColor(color.hex)}}
+        colors={['#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF','#000000','#FFFFFF']}
+        />
+
+       
+      </div>
+      <div className="PDFDropdown">
+        <Dropdown options={['Remove','Practice Test 1','Practice Test 2','Practice Test 3','Practice Test 4','Practice Test 5','Practice Test 6','Practice Test 7','Practice Test 8','Practice Test 9','Practice Test 10', 'Grammar Book', 'Math Book','Reading Book']} onChange={(x)=>{setcurrPDF(x.value)}}  placeholder="Select a PDF"  />
+       </div>
+        {GetPDF()}
+      {GetCalculator()}
       
       </>
     )

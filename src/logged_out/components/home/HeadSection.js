@@ -729,7 +729,7 @@ function HeadSection(props) {
 
       </div>
       
-    <header class="header">
+    <header class="header" data-aos="zoom-in">
     
         <motion.div class="headerTitle"
         initial={{ opacity: 0, scale: 0.5 }}

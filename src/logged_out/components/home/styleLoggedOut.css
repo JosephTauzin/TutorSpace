@@ -98,7 +98,7 @@ a {
 .header {
     padding: 2% 5% 2% 5%;
     display: grid; 
-    grid-template-columns: 35fr 65fr; 
+    grid-template-columns: 40fr 60fr; 
     grid-template-rows: auto; 
     gap: 0px 0px; 
     grid-template-areas: 

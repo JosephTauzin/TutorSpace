@@ -54,6 +54,47 @@ body {
   margin-bottom: 8%;
   margin-left: 43vw;
 }
+
+.sketchDiv{
+  width: 100%;
+  height: 300vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+ 
+}
+.sketchDivOutside{
+  width: 80vw;
+  height: 73vh;
+  margin-top: 5vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+.sketchDivOutsideSmall{
+  width: 40vw;
+  height: 73vh;
+  margin-top: 5vh;
+  margin-left: 34vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+.calculatorDiv {
+  width: 80vw;
+  height: 73vh;
+  margin-top: 15vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+}
+
 .columnDiv{
   
   width:32%;
@@ -112,6 +153,15 @@ body {
   flex-direction:row;
   width: 100%;
 }
+.rowDivWhiteboard{
+  display:flex; 
+  flex-direction:row;
+  margin-left: 50%;
+  width:475px;
+  margin-top: 2vh;
+  position: absolute;
+}
+
 .TutorNotesDiv{
   width:500px;
 
@@ -156,7 +206,7 @@ body {
   width: 100%; /*Optional*/
   table-layout: fixed; /*Optional*/
   border-spacing: 10px; /*Optional*/
-}
+} 
 .checkbox {
 	margin-left: 100;
   margin-top: 4%;
@@ -248,11 +298,24 @@ body {
 }
 .IconDivLogOffTutor{
   margin-top: 78vh;
-  margin-left: -15.2vw;
+  margin-left: -15.5vw;
   height: 100px;
   width:10;
   
   position: fixed;
+}
+.PDFDropdown{
+  margin-top: 5vh;
+  margin-bottom: 10vh;
+  margin-left: -5vw;
+  width: 190px;
+}
+.PDFViewer{
+  margin-top: -92.5vh;
+  margin-bottom: 10vh;
+  margin-left: -5vw;
+  height: 73.5vh;
+  width:38vw
 }
 .ClassroomTest{
   margin-top: 5vh;
@@ -269,6 +332,14 @@ body {
   color:black;
   margin-bottom: 1.7vh;
   margin-left: -.1vw;
+}
+.TitleTextStyleBold{
+  font-weight: 500;
+  font-size: xx-large;
+  color:black;
+  margin-bottom: 0vh;
+  margin-left: -.1vw;
+  margin-top: 2vh;
 }
 .TextStyleLight{
   font-weight: 200;
@@ -382,6 +453,10 @@ input[type="file"] {
 }
 .ButtonDivComplete{
   margin-left: 21vw;
+  margin-top: -1%;
+}
+.ButtonDivNewQuiz{
+  margin-left: 23vw;
   margin-top: -1%;
 }
 .StudentAssignments{

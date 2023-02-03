@@ -125,6 +125,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Tutor:'Joseph Tauzin',
         Test: test,
         TutorNotes:'',
+        Improvement:'',
       });
     }
     else{
@@ -158,6 +159,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         HistMeetingTimes:[],
         Tutor:'Joseph Tauzin',
         Test: test,
+        Improvement:'',
       });
     }
   } catch (err) {

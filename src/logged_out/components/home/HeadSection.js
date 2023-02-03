@@ -331,7 +331,7 @@ function HeadSection(props) {
       </div>
 */
   const Headers = ['Test Prep for Today\'s World','Private, One on One Classroom','Custom Lesson Plans','Follow Along Weekly' ,'Your Success Network']
-  const Paragraphs = ['Learn whether the ACT or SAT is right for you, then strengthen your weaknesses and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
+  const Paragraphs = ['Learn whether the SAT or ACT suits your talents better, then strengthen your weaknesses and achieve excellence.','Meet your expert instructor from anywhere, on your own schedule.','We analytically track your student\'s progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assignments are accessible to parents and students through our website.','From entrance exams to homework help, you\'re plugging into a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)
   const [AnimationPause, setAnimationPause] = useState(false)

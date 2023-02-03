@@ -189,7 +189,6 @@ a {
 }
 .buttonClassLearnMore {
     margin-top: 5vh;
-    margin-left: 4%;
     background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) right; 
     background-size: 200% 100%; 
     transition: 0.25s ease-in-out;
@@ -199,6 +198,7 @@ a {
     font-size: calc(15px + 1vw);
     padding: 0.6em 1.2em 0.6em 1.2em;
     position: absolute;
+    margin-left: 0;
 }
 
 .buttonClassLearnMoreModal {

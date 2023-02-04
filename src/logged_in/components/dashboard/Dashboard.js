@@ -5261,12 +5261,13 @@ function HandleChangeTabFunction(newValue){
   },[DiagnosticsNumCorrect])
 
   function GetNavigation(){
-    function GetClassroomIcon(){
+    //return(null)
+    function GetClassroomIcon(iconsize = 50){
       if(ClassroomStudentsClean.length >0 || ClassroomStudentsCleanACT.length > 0 ){
         return(
-          <Button className={'IconDiv'} onClick={()=>setPageSwitch(3)}>
-            <FaChalkboardTeacher size ={50}/>
+          <Button className={'IconDiv'} onClick={()=>setPageSwitch(3)} startIcon={<FaChalkboardTeacher size ={iconsize}/>}>
             
+            <p>Classroom</p>
           </Button>
         )
       }
@@ -5275,36 +5276,42 @@ function HandleChangeTabFunction(newValue){
       }
     }
     if(Type == 'Tutor' && !(CurrentTest == 'Diagnostics')){
+      var iconsize  = 25
       return(
         <><div className={'NavDiv'}>
           <Tooltip title="Dashboard">
-            <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } }>
-              <FaDesktop size={50} />
+            <Button className={'IconDiv'} onClick={() => {setPageSwitch(0);}} startIcon={<FaDesktop size={iconsize} />}>
+              
+  
+              <p> Dashboard</p>
             </Button>
           </Tooltip>
           <Tooltip title="Profile">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } }>
-            <FaUser size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } } startIcon={<FaUser size={iconsize} />}>
+            
+            <p>Profile</p>
           </Button>
           </Tooltip>
           <Tooltip title="Quiz">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } }>
-            <FaBook size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } } startIcon ={<FaBook size={iconsize} />}>
+            
+            <p>Quiz</p>
           </Button>
           </Tooltip>
           <Tooltip title="Classroom">
-          {GetClassroomIcon()}
+          {GetClassroomIcon(iconsize)}
+          
           </Tooltip>
           <Tooltip title="Calendar">
-          <Button className={'IconDiv'} onClick={() => setPageSwitch(4)}>
-            <FaCalendar size={50} />
-
+          <Button className={'IconDiv'} onClick={() => setPageSwitch(4)} startIcon={<FaCalendar size={iconsize} />}>
+            
+            <p>Calendar</p>
           </Button>
           </Tooltip>
           <Tooltip title="Whiteboard">
-          <Button className={'IconDiv'} onClick={() => setPageSwitch(6)}>
-            <FaChalkboard size={50} />
-
+          <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaChalkboard size={iconsize} />}>
+            
+            <p>Whiteboard</p>
           </Button>
           </Tooltip>
 
@@ -5320,7 +5327,10 @@ function HandleChangeTabFunction(newValue){
                 links.current[0] = node;
               } }
             >
-              <FaPowerOff size={50} color={'black'} />
+              <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaPowerOff size={iconsize} color={'black'} />}>
+              
+              <p>Log Off</p>
+              </Button>
             </Link>
             </Tooltip>
           </div></>
@@ -5329,10 +5339,10 @@ function HandleChangeTabFunction(newValue){
     else if(CurrentTest == 'Diagnostics' && Type == 'Tutor'){
       return(
         <><div className={'NavDiv'}>
-          <Tooltip title="Dashboard">
-        <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } }>
-          <FaDesktop size={50} />
-        </Button>
+        <Tooltip title="Dashboard">
+            <Button className={'IconDiv'} onClick={() => { setPageSwitch(0); } } startIcon={<FaDesktop size={iconsize} />} >
+              <p>Dashboard</p>
+            </Button>
         </Tooltip>
 
 
@@ -5349,7 +5359,10 @@ function HandleChangeTabFunction(newValue){
               links.current[0] = node;
             } }
           >
-            <FaPowerOff size={50} color={'black'} />
+            <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaPowerOff size={iconsize} color={'black'} />}>
+              
+              <p>Log Off</p>
+              </Button>
           </Link>
           </Tooltip>
         </div></>
@@ -5360,8 +5373,9 @@ function HandleChangeTabFunction(newValue){
       <>
       <div  className={'NavDiv'}>
         <Tooltip title="Diagnostics">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } }>
-            <FaSchool size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } } startIcon={<FaSchool size={iconsize} />}>
+            
+            <p>Diagnostics</p>
           </Button>
         </Tooltip>
           <p></p>
@@ -5378,7 +5392,10 @@ function HandleChangeTabFunction(newValue){
                 links.current[0] = node;
               } }
             >
-              <FaPowerOff size={50} color={'black'} />
+              <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaPowerOff size={iconsize} color={'black'} />}>
+              
+              <p>Log Off</p>
+              </Button>
             </Link>
             </Tooltip>
           </div></>
@@ -5389,20 +5406,23 @@ function HandleChangeTabFunction(newValue){
       <><div className={'NavDiv'}>
 
         <Tooltip title="Profile">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } }>
-            <FaUser size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(1); } } startIcon={<FaUser size={iconsize} />}>
+            
+            <p>Profile</p>
           </Button>
         </Tooltip>
           <p></p>
           <Tooltip title="Quiz">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } }>
-            <FaBook size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } } startIcon={<FaBook size={iconsize} />}>
+            
+            <p>Quiz</p>
           </Button>
           </Tooltip>
           <p></p>
           <Tooltip title="Diagnostics">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } }>
-            <FaSchool size={50} />
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } } startIcon ={ <FaSchool size={iconsize} />}>
+           
+            <p>Diagnostics</p>
           </Button>
           </Tooltip>
           <p></p>
@@ -5418,7 +5438,10 @@ function HandleChangeTabFunction(newValue){
                 links.current[0] = node;
               } }
             >
-              <FaPowerOff size={50} color={'black'} />
+              <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaPowerOff size={iconsize} color={'black'} />}>
+              
+              <p>Log Off</p>
+              </Button>
             </Link>
             </Tooltip>
           </div></>

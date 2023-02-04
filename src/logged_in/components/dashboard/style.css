@@ -3,7 +3,7 @@
 }
 
 body {
-  background: rgb(231, 236, 236);
+  background: '#FBFCF8';
   
 }
 .loadingDiv {
@@ -214,7 +214,7 @@ body {
   display:table-cell;
 }
 .coloring{
-  background-color: rgb(231, 236, 236);
+  background-color: '#FBFCF8';
   padding-bottom: 5%;
 }
 .NotepadButtonDiv{
@@ -297,8 +297,8 @@ body {
   background-color:rgb(197, 207, 209);
 }
 .IconDivLogOffTutor{
-  margin-top: 76vh;
-  margin-left: -15.3vw;
+  margin-top: 72vh;
+  margin-left: -15.8vw;
   height: 100px;
   width:10;
   

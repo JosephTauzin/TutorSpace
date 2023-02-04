@@ -37,7 +37,7 @@ import TutorSpaceLogo from "./TutorSpace.png"
 const styles = (theme) => ({
   appBar: {
     boxShadow: theme.shadows[0],
-    backgroundColor: 'rgb(231, 236, 236)',
+    backgroundColor: '#FBFCF8',
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

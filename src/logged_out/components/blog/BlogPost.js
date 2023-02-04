@@ -38,7 +38,7 @@ function BlogPost(props) {
   const { classes, date, title, src, content, otherArticles,videoURL } = props;
 
   useEffect(() => {
-    document.title = `WaVer - ${title}`;
+    document.title = `MeasureUp! Prep | ${title}`;
     smoothScrollTop();
   }, [title]);
 

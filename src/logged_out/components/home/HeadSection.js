@@ -41,6 +41,7 @@ import Goals from "./images/Goals.png"
 import ReportCard from "./images/ReportCard.png"
 import { useExitIntent } from 'use-exit-intent'
 import { FaTimes } from "react-icons/fa";
+import FAQ from "./FAQ";
 
 
 
@@ -716,7 +717,7 @@ function HeadSection(props) {
         >
           <div className="rowDiv">
           <div className="modalText">
-            <p  >Sign Up For A Free Session With A Dedicated Expert. On Your Schedule.</p>
+            <p>Sign Up For A Free Session With A Dedicated Expert. On Your Schedule.</p>
           
             <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={'buttonClassLearnMoreModal'}>Schedule Free Session!</button></a>
           
@@ -785,48 +786,49 @@ function HeadSection(props) {
     
 
       <div class="content-wrapper">
-      <div class="collegeBanner">
+        <div class="collegeBanner">
 
-            <h2 data-aos="fade-right" style={{textAlign:'center'}}>Taught by Elite Graduates, 99th Percentile Scorers</h2>
-            <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/collegeBanner.png")}/>
-            {<img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/verticalCollegeBanner.png")}/>
-            }
+              <h2 data-aos="fade-right" style={{textAlign:'center'}}>Taught by Elite Graduates, 99th Percentile Scorers</h2>
+              <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/collegeBanner.png")}/>
+              {<img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/verticalCollegeBanner.png")}/>
+              }
 
-      </div>
+        </div>
 
       
-      <div class="features" data-aos="fade-down" data-aos-duration="500">
-            <h2 style={{textAlign:'center'}}>What Sets Us Apart</h2>
-            <div class ="featuresContentWrap">
-                <div class="softwareSuccess icon">
-                  <img src={require("./images/monitor.png")}/>
+        <div class="features" data-aos="fade-down" data-aos-duration="500">
+              <h2 style={{textAlign:'center'}}>What Sets Us Apart</h2>
+              <div class ="featuresContentWrap">
+                  <div class="softwareSuccess icon">
+                    <img src={require("./images/monitor.png")}/>
+                  </div>
+                  <div class="refinedPractice icon">
+                      <img src={require("./images/university.png")}/>
+                  </div>
+                  <div class="enableImprove icon">
+                      <img src={require("./images/improvement.png")}/>
+                  </div>
+                  <div class="ssCaption text">
+                      <h3>Software for Success</h3>
+                      <p>MeasureUp! is proud to be powered by TutorSpace's innovate Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
+                  </div>
+                  <div class="rpCaption text">
+                      <h3>Refined by Practice</h3>
+                      <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
+                  </div>
+                  <div class="eiCaption text">
+                      <h3>Enable Improvement</h3>
+                      <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
+                  </div>
                 </div>
-                <div class="refinedPractice icon">
-                    <img src={require("./images/university.png")}/>
-                </div>
-                <div class="enableImprove icon">
-                    <img src={require("./images/improvement.png")}/>
-                </div>
-                <div class="ssCaption text">
-                    <h3>Software for Success</h3>
-                    <p>MeasureUp! is proud to be powered by TutorSpace's innovate Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
-                </div>
-                <div class="rpCaption text">
-                    <h3>Refined by Practice</h3>
-                    <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
-                </div>
-                <div class="eiCaption text">
-                    <h3>Enable Improvement</h3>
-                    <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
-                </div>
-            </div>
 
           
 
-        </div>
-        </div>
+       </div>
+      </div>
 
     {ShowSchool()}
+    <FAQ />
     <div class="content-wrapper">
     <div id="contact" class="contact" data-aos="fade-up">
             <h2 style={{textAlign:'center'}}>Get In Touch</h2>

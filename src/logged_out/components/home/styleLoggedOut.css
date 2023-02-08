@@ -370,7 +370,7 @@ h3 {
 }
 
 p {
-    font-size: calc(5.5px + 0.75vw);
+    font-size: calc(5px + 0.8vw);
     font-family: 'Lato', sans-serif;
     color:#342E37;
 
@@ -415,8 +415,8 @@ p {
 .contact {
     padding: 0% 12.5% 0% 12.5%;
     text-align: center;
+    
 }
-
 .contactForm {
     margin-left: auto;
     margin-right: auto;
@@ -749,6 +749,7 @@ input:focus, textarea:focus {
 }
 */
 
+
 .box{
     width:200px;
     height: 200px;
@@ -761,4 +762,42 @@ input:focus, textarea:focus {
     height: 200px;
     border-radius: 50%;
     background-color: red;
+}
+
+.faq {
+    margin: 5% 0 10% 0;
+}
+
+.faqGroup {
+    margin: 2.5% 0 2.5% 0;
+}
+
+.faqGroup p {
+    padding: 0.5em 0 0 0.5em;
+}
+.faq h2 {
+    text-align: center;
+}
+
+.faq a {
+    color: #E26D5C;
+}
+
+.faq a:hover {
+    color: #342E37;
+}
+
+@media only screen and (max-width: 768px) {
+    
+    .faqGroup p {
+        padding: 0.5em 0 0 0.5em;
+    }
+
+    .faqGroup {
+        margin: 7.5% 0 7.5% 0;
+    }
+
+    .faq {
+        padding: 0 1em 0 1em;
+    }
 }

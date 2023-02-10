@@ -242,8 +242,8 @@ function NavBar(props) {
       <AppBar position="sticky" className={classes.appBar}>
         <Toolbar className={classes.appBarToolbar}>
   
-            <div style={{height:50, marginTop:-5}}>
-            <img src={TutorSpaceLogo}/>
+            <div style={{height:50, marginTop:-5, width:400}}>
+            <img src={TutorSpaceLogo} width="100%"/>
           </div>
           
           <Box

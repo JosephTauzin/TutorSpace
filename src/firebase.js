@@ -67,7 +67,7 @@ const logInWithEmailAndPassword = async (email, password) => {
     
  
 };
-const registerWithEmailAndPassword = async (name, email, password, type, test, studentName) => {
+const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -91,7 +91,8 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Students:[],
         ZoomLink:'',
         Admin:false,
-
+        PhoneNumber:phonenumber,
+        AdditionalPDFUrl:'',
       });
     }
     else if (type == 'Student'){
@@ -126,6 +127,8 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Test: test,
         TutorNotes:'',
         Improvement:'',
+        PhoneNumber:phonenumber,
+        SVG:'',
       });
     }
     else{
@@ -160,6 +163,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Tutor:'Joseph Tauzin',
         Test: test,
         Improvement:'',
+        PhoneNumber:phonenumber,
       });
     }
   } catch (err) {

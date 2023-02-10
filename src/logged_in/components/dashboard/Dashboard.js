@@ -646,7 +646,7 @@ function Dashboard(props) {
     }
     return(ArrTemp)
   }
-
+  const [CompanyCode, setCompanyCode] = useState('')
   useEffect(() => {
     try{
       const x = query(usersRef, where("uid", "==", auth.currentUser.uid.toString()));
@@ -672,6 +672,11 @@ function Dashboard(props) {
         setClassroomStudentsACT(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassACT.arrayValue.values))
         setTutor(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
         setAdminBool(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Admin.booleanValue)[0])
+        console.log("Priod")
+        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
+        setCompanyCode(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
+        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
+        console.log('CompanyCode')
       }
       else{
         setTutor(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Tutor.stringValue))
@@ -682,7 +687,7 @@ function Dashboard(props) {
 
         
 
-        const x = query(usersRef, where("Type", "==", "Student"));
+        const x = query(usersRef, where("Type", "==", "Student"),where("CompanyCode", "==", CompanyCode));
       
         //const q = query(collection(db, "users"))
         const unsub = onSnapshot(x, (querySnapshot) => {
@@ -6247,7 +6252,9 @@ function HandleChangeTabFunction(newValue){
   }
 
   function SwitchDropdowns(){
+    //Add CompanyCode's
     if(AdminBool == true && DropdownSwitch == true){
+      
       return(
         GetMasterStudentDropDown()
       )
@@ -6561,7 +6568,7 @@ function HandleChangeTabFunction(newValue){
     if(Type == 'Tutor'){
       return(
       <Fragment>
-        <p className="TextStyleLight">Your Students:</p>
+        <p className="TextStyleLight">{CompanyCode} Students:</p>
         <p className="TextStyleLight"> </p>
         <div className="FullScreen">
           {SwitchDropdowns()}

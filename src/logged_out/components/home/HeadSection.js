@@ -41,7 +41,7 @@ import Goals from "./images/Goals.png"
 import ReportCard from "./images/ReportCard.png"
 import { useExitIntent } from 'use-exit-intent'
 import { FaTimes } from "react-icons/fa";
-import FAQ from "./FAQ";
+
 
 
 
@@ -828,7 +828,7 @@ function HeadSection(props) {
       </div>
 
     {ShowSchool()}
-    <FAQ />
+    
     <div class="content-wrapper">
     <div id="contact" class="contact" data-aos="fade-up">
             <h2 style={{textAlign:'center'}}>Get In Touch</h2>

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import classNames from "classnames";
 import { Grid, Box } from "@mui/material";
 import withStyles from "@mui/styles/withStyles";
-
+import FAQ from "./FAQ";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = (theme) => ({
@@ -47,7 +47,7 @@ function About(props) {
       
       <div className={classes.blogContentWrapper}>
         <Grid container spacing={3}>
-         
+        <FAQ />
         </Grid>
       </div>
     </Box>

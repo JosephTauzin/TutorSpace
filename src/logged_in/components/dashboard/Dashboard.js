@@ -20,10 +20,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import ReactHover, { Trigger, Hover } from "react-hover";
 import SubscriptionInfo from "./SubscriptionInfo";
 import { CirclesWithBar } from 'react-loader-spinner'
-
+import Collapse from '@mui/material/Collapse';
 import { auth, getNames, db, storage} from "../../../firebase.js";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayRemove, setDoc } from "firebase/firestore";
+import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayRemove, setDoc , deleteDoc} from "firebase/firestore";
 import Spreadsheet from "react-spreadsheet";
 import '@firebase/firestore';
 import Quiz from './libQuiz/Quiz';
@@ -49,10 +49,14 @@ import {FaTrash} from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
 import { FaDesktop } from "react-icons/fa";
 import { FaPowerOff } from "react-icons/fa";
+import {FaPhone} from "react-icons/fa"
 import {FaUser} from "react-icons/fa"
 import {FaBook} from "react-icons/fa"
 import {FaCalendar} from "react-icons/fa"
 import {FaCalculator} from "react-icons/fa"
+import {FaEnvelope} from "react-icons/fa"
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {FaGoogleDrive} from "react-icons/fa"
 import Modal from 'react-modal';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
@@ -312,6 +316,7 @@ function Dashboard(props) {
   const [StudentsTotalBool, setStudentsTotalBool] = useState()
   const [NameId, setNameId] = useState([])
   const usersRef = collection(db, "users");
+  const constantsRef = collection(db, "GlobalVariables");
   const [ErrorUpdate, setErrorUpdate] = useState(1)
   const [CurrentStudent, setCurrentStudent] = useState('')
   const [StudentAssignments, setStudentAssignments] = useState([])
@@ -450,7 +455,8 @@ function Dashboard(props) {
   const [ErrorScreenOn, setErrorScreenOn] = useState(false)
 
   const [AdminInfo, setAdminInfo] = useState(null)
-
+  const [AdminInfoParent, setAdminInfoParent] = useState(null)
+  const [AdminInfoTutor, setAdminInfoTutor] = useState(null)
 
 
   function refreshPage() {
@@ -472,6 +478,82 @@ function Dashboard(props) {
       },
     },
   ];
+
+  const [SAVnum, setSAVnum] = useState(0)
+  const [SVG, setSVG] = useState()
+
+  const canvasRef = useRef(null);
+
+
+  function IncreaseSAVnum(){
+    setSAVnum(SAVnum + 1)
+  }
+  const parse = require('html-react-parser');
+  const loadSVGHandler = () => {
+    console.log('loadSVGHandler')
+    try{
+    var svg = JSON.parse(SVG)
+    
+    const loadPaths = canvasRef.current?.loadPaths(svg);
+   
+    if (loadPaths) {
+      console.log("fd;sdlfksdf")
+      loadPaths();
+    }
+    console.log("kfljslksdfjf")
+    }catch{
+      console.log('error')
+    }
+    //console.log(parse(SVG))
+  
+  
+
+    //
+  
+  }
+
+  const svgExportHandler = async () => {
+    const exportSvg = canvasRef.current?.exportPaths;
+  
+    if (exportSvg) {
+      const exportedDataURI = await exportSvg();
+     
+  
+      UpdateSVG(JSON.stringify(exportedDataURI))
+      //setSVG(exportedDataURI)
+    }
+  };
+
+  //UseEffect with a 100 ms timeout
+  const [SAVstart, setSAVstart] = useState(0)
+  const [IsCanvas, setIsCanvas] = useState(false)
+  useEffect(() => {
+    //placeholder
+
+    console.log('SAVnum')
+    console.log(SAVnum)
+    if(SAVstart > 1){
+      const delayDebounceFn = setTimeout(() => {
+        svgExportHandler()
+      }, 10)
+      return () => clearTimeout(delayDebounceFn)
+    }
+    //UpdateNotepad(TextOutput)
+    setSAVstart(SAVstart + 1)
+  }, []);
+  
+  useEffect(()=>{
+    
+    if(SVG !== undefined && canvasRef.current !== null){
+      loadSVGHandler()
+    }
+  },[SVG,IsCanvas])
+
+  useEffect(()=>{
+    if(canvasRef.current !== null && IsCanvas === false){
+      setIsCanvas(true)
+    }
+  },[canvasRef.current])
 
 
 
@@ -620,6 +702,7 @@ function Dashboard(props) {
           var MeetingDateTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.NextMeetingDate.timestampValue)
           var TempTutorsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Tutor.stringValue)
           var TempEmailTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.email.stringValue)
+          var TempPhonelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.PhoneNumber.stringValue)
         
           var StudentsTemp = []
           try{
@@ -631,8 +714,86 @@ function Dashboard(props) {
           }
           setStudentsTotalBool(AddBoolToArr(TempStudentsTotal, StudentsTemp))
           setStudentsTotal(TempStudentsTotal)
-          setAdminInfo([TempStudentsTotal, TempTutorsTotal, MeetingDateTotal,TempEmailTotal])
+          setAdminInfo([TempStudentsTotal, TempTutorsTotal, MeetingDateTotal,TempEmailTotal,TempPhonelTotal])
 
+        }
+
+      });  
+      }, 100)
+
+      setTimeout(() => {
+
+        
+
+        const x = query(usersRef, where("Type", "==", "Parent"));
+      
+        //const q = query(collection(db, "users"))
+        const unsub = onSnapshot(x, (querySnapshot) => {
+        
+        //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
+ 
+        //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+
+        
+      
+          
+        //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
+        
+        if(Type == 'Tutor'){
+         
+          var TempStudentsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue)
+       
+          var TempEmailTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.email.stringValue)
+          var TempParentTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ParentName.stringValue)
+          var TempPhonelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.PhoneNumber.stringValue)
+          var StudentsTemp = []
+          try{
+            for(var i = 0; i < Students[0].length; i++){
+              StudentsTemp.push(Students[0][i].stringValue)
+            }
+          }catch(e){
+            
+          }
+          console.log("AdminInfoParent")
+          console.log([TempStudentsTotal, TempEmailTotal,TempParentTotal])
+          setAdminInfoParent([TempStudentsTotal, TempEmailTotal,TempParentTotal,TempPhonelTotal])
+          
+        }
+
+      });  
+      }, 100)
+
+      setTimeout(() => {
+
+        
+
+        const x = query(usersRef, where("Type", "==", "Tutor"));
+      
+        //const q = query(collection(db, "users"))
+        const unsub = onSnapshot(x, (querySnapshot) => {
+        
+        //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
+ 
+        //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+
+        
+      
+          
+        //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
+        
+        if(Type == 'Tutor'){
+         
+          var TempStudentsTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue)
+       
+          var TempEmailTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.email.stringValue)
+        
+          var TempPhonelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.PhoneNumber.stringValue)
+          
+          console.log("AdminInfoTutor")
+          console.log(TempStudentsTotal)
+          console.log([TempStudentsTotal, TempEmailTotal,TempPhonelTotal])
+          setAdminInfoTutor([TempStudentsTotal, TempEmailTotal,TempPhonelTotal])
+          
         }
 
       });  
@@ -895,6 +1056,7 @@ function Dashboard(props) {
     }, 1000)
   }
 
+  
 
  
 
@@ -1269,6 +1431,25 @@ function UpdateAllDates(s, newTime,num){
   }
 
  */
+
+  const [PayrollSubmitted, setPayrollSubmitted] = useState(false)
+
+  function UpdatePayroll(){
+    setPayrollSubmitted(true)
+    const VarsDef = doc(db, "GlobalVariables", "Payroll");
+    var docData={
+      PayrollSubmitted: false,
+      SubmitPayroll: new Date()
+    }
+   
+    setTimeout(()=>{
+      updateDoc(VarsDef, {
+        PayrollSubmitted: false,
+        SubmitPayroll: new Date()
+        })
+      //setDoc(doc(db, "GlobalVariables", "Payroll", docData));
+    }, 500)
+  }
 function PullTest(s){
   function FindMatchingUid(){
     //NameId
@@ -1513,6 +1694,70 @@ function UpdateDate(){
             
               });
             }
+  }
+
+  function UpdateSVG(t){
+    // d could just feed in date
+ 
+    if(CurrentStudent !== '' ){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+        
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(CurrentStudent.value == NameId[i][0]){
+            return(NameId[i][1])
+          }
+        }
+      }
+  
+      const studentDef = doc(db, "users", FindMatchingUid());
+  
+      updateDoc(studentDef, {
+              SVG: t
+            
+              });
+            }
+  }
+
+  function PullSVG(s){
+    //Placeholder
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+        
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(s.value == NameId[i][0]){
+            return(NameId[i][2])
+          }
+        }
+      }
+  
+        
+        try{
+        const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+       
+        const unsub = onSnapshot(x, (querySnapshot) => {
+          var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.SVG.stringValue)
+  
+        
+          
+          //console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue))
+          setSVG(AssignmentString[0])
+          console.log("SVG: " + AssignmentString)
+          
+        });
+  
+        if(Type == 'Student' || Type == 'Parent'){
+        
+        }else if(Type == 'Tutor'){
+  
+        }
+      }catch(e){
+
+      }
   }
 
   function UpdateImprovement(t){
@@ -1992,6 +2237,151 @@ function UpdateDate(){
       }
     }
   }
+
+  function DeleteFromPDFLinks(name,link){
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(UserName.toString() == NameId[i][0]){
+          return(NameId[i][2])
+        }
+      }
+    }
+
+
+    console.log("INNIT")
+    const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+    var AdditionalPDFUrl = ''
+   
+   
+    const unsub = onSnapshot(X, (querySnapshot) => {
+          var String = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue)
+          AdditionalPDFUrl = String[0]
+    });
+  
+    const tutorDef = doc(db, "users", FindMatchingUid());
+    var StringToDelete = name + '%' + link 
+    var NewString = AdditionalPDFUrl.replace(StringToDelete, '')
+    console.log("NewString: " + NewString)
+    updateDoc(tutorDef, {
+      AdditionalPDFUrl: NewString //.slice(0, -1) 
+      });
+
+   
+
+
+  }
+
+
+
+  const [NewPDFLinks, setNewPDFLinks] = useState([])
+  useEffect(()=>{
+    try{
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+        
+        for(var i = 0; i< NameId.length; i++){
+        
+          if(UserName.toString() == NameId[i][0]){
+            return(NameId[i][2])
+          }
+        }
+      }
+    console.log(FindMatchingUid())
+    const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+    var AdditionalPDFUrl = ''
+   
+   
+    const unsub = onSnapshot(X, (querySnapshot) => {
+          var String = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue)
+          console.log("String")
+          console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue))
+          AdditionalPDFUrl = String[0]
+    
+
+
+    var FirstSplit = AdditionalPDFUrl.split('#')
+    console.log("FirstSplit")
+    console.log(FirstSplit)
+    console.log(AdditionalPDFUrl)
+    for(var i = 0; i<FirstSplit.length; i++){
+      if(FirstSplit[i] == ''){
+      
+      }else{
+        var SecondSplit = FirstSplit[i].split('%')
+        NewPDFLinks.push(SecondSplit)
+      }
+     
+    }
+    console.log("NewPDFLinks")
+    console.log(NewPDFLinks)
+    setNewPDFLinks(NewPDFLinks)
+  });
+  }catch(e){
+    console.log(e)
+    console.log("Super error")
+  }
+  },[UserName])
+
+
+  const [SwitchText, setSwitchText] = useState('Add')
+  const [ButtonPressed, setButtonPressed] = useState(false)
+
+  const [FirstStart, setFirstStart] = useState(true)
+  useEffect(()=>{
+    console.log('jlkdjfdlskjfdslkjfd')
+    try{
+    //PlaceholderURL
+    console.log("klfsjlkdfsjkfdjs")
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(UserName.toString() == NameId[i][0]){
+          return(NameId[i][2])
+        }
+      }
+    }
+
+    
+    console.log("INNIT")
+    const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+    var AdditionalPDFUrl = ''
+   
+   
+    const unsub = onSnapshot(X, (querySnapshot) => {
+          var String = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue)
+          AdditionalPDFUrl = String[0]
+    });
+  
+    const tutorDef = doc(db, "users", FindMatchingUid());
+    
+    var NewString = AdditionalPDFUrl + NewPDFName + '%' + NewPDFURL + '#'
+    console.log("NewString: " + NewString)
+    updateDoc(tutorDef, {
+      AdditionalPDFUrl: NewString //.slice(0, -1) 
+      });
+
+    setTimeout(() => {
+
+      if(SwitchText == 'Add'){
+        setSwitchText('Added!')
+      }else if(SwitchText == 'Added!'){
+        setSwitchText('Add')
+      }
+    }, 1000);
+    }catch(e){
+      console.log(e)
+      console.log("ERROR")
+    }
+  },[ButtonPressed])
+
 
   function UpdateStudentAssignmentsClassroom(StudentAssignments, Student){
  
@@ -2567,6 +2957,8 @@ function UpdateDate(){
       UpdateQuizResult(TempString)
     }
   }
+
+ 
 
 
   useEffect(()=>{
@@ -3904,6 +4296,11 @@ function UpdateDate(){
  
   const [NewAssignment, setNewAssignment] = useState('')
   const [NewQuiz, setQuiz] = useState('')
+  const [NewTutorURL, setNewTutorURL] = useState('')
+  const [NewStudentURL, setNewStudentURL] = useState('')
+
+  const [NewPDFName, setNewPDFName] = useState('')
+  const [NewPDFURL, setNewPDFURL] = useState('')
 
   const handleTitleChange = event => {
     // 👇️ update textarea value
@@ -3917,9 +4314,33 @@ function UpdateDate(){
    
   };
 
+  const handleTutorURLChange = event => {
+    // 👇️ update textarea value
+    setNewTutorURL(event.target.value);
+   
+  };
+
+  const handleStudentURLChange = event => {
+    // 👇️ update textarea value
+    setNewStudentURL(event.target.value);
+   
+  };
+
   const handleZoomLinkChange = event => {
     // 👇️ update textarea value
     setZoomLink(event.target.value);
+   
+  };
+
+  const handlePDFLinkChange = event => {
+    // 👇️ update textarea value
+    setNewPDFURL(event.target.value);
+   
+  };
+
+  const handlePDFNameChange = event => {
+    // 👇️ update textarea value
+    setNewPDFName(event.target.value);
    
   };
 
@@ -3997,7 +4418,31 @@ function UpdateDate(){
       
   }
 
+  useEffect(()=>{
+    
+  
+        
+        try{
+        const x = query(constantsRef, where("Type", "==", "Files")) 
+       
+        const unsub = onSnapshot(x, (querySnapshot) => {
+          var StudentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Student.stringValue)
+          var TutorString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Tutor.stringValue)
+          
+  
+          setNewStudentURL(StudentString[0])
+          setNewTutorURL(TutorString[0])
+        });
+  
+        if(Type == 'Student' || Type == 'Parent'){
+        
+        }else if(Type == 'Tutor'){
+  
+        }
+      }catch(e){
 
+      }
+  },[])
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -4132,6 +4577,7 @@ function HandleChangeTabFunction(newValue){
       PullDiagnosticsData(s)
       PullDate(s)
       PullNotepad(s)
+      PullSVG(s)
       PullTutorNotes(s)
       PullDoneAssignments(s)
       //PullQuizResult(s)
@@ -4182,7 +4628,32 @@ function HandleChangeTabFunction(newValue){
       PageSwitchDone = true
     }
   },[PageSwitch, CurrentTest, CurrentStudent])
-  
+
+
+
+
+  function CompleteData(){
+    //PlaceholderData
+    console.log("CompleteData")
+    console.log(data)
+    var TempData = data
+    if(CurrentStudent !== ''){
+      for(var i = 1; i < data.length; i++){
+        var StudentAnswer = data[i][5].value
+        if(StudentAnswer == ''){
+          TempData[i][5] = {value:'No Answer'}
+        }
+      }
+      console.log("TempData")
+      console.log(TempData)
+      setData(TempData)
+    }
+  }
+  /*
+  useEffect(()=>{
+    CompleteData()
+  },[data])
+  */
   const [DropdownStudentName, setDropdownStudentName] = useState()
 
   function GetDropDownNames(){
@@ -5426,6 +5897,12 @@ function HandleChangeTabFunction(newValue){
           </Button>
           </Tooltip>
           <p></p>
+          <Tooltip title="Whiteboard">
+          <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaChalkboard size={iconsize} />}>
+            
+            <p>Whiteboard</p>
+          </Button>
+          </Tooltip>
 
         </div><div className={'IconDivLogOffTutor'}>
             <Tooltip title = "">
@@ -5647,6 +6124,26 @@ function HandleChangeTabFunction(newValue){
   
   
   function GetStudentChecklist(){
+
+    function DoesStudentHaveTutor(student){
+      //AdminInfo
+      console.log('DoesStudentHaveTutor')
+      
+      for(var i = 0; i<AdminInfo.length; i++){
+        
+        if(AdminInfo[0][i] == student){
+          if(AdminInfo[1][i] !== '' && AdminInfo[1][i] !== UserName.toString()){
+            console.log(AdminInfo[1][i])
+            
+            console.log("Returiniong false")
+            return(true)
+          }
+          else{
+            return(false)
+          }
+        }
+      }
+    }
     if(AddStudentBinary){
       return(
         <FormGroup>
@@ -5658,7 +6155,7 @@ function HandleChangeTabFunction(newValue){
                 <>
               
 
-                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} style={{color:"black"}} labelStyle={{color:"black"}} checked= {CheckedStudentChecklist(obj)}  onChange={()=>ChangeTopicStudentChecklist(obj)}/>} label={obj} />
+                <FormControlLabel control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} style={{color:"black"}} labelStyle={{color:"black"}} checked= {CheckedStudentChecklist(obj)}  onChange={()=>ChangeTopicStudentChecklist(obj)}/>} label={obj} disabled={DoesStudentHaveTutor(obj)} />
 
                 </>
                 )
@@ -5761,13 +6258,97 @@ function HandleChangeTabFunction(newValue){
     }
   }
 
-  
+  function DeleteRecordFromFirebase(userName){
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(userName == NameId[i][0]){
+          return(NameId[i][1])
+        }
+      }
+    }
+
+    const studentDef = doc(db, "users", FindMatchingUid());
+    setTimeout(() => {
+      deleteDoc(doc(db, "users", studentDef));
+    }, 500);
+  }
+
+  function UpdateFilesStudent(url){
+
+    const Def = doc(db, "GlobalVariables", "FilesUrl");
+    updateDoc(Def, {
+      Student: url
+    
+      });
+  }
+
+  function UpdateFilesTutor(url){
+
+    const Def = doc(db, "GlobalVariables", "FilesUrl");
+    updateDoc(Def, {
+      Tutor: url
+    
+      });
+  }
+
+  function UpdateFiles(){
+    UpdateFilesTutor(NewTutorURL)
+    UpdateFilesStudent(NewStudentURL)
+  }
 
   function FrontPageIsTutor(){
-    function createData(Tutor, Student, NextMeeting, Email) {
-      return { Tutor, Student, NextMeeting, Email };
+    
+    function createData(Tutor, Student, NextMeeting, Email,ParentInfo, Phone) {
+      return { Tutor, Student, NextMeeting, Email,ParentInfo,Phone };
+    }
+
+    function createParentData(Parent, Student,  Email, Phone) {
+      return { Parent, Student, Email, Phone };
+    }
+
+    function createTutorData(Name, Email, Phone) {
+      return { Name, Email, Phone };
+    }
+    function showAlert(CurrStudent) {
+      if ( window.confirm("Are you sure you want to proceed with deleting?")) {
+        // Your code to be executed after confirming
+        DeleteRecordFromFirebase(CurrStudent);
+      }
+    }
+    function getDotColor(dateString) {
+      const date = new Date(dateString);
+      const now = new Date();
+      const twoWeeksAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+      
+      let color;
+      if (date > now) {
+        color = "green";
+      } else if (date > twoWeeksAgo) {
+        color = "yellow";
+      } else {
+        color = "red";
+      }
+      
+      return  color
+    }
+
+    function FindParents(StudentName){
+   
+      for(var x = 0; x < AdminInfoParent.length; x++){
+        if(AdminInfoParent[x][0] == StudentName){
+          return(createParentData(AdminInfoParent[2][x], AdminInfoParent[0][x], AdminInfoParent[1][x], AdminInfoParent[3][x]))
+        }
+      }
     }
     var rows = [
+      
+    ];
+
+    var rowsTutor = [
       
     ];
 
@@ -5777,48 +6358,201 @@ function HandleChangeTabFunction(newValue){
       return date.toLocaleDateString("en-US", options);
     }
     
+    //AdminInfoParent
 
-    if(AdminInfo !== null){
+
+    if(AdminInfo !== null &&  AdminInfoParent !== null){
       for(var x = 0; x < AdminInfo.length; x++){
-        rows.push(createData(AdminInfo[1][x], AdminInfo[0][x], humanReadableDate(AdminInfo[2][x]), AdminInfo[3][x]))
+        rows.push(createData(AdminInfo[1][x], AdminInfo[0][x], humanReadableDate(AdminInfo[2][x]), AdminInfo[3][x], [FindParents(AdminInfo[0][x])], AdminInfo[4][x]))
       }
     }
-    console.log("rows", rows)
+
+    if(AdminInfoTutor !== null ){
+      console.log("AdminInfoTutor", AdminInfoTutor)
+      for(var x = 0; x < AdminInfoTutor.length-1; x++){
+        rowsTutor.push(createTutorData(AdminInfoTutor[0][x], AdminInfoTutor[1][x], AdminInfoTutor[2][x]))
+      }
+    }
+    
     function IsAdmin(){
+    
+    function ShowParent(row){
+
+      if(row.ParentInfo[0] !== undefined){
+   
+        return(
+          <Box sx={{ margin: 1 }}>
+                  
+                    <Table size="small"  aria-label="expand row">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell><b>Parent's Name</b></TableCell>
+                          <TableCell><b>Email</b></TableCell>
+                          <TableCell><b>Phone</b></TableCell>
+                          
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {row.ParentInfo.map((parentInfo) => (
+                          <TableRow key={parentInfo.Parent}>
+                            <TableCell component="th" scope="row">
+                              {parentInfo.Parent}
+                            </TableCell>
+                            <TableCell > {parentInfo.Email} <Button variant="text" color="black" onClick={()=>{window.open('mailto:'+parentInfo.Email)}}>  <FaEnvelope iconsize={35}/></Button></TableCell>
+                            <TableCell > {parentInfo.Phone} <Button variant="text" color="black" onClick={()=>{window.open('tel:'+parentInfo.Phone)}}>  <FaPhone iconsize={35}/></Button></TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Box>
+        )
+      }
+      else{
+        return(null)
+      }
+    }
+    function Row(props) {
+    
+        const { row } = props;
+        const [open, setOpen] = React.useState(false);
+      
+        return (
+          <React.Fragment>
+            <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+              <TableCell>
+                <IconButton
+                  aria-label="expand row"
+                  size="small"
+                  onClick={() => setOpen(!open)}
+                >
+                  {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                </IconButton>
+              </TableCell>
+             
+                
+                  <TableCell component="th" scope="row">
+                    {row.Student}
+                  </TableCell>
+                  <TableCell align="right">{row.Tutor}</TableCell>
+                  <TableCell align="right">{row.NextMeeting} <span style={{display: "inline-block",width: "10px",height: "10px",borderRadius: "5px",backgroundColor: getDotColor()}}></span> </TableCell>
+                 
+                  <TableCell align="right"> {row.Email} <Button variant="text" color="black" onClick={()=>{window.open('mailto:'+row.Email)}}>  <FaEnvelope iconsize={35}/></Button></TableCell>
+                  <TableCell align="right"> {row.Phone} <Button variant="text" color="black" onClick={()=>{window.open('tel:'+row.Phone)}}>  <FaPhone iconsize={35}/></Button></TableCell>
+                  <TableCell> <Button variant="text" color="black" onClick={()=>{showAlert(row.Student)}}>  <FaTimes iconsize={35}/></Button></TableCell>
+                </TableRow>
+           
+            <TableRow>
+              <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                  {ShowParent(row)}
+                </Collapse>
+              </TableCell>
+            </TableRow>
+          </React.Fragment>
+        );
+      }
+
       if(AdminBool == true){
         return(
           <>
-          <p className="TextStyleLight">Admin Info:</p>
+          <p className="TextStyleLight">Students/Parents:</p>
           <p className="TextStyleLight"> </p>
+          <div className="MaxHeightDivLarge">
           <TableContainer component={Paper}>
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
-              <TableRow>
-                <TableCell>Tutor</TableCell>
-                <TableCell align="right">Student</TableCell>
+              <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+                <TableCell></TableCell>
+                <TableCell>Student</TableCell>
+                <TableCell align="right">Tutor</TableCell>
                 <TableCell align="right">Next Meeting Time</TableCell>
                 <TableCell align="right">Email</TableCell>
-                
+                <TableCell align="right">Phone</TableCell>
+                <TableCell align="right">Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <TableRow
-                  key={row.name}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.Tutor}
-                  </TableCell>
-                  <TableCell align="right">{row.Student}</TableCell>
-                  <TableCell align="right">{row.NextMeeting}</TableCell>
-                  <TableCell align="right">{row.Email}</TableCell>
-                  
-                </TableRow>
+                
+                <Row key={row.name} row={row} />
+               
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+
+        </div>
+        <p className="TextStyleLight">Tutors:</p>
+        <p className="TextStyleLight"> </p>
+        <div className="MaxHeightDivLarge">
+        <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell align="right">Email</TableCell>
+              <TableCell align="right">Phone</TableCell>
+              <TableCell align="right">Delete</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rowsTutor.map((row) => (
+              <TableRow
+                key={row.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {row.Name}
+                </TableCell>
+                <TableCell align="right"> {row.Email} <Button variant="text" color="black" onClick={()=>{window.open('mailto:'+row.Email)}}>  <FaEnvelope iconsize={35}/></Button></TableCell>
+                
+                <TableCell align="right"> {row.Phone} <Button variant="text" color="black" onClick={()=>{window.open('tel:'+row.Phone)}}>  <FaPhone iconsize={35}/></Button></TableCell>
+                <TableCell align="right"> <Button variant="text" color="black" onClick={()=>{showAlert(row.Name) }}>  <FaTimes iconsize={35}/></Button></TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      </div>
+
+
+      <div>
+        <p className="TextStyleLight">Files:</p>
+        <p className="TextStyleLightInstructions">Tutor</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewTutorURL}
+            placeholder={'Enter File URL For Tutors Here'}
+            onChange={handleTutorURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          
+        </div>
+        <p className="TextStyleLightInstructions">Student</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewStudentURL}
+            placeholder={'Enter File URL For Students Here'}
+            onChange={handleStudentURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
+        </div>
+      </div>
         </>
         )
       }
@@ -5839,8 +6573,9 @@ function HandleChangeTabFunction(newValue){
           {SwitchButton()}
           </Button>
           
-          
-          {GetStudentChecklist()}
+          <div className="MaxHeightDiv">
+            {GetStudentChecklist()}
+          </div>
           {GetMasterButton()}
           
           {IsAdmin()}
@@ -5867,9 +6602,13 @@ function HandleChangeTabFunction(newValue){
     if(CurrentTest == 'SAT'){
       return(
         <div className="ScoreDiv">
+
                 <p className="TextStyleLight">Verbal - {SATLineDataVerbal[num].y} / Math - {SATLineDataMath[num].y} / Total - {SATLineDataTotal[num].y}</p>
         
+              
               </div>
+
+              
       )
     }
     else if(CurrentTest == 'ACT'){
@@ -6190,6 +6929,12 @@ function HandleChangeTabFunction(newValue){
        
        
        
+        </div>
+
+        <div className="SubmitTest">
+                <Button variant="outlined" onClick={()=>{CompleteData()}} className={'NotepadButton'} >
+                  <p>Submit Test</p>
+                </Button>
         </div>
         <div className="columnDivDiagnosticsTutor">
           <p className={'TitleTextStyleLight'}>Diagnostics Results: </p>
@@ -7353,6 +8098,13 @@ function ShowCreateQuiz(){
     }
   }
   function GetLinkGoogleDrive(){
+
+    if(Type == 'Tutor'){
+      return(NewTutorURL)
+    }else{
+      return(NewStudentURL)
+    }
+    /*
     if(Type == 'Tutor'){
       if(CurrentTest == 'SAT'){
         return("https://drive.google.com/drive/folders/1daoJfmxJujpIy4RHXtlH8WgXgmUDfKzD?usp=share_link")
@@ -7371,6 +8123,7 @@ function ShowCreateQuiz(){
     }else{
       return('')
     }
+    */
   }
 
   function EditTutorNotes(){
@@ -7654,7 +8407,7 @@ function ShowCreateQuiz(){
         </div>
         <div className="AddStudentClassroom" >
         <Button variant="outlined" color="black" onClick={()=>setIsOpenThree(true)}>
-        Add student
+          Add student
         </Button>
         </div>
         <p></p>
@@ -7975,8 +8728,33 @@ function ShowCreateQuiz(){
     }, 350)
   }
 
-  
-
+  function GetCheckmark(){
+    if(PayrollSubmitted){
+      return(
+        <div className="PayrollCheck">
+        <FaCheck size={25} style={{color: 'green'}}/>
+      </div>
+      )
+    }
+    else{
+      return(null)
+    }
+  }
+  function GetSubmitPayroll(){
+    if(AdminBool){
+      return(
+        <div className="rowDiv">
+      <Button variant="outlined" color="black" onClick={()=>{UpdatePayroll()}} >
+          Submit Payroll
+      </Button>
+          {GetCheckmark()}
+      </div>
+      )
+    }
+    else{
+      return(null)
+    }
+  }
   if(PageSwitch == 4){
     return (
       <>
@@ -8015,8 +8793,13 @@ function ShowCreateQuiz(){
       <Button variant="outlined" color="black" onClick={()=>{SwitchCalendar()}} >
        {CalendarSwitchFunc()}
       </Button>
-
+      <p></p>
       
+      {GetSubmitPayroll()}
+
+      <div>
+        <p>Enter Availability</p>
+      </div>
       </>
       )
   }
@@ -8101,7 +8884,8 @@ function ShowCreateQuiz(){
         </p>
       </div>
 */
-const canvasRef = React.createRef(null);
+
+
 
 
 const eraserHandler = () => {
@@ -8122,6 +8906,10 @@ const eraserHandler = () => {
   
 };
 
+
+
+
+
 const clearHandler = () => {
   const clearCanvas = canvasRef.current?.clearCanvas;
 
@@ -8129,6 +8917,8 @@ const clearHandler = () => {
     clearCanvas();
   }
 };
+
+
 
 function SwitchIcon(){
   
@@ -8194,46 +8984,50 @@ var pdfLinksACT = ['1tvIecv6wR8VF-UQt9RgfdcqcnYZ_9JAa','1ZMC5eZALFBGji3-T-otgCCl
 //https://drive.google.com/file/d/1FKdqKsW87FmV1V8J7291lT7Jk_skrHHT/view?usp=sharing
 function GetCorrectPDFLink(){
   //currPDF
-  
+  for(var i = 0; i < NewPDFLinks.length; i++){
+    if(currPDF.includes(NewPDFLinks[i][0])){
+      return(['',i])
+    }
+  }
   if(currPDF.includes('Grammar')){
-    return(10)
+    return([10])
   }
   else if(currPDF.includes('Math')){
-    return(11)
+    return([11])
   }
   else if(currPDF.includes('Reading')){
-    return(12)
+    return([12])
   }
   
   else if(currPDF.includes('2')){
-    return(1)
+    return([1])
   }
   else if(currPDF.includes('3')){
-    return(2)
+    return([2])
   }
   else if(currPDF.includes('4')){
-    return(3)
+    return([3])
   }
   else if(currPDF.includes('5')){
-    return(4)
+    return([4])
   }
   else if(currPDF.includes('6')){
-    return(5)
+    return([5])
   }
   else if(currPDF.includes('7')){
-    return(6)
+    return([6])
   }
   else if(currPDF.includes('8')){
-    return(7)
+    return([7])
   }
   else if(currPDF.includes('9')){
-    return(8)
+    return([8])
   }
   else if(currPDF.includes('10')){
-    return(9)
+    return([9])
   }
   else if(currPDF.includes('1')){
-    return(0)
+    return([0])
   }
   else{
     return(null)
@@ -8243,12 +9037,16 @@ function FormatLink(){
   var num = GetCorrectPDFLink()
   if(num == null){
     return(null)
-  }else{
+  }
+  if(num.length>1){
+    return('https://drive.google.com/file/d/'+NewPDFLinks[num[1]][1]+'/preview')
+  }
+  else if(num.length == 1 ){
     if(CurrentTest == 'ACT'){
-      return('https://drive.google.com/file/d/'+pdfLinksACT[num]+'/preview')
+      return('https://drive.google.com/file/d/'+pdfLinksACT[num[0]]+'/preview')
     }
     else if(CurrentTest == 'SAT'){
-      return('https://drive.google.com/file/d/'+pdfLinksSAT[num]+'/preview')
+      return('https://drive.google.com/file/d/'+pdfLinksSAT[num[0]]+'/preview')
     }
   }
 }
@@ -8302,6 +9100,60 @@ function GetCalculator(){
     return(null)
   }
 }
+
+function GetPDFLink(){
+  if(Type=='Tutor'){
+    return(
+      <div className="AddPDFDiv">
+      <p className="TextStyleLight">Add PDF link</p>
+      <p className="TextStyleLightInstructions">Nickname</p>
+      <div className={'fieldSmall active false'}>
+        
+        <textarea
+            id={2}
+            type="text"
+            value={NewPDFName}
+            placeholder={'Enter PDF Name Here'}
+            onChange={handlePDFNameChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+        </div>
+
+        <p className="TextStyleLightInstructions">Link</p>
+        <div className={'fieldSmall active false'}>
+        
+        <textarea
+            id={2}
+            type="text"
+            value={NewPDFURL}
+            placeholder={'Enter PDF Link Here'}
+            onChange={handlePDFLinkChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+        </div>
+
+        <div className ={'ButtonDivWaiting'} >
+          <Button onClick={()=>{setButtonPressed(!(ButtonPressed))}} variant="outlined" color="black" >{SwitchText}</Button>
+        </div>
+        <div style={{width:600}}>
+        <p className="TextStyleLightInstructions">Copy the sharable link from Google Drive into the textbox then press Add.</p>
+        </div>
+      </div>
+      
+    )
+    
+  }
+  else{
+    return(null)
+  }
+}
+
 if(PageSwitch == 6){
     return(
       <>
@@ -8315,7 +9167,8 @@ if(PageSwitch == 6){
             strokeWidth={penSize}
             eraserWidth={20}
             strokeColor={penColor}
-
+            onStroke={()=>{IncreaseSAVnum()}}
+            
           />
       </div>
       </div>
@@ -8347,18 +9200,22 @@ if(PageSwitch == 6){
           <FaTrash size ={35} />
         </Button>
         </Tooltip>
+        
         <CirclePicker
         onChange={(color) => {setPenColor(color.hex)}}
         colors={['#FF6900', '#FCB900', '#7BDCB5', '#00D084', '#8ED1FC', '#0693E3', '#ABB8C3', '#EB144C', '#F78DA7', '#9900EF','#000000','#FFFFFF']}
         />
-
-       
+       <div style={{height:40, marginTop:33}}>
+        <Button onClick={()=>{svgExportHandler()}} variant="outlined" color="black" >Share</Button>
+       </div>
       </div>
       <div className="PDFDropdown">
-        <Dropdown options={['Remove','Practice Test 1','Practice Test 2','Practice Test 3','Practice Test 4','Practice Test 5','Practice Test 6','Practice Test 7','Practice Test 8','Practice Test 9','Practice Test 10', 'Grammar Book', 'Math Book','Reading Book']} onChange={(x)=>{setcurrPDF(x.value)}}  placeholder="Select a PDF"  />
+        <Dropdown options={['Whiteboard','Practice Test 1','Practice Test 2','Practice Test 3','Practice Test 4','Practice Test 5','Practice Test 6','Practice Test 7','Practice Test 8','Practice Test 9','Practice Test 10', 'Grammar Book', 'Math Book','Reading Book']} onChange={(x)=>{setcurrPDF(x.value)}}  placeholder="Select a PDF"  />
        </div>
         {GetPDF()}
-      {GetCalculator()}
+
+        {GetCalculator()}
+        {GetPDFLink()}
       
       </>
     )

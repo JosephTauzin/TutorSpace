@@ -144,6 +144,8 @@ body {
 }
 .ScoreDiv{
   margin-left: -1.5vw;
+  flex-direction: row;
+  display: flex;
 }
 .TestText{
   font-weight: 300;
@@ -156,8 +158,8 @@ body {
 .rowDivWhiteboard{
   display:flex; 
   flex-direction:row;
-  margin-left: 50%;
-  width:475px;
+  margin-left: 45%;
+  width:575px;
   margin-top: 2vh;
   position: absolute;
 }
@@ -240,6 +242,11 @@ body {
   
 
 }
+.SubmitTest{
+  height: 5vh;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+}
 .LogoDiv2{
   height:4vh;
   width:12vw;
@@ -304,6 +311,10 @@ body {
   
   position: fixed;
 }
+.PayrollCheck{
+  margin-top: 1vh;
+  margin-left: 1vw;
+}
 .PDFDropdown{
   margin-top: 5vh;
   margin-bottom: 10vh;
@@ -325,6 +336,14 @@ body {
   width:7.5vw;
   margin-bottom: 4vh;
   margin-top: -1vh;
+}
+.MaxHeightDiv{
+  max-height: 30vh;
+  overflow-x: auto;
+}
+.MaxHeightDivLarge{
+  max-height: 50vh;
+  overflow-x: auto;
 }
 .TitleTextStyleLight{
   font-weight: 200;
@@ -372,6 +391,10 @@ body {
 }
 .StudentsClassroom{
 
+}
+.AddPDFDiv{
+  margin-left: -5vw;
+  width: 60vw;
 }
 .ChartDiv{
   margin-top: -7%;

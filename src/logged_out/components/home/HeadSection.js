@@ -40,6 +40,7 @@ import Progress from "./images/Software.png"
 import Goals from "./images/Goals.png"
 import ReportCard from "./images/ReportCard.png"
 import { useExitIntent } from 'use-exit-intent'
+import { FaTimes } from "react-icons/fa";
 
 
 
@@ -331,7 +332,7 @@ function HeadSection(props) {
       </div>
 */
   const Headers = ['Test Prep for Today\'s World','Private, One on One Classroom','Custom Lesson Plans','Follow Along Weekly' ,'Your Success Network']
-  const Paragraphs = ['Learn whether the ACT or SAT is right for you, then strengthen your weaknesses and achieve excellence.','Meet your expert instructor from anywhere, on your scheudle.','We analytically track your students progress and create custom lesson plans for their specific pain points.','Everything from weekly progress updates to HW assisgnments are accessible to parents and students through our website.','From Entrance Exams to Homework Help. You\'re joinging a network of experts dedicated to your success!']
+  const Paragraphs = ['Learn whether the SAT or ACT suits your talents better, then strengthen your weaknesses and achieve excellence.','Meet your expert instructor from anywhere, on your own schedule.','We analytically track your student\'s progress and create custom lesson plans for their specific pain points.','Everything from progress updates to HW assignments are accessible to parents and students through TutorSpace - our proprietary software suite.','From entrance exams to homework help, you\'re plugging into a network of experts dedicated to your success!']
   const [AnimationNext, setAnimationNext] = useState(0)
   const [AnimationNext2, setAnimationNext2] = useState(0)
   const [AnimationPause, setAnimationPause] = useState(false)
@@ -352,16 +353,19 @@ function HeadSection(props) {
       bottom: 'auto',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
-      width:'60%',
-      backgroundColor:'#526572',
-      borderRadius:10,
+      width:'70%',
+      backgroundColor:'white',
+      borderRadius:15,
+      fontSize:6,
     },
   };
   let subtitle;
   
 
   function openModal() {
-    setIsOpen(true);
+    if(isMobile == false){
+      setIsOpen(true);
+    }
   }
 
   function afterOpenModal() {
@@ -370,7 +374,7 @@ function HeadSection(props) {
     subtitle.style.fontWeight = '200';
     subtitle.style.fontSize = '40px';
   }
-  
+
   function closeModal() {
     setIsOpen(false);
   }
@@ -692,7 +696,7 @@ function HeadSection(props) {
 
   registerHandler({
     id: 'openModal',
-    handler: () => console.log('Hello from handler!')
+    handler: () => openModal()
   })
 
 
@@ -700,6 +704,7 @@ function HeadSection(props) {
 
     <body>
       
+     
       
       
       <Modal
@@ -710,17 +715,27 @@ function HeadSection(props) {
           contentLabel="Example Modal"
           overlayClassName="Overlay"
         >
-          <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{marginTop:-5}}>Notebook</h2>
-          <Button onClick={closeModal} className={'NotepadClose'} >
-            {
-            /*
-            <FaTimes size ={40}/>
-            */
-            }
+          <div className="rowDiv">
+          <div className="modalText">
+            <p>Sign Up For A Free Session With A Dedicated Expert. On Your Schedule.</p>
+          
+            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={'buttonClassLearnMoreModal'}>Schedule Free Session!</button></a>
+          
+          
+          </div>
+         
+          <div className="modalPic">
+            <img src={studying}  />
+          </div>
+          <Button onClick={closeModal} className={'CloseModel'} >
+
+          {
+            isMobile ? <FaTimes size ={20}/> : <FaTimes size ={30} color={'black'}/>
+
+
+          }
           </Button>
-          
-       
-          
+          </div>
         </Modal>
 
       
@@ -739,7 +754,7 @@ function HeadSection(props) {
 
             <h1>{GetHeader()}</h1>
             <p>{GetParagraphs()}</p>
-            <a href="https://calendly.com/measureupprep/30min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
+            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
             
         </motion.div>
 
@@ -771,48 +786,49 @@ function HeadSection(props) {
     
 
       <div class="content-wrapper">
-      <div class="collegeBanner">
+        <div class="collegeBanner">
 
-            <h2 data-aos="fade-right" style={{textAlign:'center'}}>Taught by Elite Graduates, 99th Percentile Scorers</h2>
-            <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/collegeBanner.png")}/>
-            {<img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/verticalCollegeBanner.png")}/>
-            }
+              <h2 data-aos="fade-right" style={{textAlign:'center'}}>Taught by Elite Graduates, 99th Percentile Scorers</h2>
+              <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/collegeBanner.png")}/>
+              {<img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/verticalCollegeBanner.png")}/>
+              }
 
-      </div>
+        </div>
 
       
-      <div class="features" data-aos="fade-down" data-aos-duration="500">
-            <h2 style={{textAlign:'center'}}>What Sets Us Apart</h2>
-            <div class ="featuresContentWrap">
-                <div class="softwareSuccess icon">
-                  <img src={require("./images/monitor.png")}/>
+        <div class="features" data-aos="fade-down" data-aos-duration="500">
+              <h2 style={{textAlign:'center'}}>What Sets Us Apart</h2>
+              <div class ="featuresContentWrap">
+                  <div class="softwareSuccess icon">
+                    <img src={require("./images/monitor.png")}/>
+                  </div>
+                  <div class="refinedPractice icon">
+                      <img src={require("./images/university.png")}/>
+                  </div>
+                  <div class="enableImprove icon">
+                      <img src={require("./images/improvement.png")}/>
+                  </div>
+                  <div class="ssCaption text">
+                      <h3>Software for Success</h3>
+                      <p>MeasureUp! is proud to be powered by TutorSpace's innovate Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
+                  </div>
+                  <div class="rpCaption text">
+                      <h3>Refined by Practice</h3>
+                      <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
+                  </div>
+                  <div class="eiCaption text">
+                      <h3>Enable Improvement</h3>
+                      <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
+                  </div>
                 </div>
-                <div class="refinedPractice icon">
-                    <img src={require("./images/university.png")}/>
-                </div>
-                <div class="enableImprove icon">
-                    <img src={require("./images/improvement.png")}/>
-                </div>
-                <div class="ssCaption text">
-                    <h3>Software for Success</h3>
-                    <p>With technology we developed specifically for our service, forget about paper tests and printed progress reports - we make it easy to improve.</p>
-                </div>
-                <div class="rpCaption text">
-                    <h3>Refined by Practice</h3>
-                    <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
-                </div>
-                <div class="eiCaption text">
-                    <h3>Enable Improvement</h3>
-                    <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150 points on the SAT!</p>
-                </div>
-            </div>
 
           
 
-        </div>
-        </div>
+       </div>
+      </div>
 
     {ShowSchool()}
+    
     <div class="content-wrapper">
     <div id="contact" class="contact" data-aos="fade-up">
             <h2 style={{textAlign:'center'}}>Get In Touch</h2>

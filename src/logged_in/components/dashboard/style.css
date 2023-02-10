@@ -3,7 +3,7 @@
 }
 
 body {
-  background: rgb(231, 236, 236);
+  background: '#FBFCF8';
   
 }
 .loadingDiv {
@@ -54,6 +54,47 @@ body {
   margin-bottom: 8%;
   margin-left: 43vw;
 }
+
+.sketchDiv{
+  width: 100%;
+  height: 300vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+ 
+}
+.sketchDivOutside{
+  width: 80vw;
+  height: 73vh;
+  margin-top: 5vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+.sketchDivOutsideSmall{
+  width: 40vw;
+  height: 73vh;
+  margin-top: 5vh;
+  margin-left: 34vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+.calculatorDiv {
+  width: 80vw;
+  height: 73vh;
+  margin-top: 15vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+}
+
 .columnDiv{
   
   width:32%;
@@ -103,6 +144,8 @@ body {
 }
 .ScoreDiv{
   margin-left: -1.5vw;
+  flex-direction: row;
+  display: flex;
 }
 .TestText{
   font-weight: 300;
@@ -112,6 +155,15 @@ body {
   flex-direction:row;
   width: 100%;
 }
+.rowDivWhiteboard{
+  display:flex; 
+  flex-direction:row;
+  margin-left: 45%;
+  width:575px;
+  margin-top: 2vh;
+  position: absolute;
+}
+
 .TutorNotesDiv{
   width:500px;
 
@@ -156,7 +208,7 @@ body {
   width: 100%; /*Optional*/
   table-layout: fixed; /*Optional*/
   border-spacing: 10px; /*Optional*/
-}
+} 
 .checkbox {
 	margin-left: 100;
   margin-top: 4%;
@@ -164,7 +216,7 @@ body {
   display:table-cell;
 }
 .coloring{
-  background-color: rgb(231, 236, 236);
+  background-color: '#FBFCF8';
   padding-bottom: 5%;
 }
 .NotepadButtonDiv{
@@ -189,6 +241,11 @@ body {
   box-shadow: 'rgba(0, 0, 0, 0.0)';
   
 
+}
+.SubmitTest{
+  height: 5vh;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
 }
 .LogoDiv2{
   height:4vh;
@@ -224,7 +281,7 @@ body {
   border-right-style: solid;
   */
   height: 100%;
-  margin-top: -4%;
+  margin-top: -5%;
   padding-top: 4%;
 }
 .IconDiv{
@@ -247,12 +304,29 @@ body {
   background-color:rgb(197, 207, 209);
 }
 .IconDivLogOffTutor{
-  margin-top: 78vh;
-  margin-left: -15.2vw;
+  margin-top: 72vh;
+  margin-left: -15.8vw;
   height: 100px;
   width:10;
   
   position: fixed;
+}
+.PayrollCheck{
+  margin-top: 1vh;
+  margin-left: 1vw;
+}
+.PDFDropdown{
+  margin-top: 5vh;
+  margin-bottom: 10vh;
+  margin-left: -5vw;
+  width: 190px;
+}
+.PDFViewer{
+  margin-top: -92.5vh;
+  margin-bottom: 10vh;
+  margin-left: -5vw;
+  height: 73.5vh;
+  width:38vw
 }
 .ClassroomTest{
   margin-top: 5vh;
@@ -263,12 +337,28 @@ body {
   margin-bottom: 4vh;
   margin-top: -1vh;
 }
+.MaxHeightDiv{
+  max-height: 30vh;
+  overflow-x: auto;
+}
+.MaxHeightDivLarge{
+  max-height: 50vh;
+  overflow-x: auto;
+}
 .TitleTextStyleLight{
   font-weight: 200;
   font-size: xx-large;
   color:black;
   margin-bottom: 1.7vh;
   margin-left: -.1vw;
+}
+.TitleTextStyleBold{
+  font-weight: 500;
+  font-size: xx-large;
+  color:black;
+  margin-bottom: 0vh;
+  margin-left: -.1vw;
+  margin-top: 2vh;
 }
 .TextStyleLight{
   font-weight: 200;
@@ -301,6 +391,10 @@ body {
 }
 .StudentsClassroom{
 
+}
+.AddPDFDiv{
+  margin-left: -5vw;
+  width: 60vw;
 }
 .ChartDiv{
   margin-top: -7%;
@@ -382,6 +476,10 @@ input[type="file"] {
 }
 .ButtonDivComplete{
   margin-left: 21vw;
+  margin-top: -1%;
+}
+.ButtonDivNewQuiz{
+  margin-left: 23vw;
   margin-top: -1%;
 }
 .StudentAssignments{

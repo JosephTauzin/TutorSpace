@@ -31,13 +31,13 @@ import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import logout from '../../../firebase.js'
 import MeasureUpLogo from "./MeasureUpLogoTransparent.png"
-
+import TutorSpaceLogo from "./TutorSpace.png"
 
 
 const styles = (theme) => ({
   appBar: {
     boxShadow: theme.shadows[0],
-    backgroundColor: 'rgb(231, 236, 236)',
+    backgroundColor: '#FBFCF8',
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -46,6 +46,7 @@ const styles = (theme) => ({
       width: "100%",
       marginLeft: 0,
     },
+    height:100,
   },
   appBarToolbar: {
     display: "flex",
@@ -241,8 +242,8 @@ function NavBar(props) {
       <AppBar position="sticky" className={classes.appBar}>
         <Toolbar className={classes.appBarToolbar}>
   
-            <div style={{height:50, marginTop:-0}}>
-            <img src={MeasureUpLogo}/>
+            <div style={{height:50, marginTop:-5, width:400}}>
+            <img src={TutorSpaceLogo} width="100%"/>
           </div>
           
           <Box

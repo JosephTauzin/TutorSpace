@@ -76,6 +76,7 @@ function LoginDialog(props) {
   const registerPasswordRepeat = useRef();
   const registerEmail = useRef();
   const registerName = useRef();
+  const registerPhoneNumber = useRef();
   const registerStudentName = useRef();
   const [registerType, setregisterType] = useState(null);
   const [registerTest, setregisterTest] = useState(null);
@@ -107,18 +108,20 @@ function LoginDialog(props) {
       setStatus("passwordsDontMatch");
       return;
     }
+
+
     if(registerType.value == 'Parent'){
       try{
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,registerStudentName.current.value);
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,registerStudentName.current.value, registerPhoneNumber.current.value);
         }catch(e){
-          registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null',registerStudentName.current.value);
+          registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null',registerStudentName.current.value, registerPhoneNumber.current.value);
         }
     }
     else{
       try{
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,'');
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,'', registerPhoneNumber.current.value);
         }catch(e){
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null','');
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null','',registerPhoneNumber.current.value);
         }
     }
   
@@ -141,7 +144,8 @@ function LoginDialog(props) {
     registerType,
     registerTest,
     history,
-    registerStudentName
+    registerStudentName,
+    registerPhoneNumber
   ]);
 
   function GetStudentNameForm(){
@@ -307,6 +311,26 @@ function LoginDialog(props) {
             }}
             FormHelperTextProps={{ error: true }}
           />
+
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            //error={status === "invalidEmail"}
+            label="Phone Number"
+            autoFocus
+            autoComplete="off"
+            type="tel"
+            inputRef={registerPhoneNumber}
+            onChange={() => {
+              if (status === "invalidEmail") {
+                setStatus(null);
+              }
+            }}
+            FormHelperTextProps={{ error: true }}
+          />
+
           {GetStudentNameForm()}
           <div style={{height:10}}></div>
           <Dropdown options={['Parent','Student','Tutor']} onChange={(s)=>{setregisterType(s)}} placeholder="Select an option"  />

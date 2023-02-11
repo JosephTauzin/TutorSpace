@@ -18,7 +18,7 @@ const FAQ = () => {
 
                     <div className="class faqGroup">
                         <li><p style={{fontWeight:'bold'}}>Should I take the SAT or ACT?</p></li>
-                        <li><p>Can’t figure out which one to prep for? Click here!</p></li>
+                        <li><p>Can’t figure out which one to prep for? Click <a href="https://www.usnews.com/education/best-colleges/articles/act-vs-sat-how-to-decide-which-test-to-take">here!</a></p></li>
                     </div>
 
                     <div className="class faqGroup">

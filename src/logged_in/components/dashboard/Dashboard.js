@@ -109,6 +109,7 @@ import {
 } from "react-sketch-canvas";
 
 import { SketchPicker, TwitterPicker, GithubPicker, CirclePicker } from 'react-color'
+//import DashboardScheduleSelector from "./DashboardScheduleSelector";
 
 
 
@@ -8765,6 +8766,7 @@ function ShowCreateQuiz(){
   if(PageSwitch == 4){
     return (
       <>
+      {/*<DashboardScheduleSelector/>*/}
       {GetNavigation()}
       <Fragment>
       <p className="Format">Format new sessions as "Full Student Name - Full Tutor Name"</p>

@@ -1,12 +1,10 @@
 import React from 'react'
 import ScheduleSelector from 'react-schedule-selector'
 
+
+//@This is the code from the repo, it's a class component demo of it, can't figure why my arrow component isn't working: https://github.com/bibekg/react-schedule-selector
 /*
-@This is the code from the repo, it's a class component demo of it, can't figure why my arrow component isn't working: https://github.com/bibekg/react-schedule-selector
-
-import ScheduleSelector from 'react-schedule-selector'
-
-class App extends React.Component {
+class DashboardScheduleSelector extends React.Component {
   state = { schedule = [] }
 
   handleChange = newSchedule => {
@@ -26,10 +24,8 @@ class App extends React.Component {
     )
   }
 }
-*/
 
-
-/* 1st thing I tried
+//1st thing I tried
 const DashboardScheduleSelector = () => {
     //this.state = {schedule = []}
     const handleChange = (newSchedule) => {
@@ -47,9 +43,9 @@ const DashboardScheduleSelector = () => {
       />
     )
 }
-*/
 
-/* Then trying to use default handlers on the package - guess there aren't any
+
+//Then trying to use default handlers on the package - guess there aren't any
 const DashboardScheduleSelector = () => {
   return (
     <ScheduleSelector 
@@ -65,5 +61,4 @@ const DashboardScheduleSelector = () => {
 }
 
 export default DashboardScheduleSelector
-
 */

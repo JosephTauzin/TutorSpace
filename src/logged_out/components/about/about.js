@@ -47,6 +47,7 @@ function About(props) {
       
       <div className={classes.blogContentWrapper}>
         <Grid container spacing={3}>
+          
         <FAQ />
         </Grid>
       </div>

@@ -103,6 +103,18 @@ body {
   overflow: auto;
  
 }
+.columnDivBig{
+  
+  width:100%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+ 
+ 
+}
+.FinancialsDiv{
+  margin-left: -50%;
+}
 .columnDivImprovement{
   
   width:52%;

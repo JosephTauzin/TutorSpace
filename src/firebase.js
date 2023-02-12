@@ -93,6 +93,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Admin:false,
         PhoneNumber:phonenumber,
         AdditionalPDFUrl:'',
+        CompanyCode:'',
       });
     }
     else if (type == 'Student'){
@@ -129,6 +130,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Improvement:'',
         PhoneNumber:phonenumber,
         SVG:'',
+        CompanyCode:'',
       });
     }
     else{
@@ -164,6 +166,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Test: test,
         Improvement:'',
         PhoneNumber:phonenumber,
+        CompanyCode:'',
       });
     }
   } catch (err) {

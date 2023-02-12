@@ -3,6 +3,28 @@ import React from 'react'
 const FAQ = () => { 
     return (
         <div className="content-wrapper">
+            <div className='faq' data-aos="fade-down">
+                <h2>About Us</h2>
+                <div className='faqGroup'>
+                    <p>The college admissions process grows increasingly cutthroat every year, and we ensure that all of our students have the tools they need to succeed. While many top colleges and universities are making SAT and ACT scores optional , they can still be a valuable asset to many students’ applications.</p>
+                </div>
+                <div className='faqGroup'>
+                    <p>Our tutors graduated from top-tier schools across the country and are all amongst the top 1% of SAT test scorers. Having been through the college admissions process relatively recently, they understand what skills today’s students need to succeed in SAT testing rooms to college classrooms and beyond. Going from high school to college-level classes is a struggle for many students, and we want to make that transition as smooth as possible.</p>
+                </div>
+                <div className='faqGroup'>
+                    <p>At Measure Up!, we want to get our students off of tutoring services altogether. We want them to be prepared once they enter their dream school so they can handle challenging classes stress-free.</p>
+                </div>
+                <div className='faqGroup'>
+                    <p>To achieve this, we use TutorSpace, our proprietary tutoring system that tracks our students’ progress, identifies areas for improvement, and provides greater results than traditional tutoring services.</p>
+                </div>
+                <div className='faqGroup'>
+                    <p>Students can see increases of up to 200 points on the SAT using this system. We work with each student individually to create bespoke plans for greatest improvement, and we accept all students, regardless of base score.</p>
+                </div>
+                <div className='faqGroup'>
+                    <p>Our one-on-one tutoring sessions are all completely online with flexible hours and no rescheduling fees!</p>
+                </div>
+            </div>
+            <p></p>
             <div className="faq" data-aos="fade-down">
                 <h2 >FAQ</h2>
                 <ul>

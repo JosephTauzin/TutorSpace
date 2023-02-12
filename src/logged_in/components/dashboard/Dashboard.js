@@ -315,8 +315,10 @@ function Dashboard(props) {
   const [StudentsTotal, setStudentsTotal] = useState()
   const [StudentsTotalBool, setStudentsTotalBool] = useState()
   const [NameId, setNameId] = useState([])
+  const [AdminInfoId, setAdminInfoId] = useState([])
   const usersRef = collection(db, "users");
   const constantsRef = collection(db, "GlobalVariables");
+  const adminInfoRef = collection(db, "CompanyCodeAdminInfo");
   const [ErrorUpdate, setErrorUpdate] = useState(1)
   const [CurrentStudent, setCurrentStudent] = useState('')
   const [StudentAssignments, setStudentAssignments] = useState([])
@@ -647,6 +649,8 @@ function Dashboard(props) {
     return(ArrTemp)
   }
   const [CompanyCode, setCompanyCode] = useState('')
+  const [PrivatePrice, setPrivatePrice] = useState('')
+  const [ClassroomPrice, setClassroomPrice] = useState('')
   useEffect(() => {
     try{
       const x = query(usersRef, where("uid", "==", auth.currentUser.uid.toString()));
@@ -720,6 +724,38 @@ function Dashboard(props) {
           setStudentsTotalBool(AddBoolToArr(TempStudentsTotal, StudentsTemp))
           setStudentsTotal(TempStudentsTotal)
           setAdminInfo([TempStudentsTotal, TempTutorsTotal, MeetingDateTotal,TempEmailTotal,TempPhonelTotal])
+
+        }
+
+      });  
+      }, 100)
+
+      setTimeout(() => {
+
+        
+
+        const x = query(adminInfoRef ,where("CompanyCode", "==", CompanyCode));
+      
+        //const q = query(collection(db, "users"))
+        const unsub = onSnapshot(x, (querySnapshot) => {
+        
+        //querySnapshot.docs.map(d => setUserNames(UserNames.push(d._document.data.value.mapValue.fields.name.stringValue)))
+ 
+        //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
+
+        console.log("Priod")
+        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
+          
+        //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
+        
+        if(Type == 'Tutor'){
+         
+        
+          var TempPrivatelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CostPerHour.stringValue)
+          var TempClassroomTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CostPerHourClassroom.stringValue)
+          
+          setPrivatePrice(TempPrivatelTotal[0])
+          setClassroomPrice(TempClassroomTotal[0])
 
         }
 
@@ -914,6 +950,52 @@ function Dashboard(props) {
     }
   }, []); // empty dependencies array => useEffect only called once
 
+
+
+  useEffect(() => {
+    try{
+      const z = query(adminInfoRef);
+  
+     //const q = query(collection(db, "users"))
+     var NewwerArr  = []
+     var NewArr = AdminInfoId
+    const unsub = onSnapshot(z, (querySnapshot) => {
+      
+      
+  
+      if(AdminInfoId){
+      
+        
+        querySnapshot.docs.map(d => NewArr[NewArr.length] = ([d._document.data.value.mapValue.fields.CompanyCode.stringValue, d.id]) )
+    
+       
+        for(var t = 0; t<NewArr.length; t++){
+          
+            NewwerArr.push(NewArr[t])
+          
+        }
+   
+        setAdminInfoId(NewwerArr)
+        //setNewArrFinished(true)
+       
+      }
+      
+      
+      
+      
+  });
+  
+ 
+}
+     
+     //setErrorMessage(unsub())
+    // return cleanup function
+    //return () => subscriber();
+    catch(err){
+   
+      setErrorMessage(err.toString())
+    }
+  }, []); // empty dependencies array => useEffect only called once
 
 
 
@@ -1701,6 +1783,46 @@ function UpdateDate(){
             }
   }
 
+  //PlaceholderFinancials
+  function UpdateFinancials(amount, type){
+    // d could just feed in date
+ 
+    if(CompanyCode !== '' ){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+        
+        for(var i = 0; i< AdminInfoId.length; i++){
+        
+          if(CompanyCode == AdminInfoId[i][0]){
+            return(AdminInfoId[i][1])
+          }
+        }
+      }
+  
+      const adminDef = doc(db, "CompanyCodeAdminInfo", FindMatchingUid());
+      //const x = query(adminInfoRef, where("CompanyCode", "==", CompanyCode))
+      //adminInfoRef
+      console.log('amount')
+      console.log(amount)
+      if(type == 'Private'){
+        setPrivatePrice(amount.value)
+        updateDoc(adminDef, {
+          CostPerHour: amount.value
+              
+                });
+              }
+      else{
+        setClassroomPrice(amount)
+        updateDoc(adminDef, {
+          CostPerHourClassroom: amount
+              
+                });
+      }
+          
+  }
+}
+
   function UpdateSVG(t){
     // d could just feed in date
  
@@ -1717,7 +1839,7 @@ function UpdateDate(){
         }
       }
   
-      const studentDef = doc(db, "users", FindMatchingUid());
+      const studentDef = doc(db, "CompanyCodeAdminInfo", FindMatchingUid());
   
       updateDoc(studentDef, {
               SVG: t
@@ -6523,7 +6645,8 @@ function HandleChangeTabFunction(newValue){
       </div>
 
 
-      <div>
+      <div className="rowDiv"> 
+        <div className="columnDivBig">
         <p className="TextStyleLight">Files:</p>
         <p className="TextStyleLightInstructions">Tutor</p>
         <div className={'fieldSmall active false'}>
@@ -6558,6 +6681,48 @@ function HandleChangeTabFunction(newValue){
           </div>
           <div className ={'ButtonDivWaiting'} >
           <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
+        </div>
+       
+        </div>
+        <div className="FinancialsDiv">
+          <p className="TextStyleLight">Financials:</p>
+          <p className="TextStyleLightInstructions">Cost per hour (One on One):</p>
+
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Private')}}  placeholder="Select cost"  value={PrivatePrice}/>
+          <p className="TextStyleLightInstructions">Cost per hour (Classroom):</p>
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Classroom')}}  placeholder="Select cost"  value={ClassroomPrice}/>
         </div>
       </div>
         </>

@@ -52,7 +52,7 @@ function NavBar(props) {
   
     {
       link: "/about",
-      name: "FAQ",
+      name: "FAQ/About",
       icon: <HomeIcon className="text-white" />
     },
   
@@ -160,7 +160,7 @@ function NavBar(props) {
                 }
                 if (element.link) {
         
-                  if(element.name == 'FAQ' ){
+                  if(element.name == 'FAQ/About' ){
                     return (
                       <Link
                         key={element.name}

@@ -6,10 +6,13 @@ const DayColumn = ({ day, isMouseDown }) => {
     if (isMouseDown) {
       if (event.currentTarget.classList.contains("tdSelected")) {
         event.currentTarget.classList.remove("tdSelected")
+        event.currentTarget.setAttribute("selected", false)
+        
       }
 
       else {
         event.currentTarget.classList.add("tdSelected")
+        event.currentTarget.setAttribute("selected", true)
         event.currentTarget.classList.remove("tdUnselectedHover")
       }
     }
@@ -37,18 +40,18 @@ const DayColumn = ({ day, isMouseDown }) => {
                 </tr>
               </thead>
               <tbody>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
-                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={7}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={8}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={9}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={10}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={11}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={12}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={13}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={14}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={15}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={16}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={17}></td></tr>
+                <tr><td onMouseLeave={handleMouseInside} onMouseEnter={handleUnselectedHover} day={day} time={18}></td></tr>
               </tbody>
           </table>
           </Fragment>

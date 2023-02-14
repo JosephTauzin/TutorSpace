@@ -6,7 +6,7 @@ const DayColumn = ({ day, isMouseDown }) => {
     if (isMouseDown) {
       if (event.currentTarget.classList.contains("tdSelected")) {
         event.currentTarget.classList.remove("tdSelected")
-        event.currentTarget.setAttribute("selected", false)
+        event.currentTarget.setAttribute("selected", null)
         
       }
 

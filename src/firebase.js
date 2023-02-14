@@ -86,6 +86,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         assignments:'',
         topics:'',
         HistMeetingTimes:[],
+        HistMeetingTimesEnd:[],
         ClassACT:[],
         Class:[],
         Students:[],
@@ -93,7 +94,8 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Admin:false,
         PhoneNumber:phonenumber,
         AdditionalPDFUrl:'',
-        CompanyCode:'',
+        CompanyCode:'MeasureUp',
+        ConnectedAccountCreated:false,
       });
     }
     else if (type == 'Student'){
@@ -124,13 +126,15 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         assignments:'',
         topics:'',
         HistMeetingTimes:[],
+        HistMeetingTimesEnd:[],
         Tutor:'Joseph Tauzin',
         Test: test,
         TutorNotes:'',
         Improvement:'',
         PhoneNumber:phonenumber,
         SVG:'',
-        CompanyCode:'',
+        CompanyCode:'MeasureUp',
+        ConnectedAccountCreated:true,
       });
     }
     else{
@@ -162,11 +166,13 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         assignments:'',
         topics:'',
         HistMeetingTimes:[],
+        HistMeetingTimesEnd:[],
         Tutor:'Joseph Tauzin',
         Test: test,
         Improvement:'',
         PhoneNumber:phonenumber,
-        CompanyCode:'',
+        CompanyCode:'MeasureUp',
+        ConnectedAccountCreated:true,
       });
     }
   } catch (err) {

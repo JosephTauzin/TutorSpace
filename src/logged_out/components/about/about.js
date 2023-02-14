@@ -5,6 +5,7 @@ import { Grid, Box } from "@mui/material";
 import withStyles from "@mui/styles/withStyles";
 import FAQ from "./FAQ";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import FAQContact from "./FAQContact";
 
 const styles = (theme) => ({
   blogContentWrapper: {
@@ -49,6 +50,7 @@ function About(props) {
         <Grid container spacing={3}>
           
         <FAQ />
+        <FAQContact />
         </Grid>
       </div>
     </Box>

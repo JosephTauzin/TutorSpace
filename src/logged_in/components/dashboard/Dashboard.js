@@ -109,6 +109,8 @@ import {
 } from "react-sketch-canvas";
 
 import { SketchPicker, TwitterPicker, GithubPicker, CirclePicker } from 'react-color'
+//import DashboardScheduleSelector from "./DashboardScheduleSelector"
+import TimeSelect from "./TimeSelect";
 
 
 
@@ -651,6 +653,10 @@ function Dashboard(props) {
   const [CompanyCode, setCompanyCode] = useState('')
   const [PrivatePrice, setPrivatePrice] = useState('')
   const [ClassroomPrice, setClassroomPrice] = useState('')
+  const [PrivatePriceTutor, setPrivatePriceTutor] = useState('')
+  const [ClassroomPriceTutor, setClassroomPriceTutor] = useState('')
+
+
   useEffect(() => {
     try{
       const x = query(usersRef, where("uid", "==", auth.currentUser.uid.toString()));
@@ -757,6 +763,11 @@ function Dashboard(props) {
           setPrivatePrice(TempPrivatelTotal[0])
           setClassroomPrice(TempClassroomTotal[0])
 
+          var TempPrivatelTotalTutor = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CostPerHourTutor.stringValue)
+          var TempClassroomTotalTutor = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CostPerHourClassroomTutor.stringValue)
+          
+          setPrivatePriceTutor(TempPrivatelTotalTutor[0])
+          setClassroomPriceTutor(TempClassroomTotalTutor[0])
         }
 
       });  
@@ -1175,6 +1186,7 @@ function PullAllDates(s = CurrentStudent){
           const unsub = onSnapshot(x, (querySnapshot) => {
           
             var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
+            var MeetingDateStringEnd = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimesEnd.arrayValue.values)
             var NameString = querySnapshot.docs.map(d=> d._document.data.value.mapValue.fields.name.stringValue)
             var TutorString = querySnapshot.docs.map(d=> d._document.data.value.mapValue.fields.Tutor.stringValue)
            
@@ -1184,6 +1196,7 @@ function PullAllDates(s = CurrentStudent){
             var CombinedString = NameString + '-' + TutorString
        
             var Meetings = MeetingDateString[0]
+            var MeetingsEnd = MeetingDateStringEnd[0]
             var DateSet = false
             function containsObject(obj, list) {
               var i;
@@ -1211,7 +1224,7 @@ function PullAllDates(s = CurrentStudent){
             for(var i = 0; i < Meetings.length; i++){
 
               var DateX = new Date(Meetings[i].timestampValue.toString())
-              var newDateObj = new Date(DateX.getTime() + 90*60000);
+              var newDateObj = new Date(MeetingsEnd[i].timestampValue.toString());
 
               //Placeholder
               var today = new Date();
@@ -1320,7 +1333,7 @@ function DeleteAllDates(s, num){
     }
   }
 }
-function AddNewDates(s, newTime){
+function AddNewDates(s, newTime, endTime){
   function FindMatchingUid(){
     //NameId
     //CurrentStudent
@@ -1351,21 +1364,28 @@ function AddNewDates(s, newTime){
       const studentDef = doc(db, "users", FindMatchingUidUpdate());
       var NewArr = []
       var UpdatedArr = []
+      var UpdatedArrEnd = []
       const unsub = onSnapshot(x, (querySnapshot) => {
         var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
-
+        var MeetingDateStringEnd = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimesEnd.arrayValue.values)
 
         
         var NewMeetingDateString = MeetingDateString[0]
+        var NewMeetingDateStringEnd = MeetingDateStringEnd[0]
         
         for(var i = 0; i< NewMeetingDateString.length; i++){
           var DateX = new Date(NewMeetingDateString[i].timestampValue.toString())
           UpdatedArr.push(new Date(DateX))
         }
         
+        for(var i = 0; i< NewMeetingDateStringEnd.length; i++){
+          var DateX = new Date(NewMeetingDateStringEnd[i].timestampValue.toString())
+          UpdatedArrEnd.push(new Date(DateX))
+        }
+
 
         UpdatedArr.push(new Date(newTime))
-       
+        UpdatedArrEnd.push(new Date(endTime))
         
       });
       
@@ -1376,6 +1396,16 @@ function AddNewDates(s, newTime){
               
             })
       }, 1000)
+
+      setTimeout(()=>{
+      
+        updateDoc(studentDef, {
+            HistMeetingTimesEnd: UpdatedArrEnd
+
+
+            })
+      }, 1000)
+
     }catch(e){
 
     }
@@ -1812,6 +1842,23 @@ function UpdateDate(){
               
                 });
               }
+      else if(type == 'PrivateTutor'){
+        setPrivatePriceTutor(amount.value)
+        updateDoc(adminDef, {
+          CostPerHourTutor: amount.value
+          
+                });
+      
+      }
+      else if(type == 'ClassroomTutor'){
+
+
+        setClassroomPriceTutor(amount.value)
+        updateDoc(adminDef, {
+          CostPerHourClassroomTutor: amount.value
+
+                });
+      }
       else{
         setClassroomPrice(amount)
         updateDoc(adminDef, {
@@ -5861,18 +5908,40 @@ function HandleChangeTabFunction(newValue){
   function GetNavigation(){
     //return(null)
     function GetClassroomIcon(iconsize = 50){
-      if(ClassroomStudentsClean.length >0 || ClassroomStudentsCleanACT.length > 0 ){
+      if(ClassroomStudentsClean.length >0 || ClassroomStudentsCleanACT.length > 0 && CurrentTest != 'Other'){
         return(
+          <Tooltip title="Classroom">
           <Button className={'IconDiv'} onClick={()=>setPageSwitch(3)} startIcon={<FaChalkboardTeacher size ={iconsize}/>}>
             
             <p>Classroom</p>
           </Button>
+          </Tooltip>
         )
       }
       else{
         return(null)
       }
     }
+
+    function ShowQuiz(){
+      if(CurrentTest == 'Other'){
+        return(null)
+      }
+      else{
+        return(
+          <Tooltip title="Quiz">
+          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } } startIcon ={<FaBook size={iconsize} />}>
+
+            <p>Quiz</p>
+          </Button>
+          </Tooltip>
+        )
+      }
+    }
+
+    
+
+
     if(Type == 'Tutor' && !(CurrentTest == 'Diagnostics')){
       var iconsize  = 25
       return(
@@ -5890,16 +5959,11 @@ function HandleChangeTabFunction(newValue){
             <p>Profile</p>
           </Button>
           </Tooltip>
-          <Tooltip title="Quiz">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } } startIcon ={<FaBook size={iconsize} />}>
-            
-            <p>Quiz</p>
-          </Button>
-          </Tooltip>
-          <Tooltip title="Classroom">
+          {ShowQuiz()}
+          
           {GetClassroomIcon(iconsize)}
           
-          </Tooltip>
+       
           <Tooltip title="Calendar">
           <Button className={'IconDiv'} onClick={() => setPageSwitch(4)} startIcon={<FaCalendar size={iconsize} />}>
             
@@ -6010,12 +6074,7 @@ function HandleChangeTabFunction(newValue){
           </Button>
         </Tooltip>
           <p></p>
-          <Tooltip title="Quiz">
-          <Button className={'IconDiv'} onClick={() => { setPageSwitch(2); } } startIcon={<FaBook size={iconsize} />}>
-            
-            <p>Quiz</p>
-          </Button>
-          </Tooltip>
+          {ShowQuiz()}
           <p></p>
           <Tooltip title="Diagnostics">
           <Button className={'IconDiv'} onClick={() => { setPageSwitch(5); } } startIcon ={ <FaSchool size={iconsize} />}>
@@ -6685,7 +6744,12 @@ function HandleChangeTabFunction(newValue){
        
         </div>
         <div className="FinancialsDiv">
-          <p className="TextStyleLight">Financials:</p>
+          <div className="Financials">
+            <p className="TextStyleLight">Financials:</p>
+          </div>
+          <div className="rowDiv">
+         
+          <div className="columnDivNoOverflow">
           <p className="TextStyleLightInstructions">Cost per hour (One on One):</p>
 
           <Dropdown options={[
@@ -6705,6 +6769,31 @@ function HandleChangeTabFunction(newValue){
             '$465', '$470', '$475', '$480', '$485', '$490', '$495',
             '$500'
           ]} onChange={(x)=>{UpdateFinancials(x, 'Private')}}  placeholder="Select cost"  value={PrivatePrice}/>
+          </div>
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Tutor Salary Per Hour:</p>
+          
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'PrivateTutor')}}  placeholder="Select cost"  value={PrivatePriceTutor}/>
+          </div>
+          </div>
+          <div className="rowDiv">
+          <div className="columnDivNoOverflow">
           <p className="TextStyleLightInstructions">Cost per hour (Classroom):</p>
           <Dropdown options={[
             '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
@@ -6723,6 +6812,29 @@ function HandleChangeTabFunction(newValue){
             '$465', '$470', '$475', '$480', '$485', '$490', '$495',
             '$500'
           ]} onChange={(x)=>{UpdateFinancials(x, 'Classroom')}}  placeholder="Select cost"  value={ClassroomPrice}/>
+          </div>
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Classroom Tutor Salary Per Hour:</p>
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Group')}}  placeholder="Select cost"  value={ClassroomPriceTutor}/>
+          </div>
+          </div>
+          <p></p>
         </div>
       </div>
         </>
@@ -6801,6 +6913,10 @@ function HandleChangeTabFunction(newValue){
   }
 
   function ShowTopics(){
+    if(CurrentTest == 'Other')
+    {
+      return(null)
+    }
     if(CurrentTest == 'SAT'){
       return(
         TopicsFull.map(obj=>{
@@ -6912,12 +7028,109 @@ function HandleChangeTabFunction(newValue){
       </>
     )
   }
+  function RemoveIfOther(){
+    if(CurrentTest == 'Other'){
+      return(null)
+  }else{
+
+    return(
+
+
+      <><Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={valueTab} onChange={handleChangeTab} aria-label="basic tabs example" variant="fullWidth">
+            <Tab label="One" {...a11yProps(0)} />
+            <Tab label="Two" {...a11yProps(1)} />
+            <Tab label="Three" {...a11yProps(2)} />
+            <Tab label="Four" {...a11yProps(3)} />
+            <Tab label="Five" {...a11yProps(4)} />
+            <Tab label="Six" {...a11yProps(5)} />
+            <Tab label="Seven" {...a11yProps(6)} />
+            <Tab label="Eight" {...a11yProps(7)} />
+            <Tab label="Nine" {...a11yProps(8)} />
+            <Tab label="Ten" {...a11yProps(9)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={valueTab} index={0}>
+          {PullTestGradeForTutor(0)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={1}>
+          {PullTestGradeForTutor(1)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={2}>
+          {PullTestGradeForTutor(2)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={3}>
+          {PullTestGradeForTutor(3)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={4}>
+          {PullTestGradeForTutor(4)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={5}>
+          {PullTestGradeForTutor(5)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={6}>
+          {PullTestGradeForTutor(6)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={7}>
+          {PullTestGradeForTutor(7)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={8}>
+          {PullTestGradeForTutor(8)}
+        </TabPanel>
+        <TabPanel value={valueTab} index={9}>
+          {PullTestGradeForTutor(9)}
+        </TabPanel>
+
+      </Box><div className={'SpreadsheetDiv'}>
+          <Spreadsheet data={data} onChange={setData} darkMode={false} hideRowIndicators={true} hideColumnIndicators={true} />
+        </div>
+   
+   
+   
+    
+
+    <div className="SubmitTest">
+            <Button variant="outlined" onClick={()=>{CompleteData()}} className={'NotepadButton'} >
+              <p>Submit Test</p>
+            </Button>
+    </div>
+    <div className="columnDivDiagnosticsTutor">
+      <p className={'TitleTextStyleLight'}>Diagnostics Results: </p>
+    
+      <div>
+          <div>
+            <p className={'TitleTextStyleLight'}>SAT: {DiagnosticsResults[7]}</p>
+          </div>
+          <div className="rowDiv">
+            <p className="TextStyleLight">Reading - {DiagnosticsResults[5]} / Math - {DiagnosticsResults[6]} / Total - {DiagnosticsResults[7]}</p>
+
+          </div>
+        
+        <div>
+          <p className={'TitleTextStyleLight'}>ACT: {Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)}</p>
+          <div className="rowDiv">
+            <p className="TextStyleLight">English - {DiagnosticsResults[0]} / Math - {DiagnosticsResults[1]} / Total - {Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)}</p>
+
+          </div>
+          <div className="rowDiv">
+            <p className="TextStyleLight">Reading - {DiagnosticsResults[2]} / Science - {DiagnosticsResults[3]} / SAT Equivalent - {ACTtoSAT(Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)-1)}</p>
+
+          </div>
+        </div>
+      </div>
+      </div>
+      </>
+    )
+  }
+  }
+
   if(PageSwitch == 0){
     return(
       <>
       {GetNavigation()}
       <Fragment>
-      <div >
+      
       {AddErrorMessgae()}
         <p  className={'TitleTextStyle'}>Welcome to your Dashboard {UserName.toString().split(' ')[0]}</p>
 
@@ -6990,7 +7203,7 @@ function HandleChangeTabFunction(newValue){
         <div className="columnDivTest">
         <p  className={'TitleTextStyleLight'}>Test:</p>
         <div className="CurrentTest">
-          <Dropdown options={['SAT','ACT']} onChange={(x)=>{setUpdatedCurrentTest(x.value)}} value={CurrentTest} placeholder="Select a test"  />
+          <Dropdown options={['SAT','ACT','Other']} onChange={(x)=>{setUpdatedCurrentTest(x.value)}} value={CurrentTest} placeholder="Select a test"  />
         </div>
         </div>
         </div>
@@ -7044,95 +7257,9 @@ function HandleChangeTabFunction(newValue){
 
 
        
+         {RemoveIfOther()}
 
 
-
-
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={valueTab} onChange={handleChangeTab} aria-label="basic tabs example" variant="fullWidth">
-              <Tab label="One" {...a11yProps(0)} />
-              <Tab label="Two" {...a11yProps(1)} />
-              <Tab label="Three" {...a11yProps(2)} />
-              <Tab label="Four" {...a11yProps(3)} />
-              <Tab label="Five" {...a11yProps(4)} />
-              <Tab label="Six" {...a11yProps(5)} />
-              <Tab label="Seven" {...a11yProps(6)} />
-              <Tab label="Eight" {...a11yProps(7)} />
-              <Tab label="Nine" {...a11yProps(8)} />
-              <Tab label="Ten" {...a11yProps(9)} />
-            </Tabs>
-          </Box>
-          <TabPanel value={valueTab} index={0}>
-            {PullTestGradeForTutor(0)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={1}>
-          {PullTestGradeForTutor(1)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={2}>
-          {PullTestGradeForTutor(2)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={3}>
-          {PullTestGradeForTutor(3)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={4}>
-          {PullTestGradeForTutor(4)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={5}>
-          {PullTestGradeForTutor(5)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={6}>
-          {PullTestGradeForTutor(6)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={7}>
-          {PullTestGradeForTutor(7)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={8}>
-          {PullTestGradeForTutor(8)}
-          </TabPanel>
-          <TabPanel value={valueTab} index={9}>
-          {PullTestGradeForTutor(9)}
-          </TabPanel>
-          
-        </Box>
-        <div className={'SpreadsheetDiv'}>
-          <Spreadsheet data={data} onChange={setData} darkMode= {false} hideRowIndicators={true} hideColumnIndicators={true} />
-        </div>
-       
-       
-       
-        </div>
-
-        <div className="SubmitTest">
-                <Button variant="outlined" onClick={()=>{CompleteData()}} className={'NotepadButton'} >
-                  <p>Submit Test</p>
-                </Button>
-        </div>
-        <div className="columnDivDiagnosticsTutor">
-          <p className={'TitleTextStyleLight'}>Diagnostics Results: </p>
-        
-          <div>
-              <div>
-                <p className={'TitleTextStyleLight'}>SAT: {DiagnosticsResults[7]}</p>
-              </div>
-              <div className="rowDiv">
-                <p className="TextStyleLight">Reading - {DiagnosticsResults[5]} / Math - {DiagnosticsResults[6]} / Total - {DiagnosticsResults[7]}</p>
-
-              </div>
-            
-            <div>
-              <p className={'TitleTextStyleLight'}>ACT: {Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)}</p>
-              <div className="rowDiv">
-                <p className="TextStyleLight">English - {DiagnosticsResults[0]} / Math - {DiagnosticsResults[1]} / Total - {Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)}</p>
-
-              </div>
-              <div className="rowDiv">
-                <p className="TextStyleLight">Reading - {DiagnosticsResults[2]} / Science - {DiagnosticsResults[3]} / SAT Equivalent - {ACTtoSAT(Math.round((DiagnosticsResults[0]+DiagnosticsResults[1] + DiagnosticsResults[2]+DiagnosticsResults[3])/4)-1)}</p>
-
-              </div>
-            </div>
-          </div>
-          </div>
       </Fragment>
       
       </>
@@ -7177,7 +7304,13 @@ function HandleChangeTabFunction(newValue){
 
 
   function ChangeEvent(eventDict){
-    
+    function addMinutesToDateTimeString(datetimeString, minutes) {
+      const date = new Date(datetimeString);
+      date.setMinutes(date.getMinutes() + minutes);
+      return date.toISOString().slice(0, 16).replace('T', ' ');
+    }
+    console.log("Change Event")
+    console.log(eventDict)
     try{
       var Title = eventDict.event_id
       var TitleSplit = Title.split('-')
@@ -7195,7 +7328,7 @@ function HandleChangeTabFunction(newValue){
       var Tutor = TitleSplit[1]
       var Student = TitleSplit[0].trim()
     
-      AddNewDates(Student, eventDict.startTime)
+      AddNewDates(Student, eventDict.startTime, addMinutesToDateTimeString(eventDict.startTime, eventDict.length))
 
     }
    
@@ -8359,8 +8492,162 @@ function ShowCreateQuiz(){
       </Modal></>
     )
   }
-
+  
   if(PageSwitch == 1){
+
+    function ShowIfOther(){
+      if(CurrentTest == 'Other'){
+        return( <div className="columnDivImprovement">
+
+
+        {EditTutorNotes()}
+        <div className="TutorNotes">
+          <p className="TextStyleLight">{TutorNotes}</p>
+
+        </div>
+      </div>)
+      }
+      else{
+        return(
+          <><p className={'TitleTextStyleLight'}>{CurrentTest} Progress:</p><p className={'TitleTextStyleLight'}> </p><p className={'TitleTextStyleLight'}> </p><div className={'ChartDiv'}>
+            {GetChart()}
+          </div><div className="rowDiv">
+              <div className="columnDivImprovement">
+                <div className='TopicsCoveredDiv'>
+                  <p className={'TitleTextStyleLight'}>Topics Covered:</p>
+                  {ShowTopicsCovered()}
+                </div>
+                <p className="TitleTextStyleLight">Areas For Improvement:</p>
+                {ShowAreasOfImprovement().map(obj => {
+                  return (<p className="TextStyleLight"><li>{obj}</li></p>);
+                })}
+              </div>
+
+              <div className="columnDivImprovement">
+
+
+                {EditTutorNotes()}
+                <div className="TutorNotes">
+                  <p className="TextStyleLight">{TutorNotes}</p>
+
+                </div>
+              </div>
+            </div><p className={'TitleTextStyleLight'}>Test Synopsis:</p><EnhancedTableToolbar numSelected={selectedMath.length} /><TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <EnhancedTableHeadMath
+                  numSelected={selectedMath.length}
+                  order={orderMath}
+                  orderBy={orderByMath}
+                  onSelectAllClick={handleSelectAllClickMath}
+                  onRequestSort={handleRequestSortMath}
+                  rowCount={MathrowsGlobal.length} />
+                <TableBody>
+                  {stableSort(MathrowsGlobal, getComparator(orderMath, orderByMath))
+
+                    .map((row, index) => {
+                      const isItemSelected = isSelectedMath(row.Category);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+
+                      return (
+                        <TableRow
+                          hover
+                          //onClick={(event) => handleClick(event, row.Category)}
+                          //role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.Category}
+                          selected={isItemSelected}
+                        >
+                          <StyledTableCell align="right">
+                            {row.Category}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="right">{row.Right}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Blank}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Percent}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer><p></p><p></p><p></p><EnhancedTableToolbar numSelected={selectedVerbal.length} /><TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <EnhancedTableHeadVerbal
+                  numSelected={selectedVerbal.length}
+                  order={orderVerbal}
+                  orderBy={orderByVerbal}
+                  onSelectAllClick={handleSelectAllClickVerbal}
+                  onRequestSort={handleRequestSortVerbal}
+                  rowCount={VerbalrowsGlobal.length} />
+                <TableBody>
+                  {stableSort(VerbalrowsGlobal, getComparator(orderVerbal, orderByVerbal))
+
+                    .map((row, index) => {
+                      const isItemSelected = isSelectedVerbal(row.Category);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+
+                      return (
+                        <TableRow
+                          hover
+                          //onClick={(event) => handleClick(event, row.Category)}
+                          //role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.Category}
+                          selected={isItemSelected}
+                        >
+                          <StyledTableCell align="right">
+                            {row.Category}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="right">{row.Right}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Blank}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Percent}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer></>
+        )
+      }
+    }
+    function GetBookList(){
+      if(CurrentTest == 'Other'){
+        return(null)
+      }
+      else{
+        return(
+          <><p className="TitleTextStyleLight">Book List: </p><ul>
+            <a target="_blank" href='https://www.amazon.com/College-Pandas-SAT-Math-Advanced-dp-1733192727/dp/1733192727/ref=dp_ob_title_bk'><li>Pandas Math book</li></a>
+            <a target="_blank" href='https://www.amazon.com/Critical-Reader-Fourth-Complete-Reading/dp/173358952X/ref=sr_1_1?keywords=the+complete+guide+to+sat+reading&qid=1669648931&sprefix=the+complete+sat+%2Caps%2C150&sr=8-1'> <li>SAT Reading book</li></a>
+            <a target="_blank" href='https://www.amazon.com/Fifth-Ultimate-Guide-SAT-Grammar/dp/1733589538/ref=pd_bxgy_img_sccl_1/133-1338560-8271728?pd_rd_w=BHZ3B&content-id=amzn1.sym.7f0cf323-50c6-49e3-b3f9-63546bb79c92&pf_rd_p=7f0cf323-50c6-49e3-b3f9-63546bb79c92&pf_rd_r=MB5RHPG85584KHDZBG3D&pd_rd_wg=KJpCB&pd_rd_r=9a83c4ee-bca2-481c-8578-cc2b38f98705&pd_rd_i=1733589538&psc=1'><li>SAT Grammar book</li></a>
+          </ul></>
+        )
+      }
+    }
     return (
       <>
       {GetNavigation()}
@@ -8393,151 +8680,7 @@ function ShowCreateQuiz(){
           <p className={'TitleTextStyleLight'}>Next meeting:</p>
           <p className ={'DateText'}>{formatDate(NextCurrentStudentDate.toString().slice(0,24))}</p>
         </div>
-        <p className={'TitleTextStyleLight'}>{CurrentTest} Progress:</p>
-        <p  className={'TitleTextStyleLight'}> </p>
-        <p  className={'TitleTextStyleLight'}> </p>
-        <div className={'ChartDiv'}>
-          {GetChart()}
-        </div>
-        <div className="rowDiv">
-          <div className="columnDivImprovement">
-          <div className='TopicsCoveredDiv'>
-          <p  className={'TitleTextStyleLight'}>Topics Covered:</p>
-          {ShowTopicsCovered()
-          }
-          </div>
-          <p className="TitleTextStyleLight">Areas For Improvement:</p>
-          {ShowAreasOfImprovement().map(obj=>{
-            return(<p className="TextStyleLight"><li>{obj}</li></p>)
-          })
-          }
-          </div>
-          
-        <div className="columnDivImprovement">
-        
-          
-          {EditTutorNotes()}
-          <div className="TutorNotes">
-          <p className="TextStyleLight">{TutorNotes}</p>
-         
-          </div>
-          </div>
-          </div>
-          
-          
-          
-          <p className={'TitleTextStyleLight'}>Test Synopsis:</p>
-
-          <EnhancedTableToolbar numSelected={selectedMath.length} />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <EnhancedTableHeadMath
-                numSelected={selectedMath.length}
-                order={orderMath}
-                orderBy={orderByMath}
-                onSelectAllClick={handleSelectAllClickMath}
-                onRequestSort={handleRequestSortMath}
-                rowCount={MathrowsGlobal.length}
-              />
-                <TableBody>
-                {stableSort(MathrowsGlobal, getComparator(orderMath, orderByMath))
-                
-                .map((row, index) => {
-                  const isItemSelected = isSelectedMath(row.Category);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      //onClick={(event) => handleClick(event, row.Category)}
-                      //role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.Category}
-                      selected={isItemSelected}
-                    >
-                      <StyledTableCell align="right">
-                        {row.Category}
-                      </StyledTableCell>
-                      
-                      <StyledTableCell align="right">{row.Right}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Blank}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Percent}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <p></p>
-            <p></p>
-            <p></p>
-
-
-            <EnhancedTableToolbar numSelected={selectedVerbal.length} />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <EnhancedTableHeadVerbal
-                numSelected={selectedVerbal.length}
-                order={orderVerbal}
-                orderBy={orderByVerbal}
-                onSelectAllClick={handleSelectAllClickVerbal}
-                onRequestSort={handleRequestSortVerbal}
-                rowCount={VerbalrowsGlobal.length}
-              />
-                <TableBody>
-                {stableSort(VerbalrowsGlobal, getComparator(orderVerbal, orderByVerbal))
-                
-                .map((row, index) => {
-                  const isItemSelected = isSelectedVerbal(row.Category);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      //onClick={(event) => handleClick(event, row.Category)}
-                      //role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.Category}
-                      selected={isItemSelected}
-                    >
-                      <StyledTableCell align="right">
-                        {row.Category}
-                      </StyledTableCell>
-                      
-                      <StyledTableCell align="right">{row.Right}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Blank}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Percent}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-                </TableBody>
-              </Table>
-            </TableContainer>
+        {ShowIfOther()}
       </Fragment>
 
       <p className="TitleTextStyleLight">Files: </p>
@@ -8545,12 +8688,7 @@ function ShowCreateQuiz(){
         <FaGoogleDrive size ={50}/>
       </Button>
 
-      <p className="TitleTextStyleLight">Book List: </p>
-      <ul>
-        <a target="_blank" href='https://www.amazon.com/College-Pandas-SAT-Math-Advanced-dp-1733192727/dp/1733192727/ref=dp_ob_title_bk'><li>Pandas Math book</li></a>
-        <a target="_blank" href='https://www.amazon.com/Critical-Reader-Fourth-Complete-Reading/dp/173358952X/ref=sr_1_1?keywords=the+complete+guide+to+sat+reading&qid=1669648931&sprefix=the+complete+sat+%2Caps%2C150&sr=8-1'> <li>SAT Reading book</li></a>
-        <a target="_blank" href='https://www.amazon.com/Fifth-Ultimate-Guide-SAT-Grammar/dp/1733589538/ref=pd_bxgy_img_sccl_1/133-1338560-8271728?pd_rd_w=BHZ3B&content-id=amzn1.sym.7f0cf323-50c6-49e3-b3f9-63546bb79c92&pf_rd_p=7f0cf323-50c6-49e3-b3f9-63546bb79c92&pf_rd_r=MB5RHPG85584KHDZBG3D&pd_rd_wg=KJpCB&pd_rd_r=9a83c4ee-bca2-481c-8578-cc2b38f98705&pd_rd_i=1733589538&psc=1'><li>SAT Grammar book</li></a>
-      </ul>
+      {GetBookList()}
       <p className="TitleTextStyleLight">Zoom Link: </p>
       <Button target="_blank" href={ZoomLink}>
         <FaVideo size={50} color={'black'} />
@@ -8930,6 +9068,8 @@ function ShowCreateQuiz(){
   if(PageSwitch == 4){
     return (
       <>
+      {/*<DashboardScheduleSelector/>*/}
+      <TimeSelect/>
       {GetNavigation()}
       <Fragment>
       <p className="Format">Format new sessions as "Full Student Name - Full Tutor Name"</p>
@@ -8939,7 +9079,7 @@ function ShowCreateQuiz(){
         editable={true}
         deletable={true}
         draggable={false}
-        //onConfirm={(conf)=>ChangeEvent(conf)}
+      
         onDelete={(conf)=>DeleteEvent(conf)}
         events={Events}
         dialogMaxWidth={'lg'}

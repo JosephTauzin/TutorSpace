@@ -67,7 +67,7 @@ const logInWithEmailAndPassword = async (email, password) => {
     
  
 };
-const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber) => {
+const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber, companyCode = 'MeasureUp') => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -96,6 +96,8 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         AdditionalPDFUrl:'',
         CompanyCode:'MeasureUp',
         ConnectedAccountCreated:false,
+        StartTime:new Date(),
+        Availability:[],
       });
     }
     else if (type == 'Student'){
@@ -135,6 +137,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         SVG:'',
         CompanyCode:'MeasureUp',
         ConnectedAccountCreated:true,
+        StartTime:new Date(),
       });
     }
     else{
@@ -173,6 +176,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         PhoneNumber:phonenumber,
         CompanyCode:'MeasureUp',
         ConnectedAccountCreated:true,
+        StartTime:new Date(),
       });
     }
   } catch (err) {

@@ -124,8 +124,9 @@ body {
  
 }
 .FinancialsDiv{
-  margin-left: -48%;
+  margin-left: -2%;
   margin-bottom: 5%;
+  width:76%
 }
 .columnDivImprovement{
   
@@ -182,8 +183,8 @@ body {
 .rowDivWhiteboard{
   display:flex; 
   flex-direction:row;
-  margin-left: 45%;
-  width:575px;
+  margin-left: 40%;
+  width:675px;
   margin-top: 2vh;
   position: absolute;
 }
@@ -310,7 +311,7 @@ body {
 }
 .IconDiv{
 
-  height: 100px;
+  height: 85px;
   width:10;
 }
 .IconDivLogOff{
@@ -326,6 +327,9 @@ body {
   margin-top: -355%;
   margin-left: -7%;
   background-color:rgb(197, 207, 209);
+}
+.lowerPadding{
+  height: 10vh;
 }
 .IconDivLogOffTutor{
   margin-top: 72vh;

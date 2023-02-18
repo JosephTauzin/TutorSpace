@@ -55,6 +55,7 @@ import {FaBook} from "react-icons/fa"
 import {FaCalendar} from "react-icons/fa"
 import {FaCalculator} from "react-icons/fa"
 import {FaEnvelope} from "react-icons/fa"
+import {FaBriefcase} from "react-icons/fa"
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {FaGoogleDrive} from "react-icons/fa"
@@ -90,7 +91,8 @@ import TablePagination from '@mui/material/TablePagination';
 
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Toolbar from '@mui/material/Toolbar';
-
+import DayColumn from './DayColumn'
+import LabelColumn from './LabelColumn'
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
@@ -299,6 +301,8 @@ function Dashboard(props) {
     isAccountActivated,
   } = props;
 
+  var FreeTrialDays = 31;
+
   const [ErrorMessage, setErrorMessage] = useState('')
   const [UserName, setUserName] = useState([''])
   const [ParentStudentName, setParentStudentName] = useState('')
@@ -463,9 +467,6 @@ function Dashboard(props) {
   const [AdminInfoTutor, setAdminInfoTutor] = useState(null)
 
 
-  function refreshPage() {
-    window.location.reload(false);
-  }
  
 
   const menuItems = [
@@ -552,6 +553,8 @@ function Dashboard(props) {
       loadSVGHandler()
     }
   },[SVG,IsCanvas])
+
+ 
 
   useEffect(()=>{
     if(canvasRef.current !== null && IsCanvas === false){
@@ -687,6 +690,7 @@ function Dashboard(props) {
         setCompanyCode(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
         console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
         console.log('CompanyCode')
+        PullDaysPastStart()
       }
       else{
         setTutor(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Tutor.stringValue))
@@ -840,11 +844,12 @@ function Dashboard(props) {
           var TempEmailTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.email.stringValue)
         
           var TempPhonelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.PhoneNumber.stringValue)
+          var AvailabilityTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Availability.arrayValue.values.map(x => x.stringValue))
           
           console.log("AdminInfoTutor")
           console.log(TempStudentsTotal)
-          console.log([TempStudentsTotal, TempEmailTotal,TempPhonelTotal])
-          setAdminInfoTutor([TempStudentsTotal, TempEmailTotal,TempPhonelTotal])
+          console.log([TempStudentsTotal, TempEmailTotal,TempPhonelTotal,AvailabilityTotal])
+          setAdminInfoTutor([TempStudentsTotal, TempEmailTotal,TempPhonelTotal,AvailabilityTotal])
           
         }
 
@@ -1675,6 +1680,78 @@ function UpdateDate(){
     UpdateDate()
   },[NextCurrentStudentDate])
 
+  const [CurrentDaysPastStart, setCurrentDaysPastStart] = useState(new Date())
+  const [InFreeTrial, setInFreeTrial] = useState(false)
+  const [FreeTrialEndingDay, setFreeTrialEndingDay] = useState(30)
+  //Create a function that returns true if the date string is less than a set under of days old
+  function CheckIfInFreeTrial(){
+    var today = new Date();
+    var date = new Date(CurrentDaysPastStart);
+    var DifferenceInTime = today.getTime() - date.getTime();
+    var DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
+    if(DifferenceInDays < FreeTrialDays){
+      setInFreeTrial(true)
+    }else{
+      setInFreeTrial(false)
+    }
+  }
+
+   //Add 30 days to datetime string 
+    function AddDaysToDate(date, days) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
+
+
+
+  function PullDaysPastStart(){
+    //Placeholder
+    
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(UserName.toString() == NameId[i][0]){
+          return(NameId[i][2])
+        }
+      }
+    }
+  
+        
+        try{
+        const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+       
+        const unsub = onSnapshot(x, (querySnapshot) => {
+          var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.StartTime.timestampValue)
+  
+          console.log('AssignmentString')
+          console.log(AssignmentString[0].toString())
+  
+          setCurrentDaysPastStart(AssignmentString[0].toString())
+          setFreeTrialEndingDay(AddDaysToDate(AssignmentString[0].toString(), 30))
+          var today = new Date();
+          var date = new Date(AssignmentString[0]);
+          var DifferenceInTime = today.getTime() - date.getTime();
+          var DifferenceInDays = DifferenceInTime / (1000 * 3600 * 24);
+          if(DifferenceInDays < FreeTrialDays){
+            setInFreeTrial(true)
+          }else{
+            setInFreeTrial(false)
+          }
+        });
+  
+        if(Type == 'Student' || Type == 'Parent'){
+        
+        }else if(Type == 'Tutor'){
+  
+        }
+      }catch(e){
+
+      }
+  }
 
   function PullNotepad(s){
     //Placeholder
@@ -2501,6 +2578,11 @@ function UpdateDate(){
   }
   },[UserName])
 
+  const inputEl = useRef(null);
+  const onButtonClick = () => {
+    // `current` points to the mounted text input element
+    console.log(inputEl);
+  };
 
   const [SwitchText, setSwitchText] = useState('Add')
   const [ButtonPressed, setButtonPressed] = useState(false)
@@ -5126,7 +5208,7 @@ function HandleChangeTabFunction(newValue){
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       width:'60%',
-      backgroundColor:'#526572',
+      backgroundColor:'#545454',
       borderRadius:10,
     },
   };
@@ -5166,6 +5248,14 @@ function HandleChangeTabFunction(newValue){
   function closeModalThree() {
     setIsOpenThree(false);
   }
+
+  //Write a function to refresh the page
+  function RefreshPage(){
+    console.log("slkjfsksfldjlkfs")
+    //setPageSwitch(10)
+    window.location.reload();
+  }
+
  
   const [TempA, setTempA] = useState([true,false])
 
@@ -5940,7 +6030,37 @@ function HandleChangeTabFunction(newValue){
     }
 
     
+    if(PageSwitch == 10){
+      var iconsize  = 25
+      return(
+        <><div className={'NavDiv'}>
+          <Tooltip title="Admin">
+            <Button className={'IconDiv'} onClick={()=>{RefreshPage()}} startIcon={<FaBriefcase size={iconsize} />}>
 
+
+              <p> Admin</p>
+            </Button>
+          </Tooltip>
+        </div><div className={'IconDivLogOffTutor'}>
+            <Tooltip title="">
+              <Link
+                to={menuItems[0].link}
+
+                onClick={menuItems[0].onClick}
+                key={0}
+                ref={(node) => {
+                  links.current[0] = node;
+                } }
+              >
+                <Button className={'IconDiv'} onClick={() => setPageSwitch(6)} startIcon={<FaPowerOff size={iconsize} color={'black'} />}>
+
+                  <p>Log Off</p>
+                </Button>
+              </Link>
+            </Tooltip>
+          </div></>
+      )
+    }
 
     if(Type == 'Tutor' && !(CurrentTest == 'Diagnostics')){
       var iconsize  = 25
@@ -5976,7 +6096,13 @@ function HandleChangeTabFunction(newValue){
             <p>Whiteboard</p>
           </Button>
           </Tooltip>
+          <Tooltip title="Admin">
+            <Button className={'IconDiv'} onClick={()=>{RefreshPage()}} startIcon={<FaBriefcase size={iconsize} />}>
 
+
+              <p> Admin</p>
+            </Button>
+          </Tooltip>
 
         </div><div className={'IconDivLogOffTutor'}>
             <Tooltip title = "">
@@ -6090,6 +6216,14 @@ function HandleChangeTabFunction(newValue){
           </Button>
           </Tooltip>
 
+          <Tooltip title="Admin">
+            <Button className={'IconDiv'}onClick={()=>{RefreshPage()}} startIcon={<FaBriefcase size={iconsize} />}>
+
+
+              <p> Admin</p>
+            </Button>
+          </Tooltip>
+
         </div><div className={'IconDivLogOffTutor'}>
             <Tooltip title = "">
             <Link
@@ -6184,7 +6318,30 @@ function HandleChangeTabFunction(newValue){
     setNumPages(numPages);
   }
 
-
+  const [ChangeAvailabilityObject, setChangeAvailabilityObject] = useState(null)
+    const [ShowAvailabilityObject, setShowAvailabilityObject] = useState(false)
+    const [ShowAvailabilityObjectName, setShowAvailabilityObjectName] = useState('false')
+    useEffect(()=>{
+      if(ChangeAvailabilityObject !== null){
+        console.log("ChangeAvailabilityObject", ChangeAvailabilityObject)
+        function reverseSelection(selectedTimes) {
+        
+          const selectedElements = selectedTimes.map((time) => {
+          
+            const [t, d] = time.split("-");
+            return document.querySelector(`[time="${t}"][day="${d}"]`);
+          });
+          console.log(selectedElements)
+          selectedElements.forEach((element) => {
+           
+            element.classList.add("tdSelected");
+          });
+          
+        }
+        reverseSelection(ChangeAvailabilityObject)
+        
+      }
+    },[ChangeAvailabilityObject])
 
 
 
@@ -6273,7 +6430,7 @@ function HandleChangeTabFunction(newValue){
 
     setDataAssignments(TD)
   }
-
+//
  
   const [dropdownDone, setdropdownDone] = useState(false)
   useEffect(()=>{
@@ -6288,6 +6445,7 @@ function HandleChangeTabFunction(newValue){
               setTimeout(() => {
                 DropDownOnChange({value:UserName.toString() })
                 setdropdownDone(true)
+                
               }, 1000)
             }catch(e){
               console.log("Student not found")
@@ -6498,8 +6656,8 @@ function HandleChangeTabFunction(newValue){
       return { Parent, Student, Email, Phone };
     }
 
-    function createTutorData(Name, Email, Phone) {
-      return { Name, Email, Phone };
+    function createTutorData(Name, Email, Phone, Availability) {
+      return { Name, Email, Phone, Availability };
     }
     function showAlert(CurrStudent) {
       if ( window.confirm("Are you sure you want to proceed with deleting?")) {
@@ -6557,11 +6715,14 @@ function HandleChangeTabFunction(newValue){
 
     if(AdminInfoTutor !== null ){
       console.log("AdminInfoTutor", AdminInfoTutor)
-      for(var x = 0; x < AdminInfoTutor.length-1; x++){
-        rowsTutor.push(createTutorData(AdminInfoTutor[0][x], AdminInfoTutor[1][x], AdminInfoTutor[2][x]))
+      for(var x = 0; x < AdminInfoTutor[0].length; x++){
+        rowsTutor.push(createTutorData(AdminInfoTutor[0][x], AdminInfoTutor[1][x], AdminInfoTutor[2][x], AdminInfoTutor[3][x]))
       }
     }
     
+    
+
+
     function IsAdmin(){
     
     function ShowParent(row){
@@ -6599,6 +6760,62 @@ function HandleChangeTabFunction(newValue){
         return(null)
       }
     }
+    function SwitchShowAvailability(x,name){
+      if( ShowAvailabilityObjectName !== '' ){
+        if(!ShowAvailabilityObject == false && name !== ShowAvailabilityObjectName){
+          setShowAvailabilityObject(false)
+        }else{
+          setShowAvailabilityObject(!(ShowAvailabilityObject))
+        }
+        
+      }
+      
+      setShowAvailabilityObjectName(name)
+      setTimeout(() => {
+
+        if(!ShowAvailabilityObject == false && name !== ShowAvailabilityObjectName){
+          setShowAvailabilityObject(true)
+        }
+      }, 250);
+      setTimeout(() => {
+        console.log('SwitchShowAvailability')
+        console.log(x)
+        setChangeAvailabilityObject(x)
+        
+      }, 750);
+    }
+
+    function SwitchShow(name){
+      if(ShowAvailabilityObject && name == ShowAvailabilityObjectName){
+        return("Hide")
+      }else{
+        
+        return("Show")
+      }
+    }
+    function showAvailability(){
+      console.log("showAvailability")
+      console.log(ShowAvailabilityObject)
+      console.log(ChangeAvailabilityObject)
+      if(ShowAvailabilityObject){
+        return(
+          <div className='timeSelect' >
+            <LabelColumn />
+            <DayColumn day={'Sunday'}  />
+            <DayColumn day={'Monday'} />
+            <DayColumn day={'Tuesday'} />
+            <DayColumn day={'Wednesday'} />
+            <DayColumn day={'Thursday'} />
+            <DayColumn day={'Friday'} />
+            <DayColumn day={'Saturday'}/>
+        </div>
+        )
+      }else{
+        return(null)
+      }
+
+    }
+    
     function Row(props) {
     
         const { row } = props;
@@ -6638,6 +6855,33 @@ function HandleChangeTabFunction(newValue){
             </TableRow>
           </React.Fragment>
         );
+      }
+
+      function PullFreeTrialData(){
+        console.log("PullFreeTrialData")
+        console.log("InFreeTrial", InFreeTrial)
+        console.log("FreeTrialEndingDay", FreeTrialEndingDay)
+
+        //Write a function that takes a datetime string and returns the number of days until that date
+        function DaysUntilDate(DateString){
+          var date = new Date(DateString);
+          var today = new Date();
+          var Difference_In_Time = date.getTime() - today.getTime();
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          return(Math.round(Difference_In_Days))
+        }
+
+
+        if(InFreeTrial == true){
+          return(
+     
+           <b>(Free Trial ending in {DaysUntilDate(FreeTrialEndingDay)} days)</b>
+         
+            )
+        }
+        else{
+          return(null)
+        }
       }
 
       if(AdminBool == true){
@@ -6680,6 +6924,7 @@ function HandleChangeTabFunction(newValue){
               <TableCell>Name</TableCell>
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Phone</TableCell>
+              <TableCell align="right">Availability</TableCell>
               <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
@@ -6695,6 +6940,7 @@ function HandleChangeTabFunction(newValue){
                 <TableCell align="right"> {row.Email} <Button variant="text" color="black" onClick={()=>{window.open('mailto:'+row.Email)}}>  <FaEnvelope iconsize={35}/></Button></TableCell>
                 
                 <TableCell align="right"> {row.Phone} <Button variant="text" color="black" onClick={()=>{window.open('tel:'+row.Phone)}}>  <FaPhone iconsize={35}/></Button></TableCell>
+                <TableCell align="right"> <Button variant="text" color="black" onClick={()=>{SwitchShowAvailability(row.Availability, row.Name)}}>  {SwitchShow(row.Name)} </Button></TableCell>
                 <TableCell align="right"> <Button variant="text" color="black" onClick={()=>{showAlert(row.Name) }}>  <FaTimes iconsize={35}/></Button></TableCell>
               </TableRow>
             ))}
@@ -6703,49 +6949,10 @@ function HandleChangeTabFunction(newValue){
       </TableContainer>
       </div>
 
-
-      <div className="rowDiv"> 
-        <div className="columnDivBig">
-        <p className="TextStyleLight">Files:</p>
-        <p className="TextStyleLightInstructions">Tutor</p>
-        <div className={'fieldSmall active false'}>
-        <textarea
-            id={2}
-            type="text"
-            value={NewTutorURL}
-            placeholder={'Enter File URL For Tutors Here'}
-            onChange={handleTutorURLChange}
-            className='textareaTransparent'
-            //onKeyPress={this.handleKeyPress.bind(this)}
-            //onFocus={() => !locked && this.setState({ active: true })}
-            // onBlur={() => !locked && this.setState({ active: true })}
-          />
-          </div>
-          <div className ={'ButtonDivWaiting'} >
-          
-        </div>
-        <p className="TextStyleLightInstructions">Student</p>
-        <div className={'fieldSmall active false'}>
-        <textarea
-            id={2}
-            type="text"
-            value={NewStudentURL}
-            placeholder={'Enter File URL For Students Here'}
-            onChange={handleStudentURLChange}
-            className='textareaTransparent'
-            //onKeyPress={this.handleKeyPress.bind(this)}
-            //onFocus={() => !locked && this.setState({ active: true })}
-            // onBlur={() => !locked && this.setState({ active: true })}
-          />
-          </div>
-          <div className ={'ButtonDivWaiting'} >
-          <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
-        </div>
-       
-        </div>
-        <div className="FinancialsDiv">
-          <div className="Financials">
-            <p className="TextStyleLight">Financials:</p>
+      {showAvailability()}
+      <div className="FinancialsDiv">
+        <div className="Financials">
+            <p className="TextStyleLight">Financials: {PullFreeTrialData()}</p>
           </div>
           <div className="rowDiv">
          
@@ -6836,6 +7043,51 @@ function HandleChangeTabFunction(newValue){
           </div>
           <p></p>
         </div>
+
+
+      <div className=""> 
+        <div className="columnDivBig">
+        <p className="TextStyleLight">Files:</p>
+        <p className="TextStyleLightInstructions">Tutor</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewTutorURL}
+            placeholder={'Enter File URL For Tutors Here'}
+            onChange={handleTutorURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          
+        </div>
+        <p className="TextStyleLightInstructions">Student</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewStudentURL}
+            placeholder={'Enter File URL For Students Here'}
+            onChange={handleStudentURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
+        </div>
+       
+        </div>
+        
+      </div>
+      <div className="lowerPadding">
+
       </div>
         </>
         )
@@ -7020,11 +7272,12 @@ function HandleChangeTabFunction(newValue){
     
     return(
       <>
-      {//GetNavigation()
+      {GetNavigation()
       }
+      <Fragment>
       {ErrorScreen()}
       {FrontPageIsTutor()}
-      
+      </Fragment>
       </>
     )
   }
@@ -8653,11 +8906,7 @@ function ShowCreateQuiz(){
       {GetNavigation()}
       {AddWelcome()}
       <Fragment>
-        <div>
-          
-          {//GetDropDown(99)
-          }
-        </div>
+        
         <div className={'StudentAssignments'}>
         <p className={'TitleTextStyleLight'}>This weeks assignments:</p>
         <p></p>
@@ -9065,11 +9314,17 @@ function ShowCreateQuiz(){
       return(null)
     }
   }
+  
   if(PageSwitch == 4){
+    function GetSelected(){
+      console.log("TESTESTET")
+      console.log(document.querySelector(".tdSelected").getAttribute("time"))
+      console.log(document.querySelector(".tdSelected").getAttribute("day"))
+    }
     return (
       <>
       {/*<DashboardScheduleSelector/>*/}
-      <TimeSelect/>
+     
       {GetNavigation()}
       <Fragment>
       <p className="Format">Format new sessions as "Full Student Name - Full Tutor Name"</p>
@@ -9106,12 +9361,10 @@ function ShowCreateQuiz(){
        {CalendarSwitchFunc()}
       </Button>
       <p></p>
-      
+    
       {GetSubmitPayroll()}
-
-      <div>
-        <p>Enter Availability</p>
-      </div>
+      <p className={'TitleTextStyleLight3'}>Set Availability:</p>
+      <TimeSelect />
       </>
       )
   }
@@ -9454,7 +9707,7 @@ function GetPDFLink(){
           <Button onClick={()=>{setButtonPressed(!(ButtonPressed))}} variant="outlined" color="black" >{SwitchText}</Button>
         </div>
         <div style={{width:600}}>
-        <p className="TextStyleLightInstructions">Copy the sharable link from Google Drive into the textbox then press Add.</p>
+        <p className="TextStyleLightInstructions">Copy the sharable link from Google Drive into the textbox then press add.</p>
         </div>
       </div>
       
@@ -9519,6 +9772,9 @@ if(PageSwitch == 6){
         />
        <div style={{height:40, marginTop:33}}>
         <Button onClick={()=>{svgExportHandler()}} variant="outlined" color="black" >Share</Button>
+       </div>
+       <div style={{height:40, marginTop:33,marginLeft:10}}>
+        <Button onClick={()=>{loadSVGHandler()}} variant="outlined" color="black" >Refresh</Button>
        </div>
       </div>
       <div className="PDFDropdown">

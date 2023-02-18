@@ -29,6 +29,8 @@
 .timeSelect {
     display: grid;
     grid-template-areas: "table table table table table table table table";
+    margin-left: -4vw;
+    margin-top: 2vh;
 }
 
 .labels  {

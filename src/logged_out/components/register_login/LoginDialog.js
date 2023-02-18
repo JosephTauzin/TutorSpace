@@ -13,6 +13,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import useGlobal from '@donnikitos/react-useglobal';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayRemove, setDoc , deleteDoc} from "firebase/firestore";
+import '@firebase/firestore';
+
 
 const styles = (theme) => ({
   forgotPassword: {
@@ -78,6 +81,7 @@ function LoginDialog(props) {
   const registerName = useRef();
   const registerPhoneNumber = useRef();
   const registerStudentName = useRef();
+  const registerCompanyCode = useRef();
   const [registerType, setregisterType] = useState(null);
   const [registerTest, setregisterTest] = useState(null);
 
@@ -147,6 +151,11 @@ function LoginDialog(props) {
     registerStudentName,
     registerPhoneNumber
   ]);
+
+  function FindUniqueCompanyCodes(){
+
+
+  }
 
   function GetStudentNameForm(){
     
@@ -330,7 +339,28 @@ function LoginDialog(props) {
             }}
             FormHelperTextProps={{ error: true }}
           />
-
+          {
+            /*
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            //error={status === "invalidEmail"}
+            label="Compant Code (Enter a New Code if you are a new company)"
+            autoFocus
+            autoComplete="off"
+            type="tel"
+            inputRef={registerPhoneNumber}
+            onChange={() => {
+              if (status === "invalidEmail") {
+                setStatus(null);
+              }
+            }}
+            FormHelperTextProps={{ error: true }}
+          />
+          */
+          }
           {GetStudentNameForm()}
           <div style={{height:10}}></div>
           <Dropdown options={['Parent','Student','Tutor']} onChange={(s)=>{setregisterType(s)}} placeholder="Select an option"  />

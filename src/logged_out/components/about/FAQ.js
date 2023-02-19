@@ -6,7 +6,7 @@ const FAQ = () => {
             <div className='faq' data-aos="fade-down">
                 <h2>About Us</h2>
                 <div className='faqGroup'>
-                    <p>The college admissions process grows increasingly cutthroat every year, and we ensure that all of our students have the tools they need to succeed. While many top colleges and universities are making SAT and ACT scores optional , they can still be a valuable asset to many students’ applications.</p>
+                    <p>The college admissions process grows increasingly cutthroat every year, and we ensure that all of our students have the tools they need to succeed. While many top colleges and universities are making SAT and ACT scores optional , they are still the most valuable asset to many students’ applications.</p>
                 </div>
                 <div className='faqGroup'>
                     <p>Our tutors graduated from top-tier schools across the country and are all amongst the top 1% of SAT test scorers. Having been through the college admissions process relatively recently, they understand what skills today’s students need to succeed in SAT testing rooms to college classrooms and beyond. Going from high school to college-level classes is a struggle for many students, and we want to make that transition as smooth as possible.</p>
@@ -30,7 +30,7 @@ const FAQ = () => {
                 <ul>
                     <div className="faqGroup">
                         <li><p style={{fontWeight:'bold'}}>How many sessions do students go through?</p></li>
-                        <li><p>MeasureUp! students usually go through 4-6 sessions prior to the exam to reach their goal score. However, each student is unique, which is why we do not offer preset session bundles. Instead, our goal is get students off of tutoring services altogether and give them the tools they need to succeed.</p></li>
+                        <li><p>MeasureUp! students usually go through 10-15 sessions prior to the exam to reach their goal score. However, each student is unique, which is why we do not offer preset session bundles. Instead, our goal is get students off of tutoring services altogether and give them the tools they need to succeed.</p></li>
                     </div>
 
                     <div className="class faqGroup">
@@ -40,7 +40,7 @@ const FAQ = () => {
 
                     <div className="class faqGroup">
                         <li><p style={{fontWeight:'bold'}}>Should I take the SAT or ACT?</p></li>
-                        <li><p>Can’t figure out which one to prep for? Click <a href="https://www.usnews.com/education/best-colleges/articles/act-vs-sat-how-to-decide-which-test-to-take">here!</a></p></li>
+                        <li><p>Can’t figure out which one to prep for? We've designed a custom diagnostics test to make the process simple and effective!</p></li>
                     </div>
 
                     <div className="class faqGroup">

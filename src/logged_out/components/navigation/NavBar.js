@@ -5,9 +5,11 @@ import { AppBar, Toolbar, Typography, Button, Hidden, IconButton } from "@mui/ma
 import withStyles from '@mui/styles/withStyles';
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
+import InfoIcon from "@mui/icons-material/Info";
+import ContactsIcon from "@mui/icons-material/Contacts";
+import BookIcon from "@mui/icons-material/Book";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import BookIcon from "@mui/icons-material/Book";
 import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 import MeasureUpLogo from "./MeasureUpLogoTransparent.png"
 
@@ -18,7 +20,8 @@ const styles = theme => ({
   },
   toolbar: {
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+   
   },
   menuButtonText: {
     fontSize: theme.typography.body1.fontSize,
@@ -30,6 +33,10 @@ const styles = theme => ({
   },
   noDecoration: {
     textDecoration: "none !important"
+  },
+  menuButton:{
+    position: 'absolute',
+    right: 0,
   }
 });
 
@@ -53,7 +60,7 @@ function NavBar(props) {
     {
       link: "/about",
       name: "FAQ/About",
-      icon: <HomeIcon className="text-white" />
+      icon: <InfoIcon className="text-white" />
     },
   
     {
@@ -73,6 +80,42 @@ function NavBar(props) {
       onClick: openLoginDialog,
       icon: <LockOpenIcon className="text-white" />
     },
+    /*
+    {
+      name: "Schedule Free Session!",
+      link: '',
+      icon: <LockOpenIcon className="text-white" />
+    },
+    */
+  ];
+
+
+  const menuItemsMobile = [
+    {
+      link: "/",
+      name: "Home",
+      icon: <HomeIcon className="text-white" />
+    },
+  
+    {
+      link: "/about",
+      name: "FAQ/About",
+      icon: <InfoIcon className="text-white" />
+    },
+  
+    {
+      link: "#contact",
+      name: "Contact",
+      icon: <ContactsIcon className="text-white" />
+    },
+
+    {
+      link: "",
+      name: "Blog",
+      icon: <BookIcon className="text-white" />
+    },
+  
+    
     /*
     {
       name: "Schedule Free Session!",
@@ -123,6 +166,15 @@ function NavBar(props) {
       <AppBar position="relative" className={classes.appBar}>
         <Toolbar className={classes.toolbar}>
           {LogoSwitcher()}
+          <Hidden mdUp>
+              <IconButton
+                className={classes.menuButton}
+                onClick={handleMobileDrawerOpen}
+                aria-label="Open Navigation"
+                size="large">
+                <MenuIcon color="primary" />
+              </IconButton>
+            </Hidden>
           <div>
            
             <Hidden mdDown>
@@ -217,29 +269,21 @@ function NavBar(props) {
           </div>
         </Toolbar>
       </AppBar>
-     
+      
+          <NavigationDrawer
+                  menuItems={menuItemsMobile}
+                  anchor="right"
+                  open={mobileDrawerOpen}
+                  selectedItem={selectedTab}
+                  onClose={handleMobileDrawerClose}
+                />
     </div>
   );
 }
 
-/*
- <Hidden mdUp>
-              <IconButton
-                className={classes.menuButton}
-                onClick={handleMobileDrawerOpen}
-                aria-label="Open Navigation"
-                size="large">
-                <MenuIcon color="primary" />
-              </IconButton>
-            </Hidden>
- <NavigationDrawer
-        menuItems={menuItems}
-        anchor="right"
-        open={mobileDrawerOpen}
-        selectedItem={selectedTab}
-        onClose={handleMobileDrawerClose}
-      />
-*/
+
+
+
  
 NavBar.propTypes = {
   classes: PropTypes.object.isRequired,

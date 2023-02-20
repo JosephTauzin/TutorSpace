@@ -495,19 +495,19 @@ function Dashboard(props) {
   }
   const parse = require('html-react-parser');
   const loadSVGHandler = () => {
-    console.log('loadSVGHandler')
+    
     try{
     var svg = JSON.parse(SVG)
     
     const loadPaths = canvasRef.current?.loadPaths(svg);
    
     if (loadPaths) {
-      console.log("fd;sdlfksdf")
+      
       loadPaths();
     }
-    console.log("kfljslksdfjf")
+  
     }catch{
-      console.log('error')
+      
     }
     //console.log(parse(SVG))
   
@@ -535,8 +535,7 @@ function Dashboard(props) {
   useEffect(() => {
     //placeholder
 
-    console.log('SAVnum')
-    console.log(SAVnum)
+    
     if(SAVstart > 1){
       const delayDebounceFn = setTimeout(() => {
         svgExportHandler()
@@ -685,11 +684,9 @@ function Dashboard(props) {
         setClassroomStudentsACT(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassACT.arrayValue.values))
         setTutor(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
         setAdminBool(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Admin.booleanValue)[0])
-        console.log("Priod")
-        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
+     
         setCompanyCode(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
-        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.CompanyCode.stringValue)[0])
-        console.log('CompanyCode')
+        
         PullDaysPastStart()
       }
       else{
@@ -753,8 +750,7 @@ function Dashboard(props) {
  
         //setUserName( querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue));
 
-        console.log("Priod")
-        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
+       
           
         //setStudentsTotal(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
         
@@ -810,8 +806,7 @@ function Dashboard(props) {
           }catch(e){
             
           }
-          console.log("AdminInfoParent")
-          console.log([TempStudentsTotal, TempEmailTotal,TempParentTotal])
+          
           setAdminInfoParent([TempStudentsTotal, TempEmailTotal,TempParentTotal,TempPhonelTotal])
           
         }
@@ -846,9 +841,7 @@ function Dashboard(props) {
           var TempPhonelTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.PhoneNumber.stringValue)
           var AvailabilityTotal = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Availability.arrayValue.values.map(x => x.stringValue))
           
-          console.log("AdminInfoTutor")
-          console.log(TempStudentsTotal)
-          console.log([TempStudentsTotal, TempEmailTotal,TempPhonelTotal,AvailabilityTotal])
+          
           setAdminInfoTutor([TempStudentsTotal, TempEmailTotal,TempPhonelTotal,AvailabilityTotal])
           
         }
@@ -1046,7 +1039,7 @@ function Dashboard(props) {
     })
     .catch((error) => {
       // Handle any errors
-      console.log("Image Error")
+      
       console.log(error)
     });
   }
@@ -1217,7 +1210,7 @@ function PullAllDates(s = CurrentStudent){
             var TempDate = ''
             var TempDateX = ''
             try{
-              console.log(Meetings[0].length)
+              console.log('hi')
             }catch(e){
               return(null)
             }
@@ -1318,7 +1311,7 @@ function DeleteAllDates(s, num){
       const unsub = onSnapshot(x, (querySnapshot) => {
         var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
 
-        //console.log(new Date(AssignmentString[0]))
+        
         
         var NewMeetingDateString = MeetingDateString[0]
         
@@ -1427,7 +1420,6 @@ function SetAllMeetings(){
         //var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
 
        
-        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
        
         var Total = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields)
         var NewArr = []
@@ -1727,8 +1719,7 @@ function UpdateDate(){
         const unsub = onSnapshot(x, (querySnapshot) => {
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.StartTime.timestampValue)
   
-          console.log('AssignmentString')
-          console.log(AssignmentString[0].toString())
+    
   
           setCurrentDaysPastStart(AssignmentString[0].toString())
           setFreeTrialEndingDay(AddDaysToDate(AssignmentString[0].toString(), 30))
@@ -1910,8 +1901,7 @@ function UpdateDate(){
       const adminDef = doc(db, "CompanyCodeAdminInfo", FindMatchingUid());
       //const x = query(adminInfoRef, where("CompanyCode", "==", CompanyCode))
       //adminInfoRef
-      console.log('amount')
-      console.log(amount)
+      
       if(type == 'Private'){
         setPrivatePrice(amount.value)
         updateDoc(adminDef, {
@@ -1994,10 +1984,8 @@ function UpdateDate(){
           var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.SVG.stringValue)
   
         
-          
-          //console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue))
           setSVG(AssignmentString[0])
-          console.log("SVG: " + AssignmentString)
+        
           
         });
   
@@ -2503,7 +2491,7 @@ function UpdateDate(){
     }
 
 
-    console.log("INNIT")
+    
     const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
     var AdditionalPDFUrl = ''
    
@@ -2516,7 +2504,7 @@ function UpdateDate(){
     const tutorDef = doc(db, "users", FindMatchingUid());
     var StringToDelete = name + '%' + link 
     var NewString = AdditionalPDFUrl.replace(StringToDelete, '')
-    console.log("NewString: " + NewString)
+  
     updateDoc(tutorDef, {
       AdditionalPDFUrl: NewString //.slice(0, -1) 
       });
@@ -2542,23 +2530,20 @@ function UpdateDate(){
           }
         }
       }
-    console.log(FindMatchingUid())
+ 
     const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
     var AdditionalPDFUrl = ''
    
    
     const unsub = onSnapshot(X, (querySnapshot) => {
           var String = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue)
-          console.log("String")
-          console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.AdditionalPDFUrl.stringValue))
+         
           AdditionalPDFUrl = String[0]
     
 
 
     var FirstSplit = AdditionalPDFUrl.split('#')
-    console.log("FirstSplit")
-    console.log(FirstSplit)
-    console.log(AdditionalPDFUrl)
+   
     for(var i = 0; i<FirstSplit.length; i++){
       if(FirstSplit[i] == ''){
       
@@ -2568,8 +2553,7 @@ function UpdateDate(){
       }
      
     }
-    console.log("NewPDFLinks")
-    console.log(NewPDFLinks)
+    
     setNewPDFLinks(NewPDFLinks)
   });
   }catch(e){
@@ -2581,7 +2565,7 @@ function UpdateDate(){
   const inputEl = useRef(null);
   const onButtonClick = () => {
     // `current` points to the mounted text input element
-    console.log(inputEl);
+   
   };
 
   const [SwitchText, setSwitchText] = useState('Add')
@@ -2589,10 +2573,10 @@ function UpdateDate(){
 
   const [FirstStart, setFirstStart] = useState(true)
   useEffect(()=>{
-    console.log('jlkdjfdlskjfdslkjfd')
+  
     try{
     //PlaceholderURL
-    console.log("klfsjlkdfsjkfdjs")
+  
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
@@ -2606,7 +2590,7 @@ function UpdateDate(){
     }
 
     
-    console.log("INNIT")
+   
     const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
     var AdditionalPDFUrl = ''
    
@@ -2619,7 +2603,7 @@ function UpdateDate(){
     const tutorDef = doc(db, "users", FindMatchingUid());
     
     var NewString = AdditionalPDFUrl + NewPDFName + '%' + NewPDFURL + '#'
-    console.log("NewString: " + NewString)
+  
     updateDoc(tutorDef, {
       AdditionalPDFUrl: NewString //.slice(0, -1) 
       });
@@ -3217,9 +3201,6 @@ function UpdateDate(){
  
 
 
-  useEffect(()=>{
-    console.log("CurrentStudent changed")
-  },[CurrentStudent])
   
   useEffect(()=>{
     if(QuizData){
@@ -4890,8 +4871,7 @@ function HandleChangeTabFunction(newValue){
 
   function CompleteData(){
     //PlaceholderData
-    console.log("CompleteData")
-    console.log(data)
+    
     var TempData = data
     if(CurrentStudent !== ''){
       for(var i = 1; i < data.length; i++){
@@ -4900,8 +4880,7 @@ function HandleChangeTabFunction(newValue){
           TempData[i][5] = {value:'No Answer'}
         }
       }
-      console.log("TempData")
-      console.log(TempData)
+      
       setData(TempData)
     }
   }
@@ -5251,7 +5230,7 @@ function HandleChangeTabFunction(newValue){
 
   //Write a function to refresh the page
   function RefreshPage(){
-    console.log("slkjfsksfldjlkfs")
+   
     //setPageSwitch(10)
     window.location.reload();
   }
@@ -6323,7 +6302,7 @@ function HandleChangeTabFunction(newValue){
     const [ShowAvailabilityObjectName, setShowAvailabilityObjectName] = useState('false')
     useEffect(()=>{
       if(ChangeAvailabilityObject !== null){
-        console.log("ChangeAvailabilityObject", ChangeAvailabilityObject)
+        
         function reverseSelection(selectedTimes) {
         
           const selectedElements = selectedTimes.map((time) => {
@@ -6331,7 +6310,7 @@ function HandleChangeTabFunction(newValue){
             const [t, d] = time.split("-");
             return document.querySelector(`[time="${t}"][day="${d}"]`);
           });
-          console.log(selectedElements)
+          
           selectedElements.forEach((element) => {
            
             element.classList.add("tdSelected");
@@ -6448,7 +6427,7 @@ function HandleChangeTabFunction(newValue){
                 
               }, 1000)
             }catch(e){
-              console.log("Student not found")
+              
               setErrorScreenOn(true)
             }
           }
@@ -6471,15 +6450,13 @@ function HandleChangeTabFunction(newValue){
 
     function DoesStudentHaveTutor(student){
       //AdminInfo
-      console.log('DoesStudentHaveTutor')
+     
       
       for(var i = 0; i<AdminInfo.length; i++){
         
         if(AdminInfo[0][i] == student){
           if(AdminInfo[1][i] !== '' && AdminInfo[1][i] !== UserName.toString()){
-            console.log(AdminInfo[1][i])
-            
-            console.log("Returiniong false")
+       
             return(true)
           }
           else{
@@ -6714,7 +6691,7 @@ function HandleChangeTabFunction(newValue){
     }
 
     if(AdminInfoTutor !== null ){
-      console.log("AdminInfoTutor", AdminInfoTutor)
+
       for(var x = 0; x < AdminInfoTutor[0].length; x++){
         rowsTutor.push(createTutorData(AdminInfoTutor[0][x], AdminInfoTutor[1][x], AdminInfoTutor[2][x], AdminInfoTutor[3][x]))
       }
@@ -6778,8 +6755,7 @@ function HandleChangeTabFunction(newValue){
         }
       }, 250);
       setTimeout(() => {
-        console.log('SwitchShowAvailability')
-        console.log(x)
+       
         setChangeAvailabilityObject(x)
         
       }, 750);
@@ -6794,9 +6770,7 @@ function HandleChangeTabFunction(newValue){
       }
     }
     function showAvailability(){
-      console.log("showAvailability")
-      console.log(ShowAvailabilityObject)
-      console.log(ChangeAvailabilityObject)
+      
       if(ShowAvailabilityObject){
         return(
           <div className='timeSelect' >
@@ -6858,9 +6832,7 @@ function HandleChangeTabFunction(newValue){
       }
 
       function PullFreeTrialData(){
-        console.log("PullFreeTrialData")
-        console.log("InFreeTrial", InFreeTrial)
-        console.log("FreeTrialEndingDay", FreeTrialEndingDay)
+      
 
         //Write a function that takes a datetime string and returns the number of days until that date
         function DaysUntilDate(DateString){
@@ -7562,8 +7534,7 @@ function HandleChangeTabFunction(newValue){
       date.setMinutes(date.getMinutes() + minutes);
       return date.toISOString().slice(0, 16).replace('T', ' ');
     }
-    console.log("Change Event")
-    console.log(eventDict)
+    
     try{
       var Title = eventDict.event_id
       var TitleSplit = Title.split('-')
@@ -8314,7 +8285,7 @@ function HandleChangeTabFunction(newValue){
     
    
     
-    console.log("Creating New Quiz: " + QuizName)
+   
     if(QuizName.length == 0){
       return(null)
     }
@@ -9317,9 +9288,7 @@ function ShowCreateQuiz(){
   
   if(PageSwitch == 4){
     function GetSelected(){
-      console.log("TESTESTET")
-      console.log(document.querySelector(".tdSelected").getAttribute("time"))
-      console.log(document.querySelector(".tdSelected").getAttribute("day"))
+      
     }
     return (
       <>

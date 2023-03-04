@@ -43,6 +43,7 @@ import { FaSchool } from "react-icons/fa";
 import { FaRegSquare } from "react-icons/fa";
 import {FaChalkboardTeacher} from "react-icons/fa";
 import {FaChalkboard} from "react-icons/fa";
+import {FaFileExport} from "react-icons/fa"
 import {FaEraser} from "react-icons/fa";
 import {FaPen} from "react-icons/fa";
 import {FaTrash} from "react-icons/fa";
@@ -433,6 +434,9 @@ function Dashboard(props) {
   const [TriSwitchSpreadSheetValues, setTriSwitchSpreadSheetValues] = useState(0)
   const [TriSwitchSpreadSheetValuesDiagnostics, setTriSwitchSpreadSheetValuesDiagnostics] = useState(0)
   const [TestIndexConst, setTestIndexConst] = useState(1)
+
+  const [DisableService, setDisableService] = useState(true)
+
   const[AtStart, setAtStart] = useState(0)
   const openMobileDrawer = useCallback(() => {
     setIsMobileOpen(true);
@@ -465,8 +469,21 @@ function Dashboard(props) {
   const [AdminInfo, setAdminInfo] = useState(null)
   const [AdminInfoParent, setAdminInfoParent] = useState(null)
   const [AdminInfoTutor, setAdminInfoTutor] = useState(null)
+  const [dataURI, setDataURI] = React.useState("");
+  const [exportImageType, setexportImageType] = React.useState("png");
 
+  const imageExportHandler = async () => {
+    const exportImage = canvasRef.current?.exportImage;
 
+    if (exportImage) {
+      const exportedDataURI = await exportImage(exportImageType);
+      setDataURI(exportedDataURI);
+      const link = document.createElement("a");
+      link.download = exportedDataURI;
+      link.href = exportedDataURI;
+      link.click();
+    }
+  };
  
 
   const menuItems = [
@@ -657,6 +674,7 @@ function Dashboard(props) {
   const [ClassroomPrice, setClassroomPrice] = useState('')
   const [PrivatePriceTutor, setPrivatePriceTutor] = useState('')
   const [ClassroomPriceTutor, setClassroomPriceTutor] = useState('')
+  const [AllCompanyCodeMembers, setAllCompanyCodeMembers] = useState([])
 
 
   useEffect(() => {
@@ -1211,6 +1229,9 @@ function PullAllDates(s = CurrentStudent){
             var TempDateX = ''
             try{
               console.log('hi')
+              if(Meetings[0].length==0){
+                console.log("hello")
+              }
             }catch(e){
               return(null)
             }
@@ -1332,6 +1353,7 @@ function DeleteAllDates(s, num){
   }
 }
 function AddNewDates(s, newTime, endTime){
+
   function FindMatchingUid(){
     //NameId
     //CurrentStudent
@@ -1346,17 +1368,19 @@ function AddNewDates(s, newTime, endTime){
 
 
   function FindMatchingUidUpdate(){
+    for(var i = 0; i< NameId.length; i++){
+        
+      if(s == NameId[i][0]){
+        return(NameId[i][1])
+      }
+    }
+  }
     try{
       //NameId
       //CurrentStudent
       
-        for(var i = 0; i< NameId.length; i++){
         
-          if(s == NameId[i][0]){
-            return(NameId[i][1])
-          }
-        }
-      
+    
   
       const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
       const studentDef = doc(db, "users", FindMatchingUidUpdate());
@@ -1364,6 +1388,8 @@ function AddNewDates(s, newTime, endTime){
       var UpdatedArr = []
       var UpdatedArrEnd = []
       const unsub = onSnapshot(x, (querySnapshot) => {
+       
+        console.log(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields))
         var MeetingDateString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimes.arrayValue.values)
         var MeetingDateStringEnd = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.HistMeetingTimesEnd.arrayValue.values)
 
@@ -1405,10 +1431,10 @@ function AddNewDates(s, newTime, endTime){
       }, 1000)
 
     }catch(e){
-
+      console.log("ERROR in AddNewDates")
     }
   }
-}
+
 
 function SetAllMeetings(){
   
@@ -1744,6 +1770,48 @@ function UpdateDate(){
       }
   }
 
+  function PullDisabled(){
+    function FindMatchingUid(){
+      //NameId
+      //CurrentStudent
+
+      for(var i = 0; i< NameId.length; i++){
+
+        if(UserName.toString() == NameId[i][0]){
+          return(NameId[i][2])
+        }
+      }
+    }
+
+    try{
+      const x = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
+     
+      const unsub = onSnapshot(x, (querySnapshot) => {
+        var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.DisableService.booleanValue)
+
+      
+        
+
+        setDisableService(AssignmentString[0])
+        
+      });
+
+      if(Type == 'Student' || Type == 'Parent'){
+      
+      }else if(Type == 'Tutor'){
+
+      }
+    }catch(e){
+
+    }
+  }
+
+  useEffect(()=>{
+    if(UserName !== '' && UserName !== undefined){
+      PullDisabled()
+    }
+  },[UserName])
+
   function PullNotepad(s){
     //Placeholder
     function FindMatchingUid(){
@@ -1880,6 +1948,65 @@ function UpdateDate(){
               });
             }
   }
+  
+  function PulllAllMemebersWithCompanyCode(){
+    console.log("PulllAllMemebersWithCompanyCode")
+    try{
+      const x = query(usersRef, where("CompanyCode", "==", CompanyCode)) //query(usersRef, where("id", "==", FindMatchingUid()));
+
+      const unsub = onSnapshot(x, (querySnapshot) => {
+        var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue)
+        console.log("PulllAllMemebersWithCompanyCode")
+        console.log(AssignmentString)
+        setAllCompanyCodeMembers(AssignmentString)
+
+      });
+    }catch(e){
+
+    }
+  }
+
+  useEffect(()=>{
+    if(CompanyCode !== ''){
+      PulllAllMemebersWithCompanyCode()
+    }
+  },[CompanyCode])
+
+
+  function updateDisabled(t, name){
+    // d could just feed in date
+    //setDisableService
+    if(true){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+
+        for(var i = 0; i< NameId.length; i++){
+
+          if(name.toString() == NameId[i][0]){
+            return(NameId[i][1])
+          }
+        }
+      }
+
+      const studentDef = doc(db, "users", FindMatchingUid());
+
+      updateDoc(studentDef, {
+              DisableService: t
+
+              });
+
+            }
+  }
+
+  const handleChangeDisabled = (event) => {
+    console.log(event.target.checked)
+    console.log("handleChangeDisabled")
+    setDisableService(event.target.checked);
+    for(var i = 0; i< AllCompanyCodeMembers.length; i++){
+      updateDisabled(event.target.checked, AllCompanyCodeMembers[i])
+    }
+  };
 
   //PlaceholderFinancials
   function UpdateFinancials(amount, type){
@@ -1953,7 +2080,7 @@ function UpdateDate(){
         }
       }
   
-      const studentDef = doc(db, "CompanyCodeAdminInfo", FindMatchingUid());
+      const studentDef = doc(db, "users", FindMatchingUid());
   
       updateDoc(studentDef, {
               SVG: t
@@ -4866,7 +4993,9 @@ function HandleChangeTabFunction(newValue){
     }
   },[PageSwitch, CurrentTest, CurrentStudent])
 
-
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[PageSwitch])
 
 
   function CompleteData(){
@@ -6008,8 +6137,12 @@ function HandleChangeTabFunction(newValue){
       }
     }
 
-    
-    if(PageSwitch == 10){
+    if(Type[0] == '1'){
+      return(
+        null
+      )
+    }
+    if(PageSwitch == 10 && Type == 'Tutor'){
       var iconsize  = 25
       return(
         <><div className={'NavDiv'}>
@@ -6195,13 +6328,7 @@ function HandleChangeTabFunction(newValue){
           </Button>
           </Tooltip>
 
-          <Tooltip title="Admin">
-            <Button className={'IconDiv'}onClick={()=>{RefreshPage()}} startIcon={<FaBriefcase size={iconsize} />}>
-
-
-              <p> Admin</p>
-            </Button>
-          </Tooltip>
+          
 
         </div><div className={'IconDivLogOffTutor'}>
             <Tooltip title = "">
@@ -6856,6 +6983,15 @@ function HandleChangeTabFunction(newValue){
         }
       }
 
+      function ChangeActive(){
+        console.log(DisableService)
+        console.log('Changing Active')
+        if(DisableService == true){
+          return(<p style={{color:'green', fontWeight:'bold', fontSize:18}}>Active</p>)
+        }else{
+          return(<p style={{color:'red', fontWeight:'bold', fontSize:18}}>Disabled</p>)
+        }
+      }
       if(AdminBool == true){
         return(
           <>
@@ -6887,7 +7023,7 @@ function HandleChangeTabFunction(newValue){
 
         </div>
         <p className="TextStyleLight">Tutors:</p>
-        <p className="TextStyleLight"> </p>
+  
         <div className="MaxHeightDivLarge">
         <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -6973,7 +7109,7 @@ function HandleChangeTabFunction(newValue){
           </div>
           <div className="rowDiv">
           <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Cost per hour (Classroom):</p>
+          <p className="TextStyleLightInstructions">Cost per hour (Class):</p>
           <Dropdown options={[
             '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
             '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
@@ -6993,7 +7129,7 @@ function HandleChangeTabFunction(newValue){
           ]} onChange={(x)=>{UpdateFinancials(x, 'Classroom')}}  placeholder="Select cost"  value={ClassroomPrice}/>
           </div>
           <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Classroom Tutor Salary Per Hour:</p>
+          <p className="TextStyleLightInstructions">Class Tutor Salary Per Hour:</p>
           <Dropdown options={[
             '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
             '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
@@ -7012,8 +7148,16 @@ function HandleChangeTabFunction(newValue){
             '$500'
           ]} onChange={(x)=>{UpdateFinancials(x, 'Group')}}  placeholder="Select cost"  value={ClassroomPriceTutor}/>
           </div>
+          
           </div>
           <p></p>
+          <div className="rowDivService">
+          <p className="TextStyleLightInstructions">Service:</p>
+          <div style={{marginTop:11}}>
+            <Switch checked={(DisableService)} label="Label"  onChange={handleChangeDisabled}/>
+          </div>
+           {ChangeActive()}
+          </div>
         </div>
 
 
@@ -7136,6 +7280,14 @@ function HandleChangeTabFunction(newValue){
     }
   }
 
+  function DisabledScreen(){
+    if(true){
+      return(
+        <p  className={'TitleTextStyleLight'}>Your Admin has disabled your account, please reach out to them directly. </p>
+      )
+    }
+  }
+
   function ShowTopics(){
     if(CurrentTest == 'Other')
     {
@@ -7239,6 +7391,16 @@ function HandleChangeTabFunction(newValue){
     }
 
     
+  }
+  if(DisableService == false && AdminBool == false){
+    console.log("ERROR LOPGOGGGGG")
+    return(
+      <>
+      <Fragment>
+      {DisabledScreen()}
+      </Fragment>
+      </>
+    )
   }
   if(PageSwitch == 10){
     
@@ -7529,10 +7691,13 @@ function HandleChangeTabFunction(newValue){
 
 
   function ChangeEvent(eventDict){
+
     function addMinutesToDateTimeString(datetimeString, minutes) {
       const date = new Date(datetimeString);
+      
       date.setMinutes(date.getMinutes() + minutes);
-      return date.toISOString().slice(0, 16).replace('T', ' ');
+      
+      return date.toString().slice(0, 24).replace('T', ' ');
     }
     
     try{
@@ -8665,9 +8830,7 @@ function ShowCreateQuiz(){
           </div>
     */
   
-   if(Type=='Student'){
-    return(null)
-   }
+   
    function ShowEditButton(){
     if(Type=='Tutor'){
       return(<div className={'NotepadButtonDiv2'}>
@@ -8920,13 +9083,122 @@ function ShowCreateQuiz(){
   }
  
   if(PageSwitch == 3){
+
+    function ShowTestSynopsis(){
+      if(ClassroomTest == 'Other'){
+        return(null)
+      }
+      else{
+        return(
+          <><p className={'TitleTextStyleLight3'}>Test Synopsis:</p><EnhancedTableToolbar numSelected={selectedMath.length} /><TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+              <EnhancedTableHeadMath
+                numSelected={selectedMath.length}
+                order={orderMath}
+                orderBy={orderByMath}
+                onSelectAllClick={handleSelectAllClickMath}
+                onRequestSort={handleRequestSortMath}
+                rowCount={MathrowsGlobalClassroom.length} />
+              <TableBody>
+                {stableSort(MathrowsGlobalClassroom, getComparator(orderMath, orderByMath))
+
+                  .map((row, index) => {
+                    const isItemSelected = isSelectedMath(row.Category);
+                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                    return (
+                      <TableRow
+                        hover
+                        //onClick={(event) => handleClick(event, row.Category)}
+                        //role="checkbox"
+                        aria-checked={isItemSelected}
+                        tabIndex={-1}
+                        key={row.Category}
+                        selected={isItemSelected}
+                      >
+                        <StyledTableCell align="right">
+                          {row.Category}
+                        </StyledTableCell>
+
+                        <StyledTableCell align="right">{row.Right}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Blank}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Percent}</StyledTableCell>
+                        <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
+                      </TableRow>
+                    );
+                  })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer><p></p><p></p><p></p><EnhancedTableToolbar numSelected={selectedVerbal.length} /><TableContainer component={Paper}>
+              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+                <EnhancedTableHeadVerbal
+                  numSelected={selectedVerbal.length}
+                  order={orderVerbal}
+                  orderBy={orderByVerbal}
+                  onSelectAllClick={handleSelectAllClickVerbal}
+                  onRequestSort={handleRequestSortVerbal}
+                  rowCount={VerbalrowsGlobalClassroom.length} />
+                <TableBody>
+                  {stableSort(VerbalrowsGlobalClassroom, getComparator(orderVerbal, orderByVerbal))
+
+                    .map((row, index) => {
+                      const isItemSelected = isSelectedVerbal(row.Category);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+
+                      return (
+                        <TableRow
+                          hover
+                          //onClick={(event) => handleClick(event, row.Category)}
+                          //role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.Category}
+                          selected={isItemSelected}
+                        >
+                          <StyledTableCell align="right">
+                            {row.Category}
+                          </StyledTableCell>
+
+                          <StyledTableCell align="right">{row.Right}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Blank}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Percent}</StyledTableCell>
+                          <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow
+                      style={{
+                        height: (dense ? 33 : 53) * emptyRows,
+                      }}
+                    >
+                      <TableCell colSpan={6} />
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer></>
+        )
+      }
+    }
     return (
       <>
       {GetNavigation()}
       <Fragment>
         <div className="ClassroomTest">
         
-          <Dropdown options={['SAT','ACT']} onChange={(x)=>{ClassroomTestChange(x.value)}} value={ClassroomTest} placeholder="Select a test"  />
+          <Dropdown options={['SAT','ACT','Other']} onChange={(x)=>{ClassroomTestChange(x.value)}} value={ClassroomTest} placeholder="Select a test"  />
         
           
         </div>
@@ -8993,118 +9265,8 @@ function ShowCreateQuiz(){
         </div>
 
 
+        {ShowTestSynopsis()}
         
-          <p className={'TitleTextStyleLight3'}>Test Synopsis:</p>
-          <EnhancedTableToolbar numSelected={selectedMath.length} />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <EnhancedTableHeadMath
-                numSelected={selectedMath.length}
-                order={orderMath}
-                orderBy={orderByMath}
-                onSelectAllClick={handleSelectAllClickMath}
-                onRequestSort={handleRequestSortMath}
-                rowCount={MathrowsGlobalClassroom.length}
-              />
-                <TableBody>
-                {stableSort(MathrowsGlobalClassroom, getComparator(orderMath, orderByMath))
-                
-                .map((row, index) => {
-                  const isItemSelected = isSelectedMath(row.Category);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      //onClick={(event) => handleClick(event, row.Category)}
-                      //role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.Category}
-                      selected={isItemSelected}
-                    >
-                      <StyledTableCell align="right">
-                        {row.Category}
-                      </StyledTableCell>
-                      
-                      <StyledTableCell align="right">{row.Right}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Blank}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Percent}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <p></p>
-            <p></p>
-            <p></p>
-
-
-            <EnhancedTableToolbar numSelected={selectedVerbal.length} />
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-              <EnhancedTableHeadVerbal
-                numSelected={selectedVerbal.length}
-                order={orderVerbal}
-                orderBy={orderByVerbal}
-                onSelectAllClick={handleSelectAllClickVerbal}
-                onRequestSort={handleRequestSortVerbal}
-                rowCount={VerbalrowsGlobalClassroom.length}
-              />
-                <TableBody>
-                {stableSort(VerbalrowsGlobalClassroom, getComparator(orderVerbal, orderByVerbal))
-                
-                .map((row, index) => {
-                  const isItemSelected = isSelectedVerbal(row.Category);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      //onClick={(event) => handleClick(event, row.Category)}
-                      //role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.Category}
-                      selected={isItemSelected}
-                    >
-                      <StyledTableCell align="right">
-                        {row.Category}
-                      </StyledTableCell>
-                      
-                      <StyledTableCell align="right">{row.Right}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Wrong}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Blank}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Percent}</StyledTableCell>
-                      <StyledTableCell align="right">{row.Chapter}</StyledTableCell>
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-                </TableBody>
-              </Table>
-            </TableContainer>
       </Fragment>
       </>
       )
@@ -9712,6 +9874,14 @@ if(PageSwitch == 6){
           <FaCalculator size ={35} />
         </Button>
         </Tooltip>
+
+        <Tooltip title="Save Whiteboard Image">
+        <Button onClick={imageExportHandler}>
+          
+          <FaFileDownload size ={35} />
+        </Button>
+        </Tooltip>
+
         <Tooltip title={SwitchIconLabel()}>
         <Button onClick={eraserHandler}>
           
@@ -9753,6 +9923,8 @@ if(PageSwitch == 6){
 
         {GetCalculator()}
         {GetPDFLink()}
+
+       
       
       </>
     )

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, Fragment } from "react";
+import React, { useState, useCallback, useRef, Fragment,useEffect } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 import { withRouter } from "react-router-dom";
@@ -15,7 +15,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayRemove, setDoc , deleteDoc} from "firebase/firestore";
 import '@firebase/firestore';
-
+import {  db, storage} from "../../../firebase.js";
 
 const styles = (theme) => ({
   forgotPassword: {
@@ -259,6 +259,9 @@ function LoginDialog(props) {
     
       history.push("/c/dashboard");
       window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 750);
     }catch(err){
       alert(err.message);
       setIsLoading(false);
@@ -266,6 +269,58 @@ function LoginDialog(props) {
   }
 
 
+  //FUnction that returns only unique values in an array and takes only an array
+
+  function findUniqueValues(arr) {
+    let uniqueValues = [];
+  
+    arr.forEach(function(value) {
+      if (!uniqueValues.includes(value)) {
+        uniqueValues.push(value);
+      }
+    });
+  
+    return uniqueValues;
+  }
+
+  const [CompanyCodes, setCompanyCodes] = useState([]);
+  const [CompanyCodesUnique, setCompanyCodesUnique] = useState([]);
+  //Get all company codes from users
+  const usersRef = collection(db, "users");
+  useEffect(() => {
+    const x = query(usersRef);
+    
+    const unsubscribe = onSnapshot(x, (snapshot) => {
+      snapshot.docs.map((doc) => {
+        if(doc.data().CompanyCode !== ''){
+          setCompanyCodes((CompanyCodes) => [...CompanyCodes, doc.data().CompanyCode]);
+        }
+      });
+  
+      console.log("FInd Unique")
+      console.log(CompanyCodes)
+      console.log(findUniqueValues(CompanyCodes))
+      
+      //setCompanyCodes(findUniqueValues(CompanyCodes));
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      console.log("FInd Unique 2")
+      console.log(CompanyCodes)
+      console.log(findUniqueValues(CompanyCodes))
+      var x = findUniqueValues(CompanyCodes)
+    
+      setCompanyCodesUnique(findUniqueValues(CompanyCodes));
+    }, 1000)
+    return () => clearTimeout(delayDebounceFn)
+  }, [CompanyCodes])
 
 
   function SignInInfo(){

@@ -42,7 +42,7 @@ import ReportCard from "./images/ReportCard.png"
 import { useExitIntent } from 'use-exit-intent'
 import { FaTimes } from "react-icons/fa";
 import Contact from "./Contact";
-
+import ProgressImage from "./images/ProgressTutorSpace2.png"
 
 
 
@@ -810,7 +810,7 @@ function HeadSection(props) {
                   </div>
                   <div class="ssCaption text">
                       <h3>Software for Success</h3>
-                      <p>MeasureUp! is proud to be powered by TutorSpace's innovate Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
+                      <p>MeasureUp! is proud to be powered by TutorSpace's innovative Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
                   </div>
                   <div class="rpCaption text">
                       <h3>Refined by Practice</h3>
@@ -821,12 +821,29 @@ function HeadSection(props) {
                       <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
                   </div>
                 </div>
-
-          
-
        </div>
-      </div>
 
+      <div style={{height:30}}></div>
+       <div className="features" data-aos="fade-down" data-aos-duration="500">
+              <h2 style={{textAlign:'center', marginTop:60}}>Visualise your students’ progress</h2>
+              <div class ="imageDiv2">
+                  <span ></span>
+                  <span></span>
+                  <div class="ProgressImage">
+                    <img className="TutorSpaceImage" src={ProgressImage}/>
+                  </div>
+                 
+                 
+                 
+                </div>
+                <div class="ssCaption text">
+                   
+                   <h3>As your student prepares for their upcoming tests, we'll work together to identify their problem areas and provide them with personalized tools to succeed, all while you follow along with their progress online.</h3>
+               </div>
+       </div>
+
+      </div>
+      <div style={{height:70}}></div>
     {ShowSchool()}
     <Contact />
       <div className='bottomDiv'>

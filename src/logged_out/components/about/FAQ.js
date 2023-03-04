@@ -6,7 +6,7 @@ const FAQ = () => {
             <div className='faq' data-aos="fade-down">
                 <h2>About Us</h2>
                 <div className='faqGroup'>
-                    <p>The college admissions process grows increasingly cutthroat every year, and we ensure that all of our students have the tools they need to succeed. While many top colleges and universities are making SAT and ACT scores optional , they are still the most valuable asset to many students’ applications.</p>
+                    <p>The college admissions process grows increasingly cutthroat every year, and we ensure that all of our students have the tools they need to succeed. While many top colleges and universities are making SAT and ACT scores optional, they are still the most valuable asset to many students’ applications.</p>
                 </div>
                 <div className='faqGroup'>
                     <p>Our tutors graduated from top-tier schools across the country and are all amongst the top 1% of SAT test scorers. Having been through the college admissions process relatively recently, they understand what skills today’s students need to succeed in SAT testing rooms to college classrooms and beyond. Going from high school to college-level classes is a struggle for many students, and we want to make that transition as smooth as possible.</p>
@@ -18,7 +18,7 @@ const FAQ = () => {
                     <p>To achieve this, we use TutorSpace, our proprietary tutoring system that tracks our students’ progress, identifies areas for improvement, and provides greater results than traditional tutoring services.</p>
                 </div>
                 <div className='faqGroup'>
-                    <p>Students can see increases of up to 200 points on the SAT using this system. We work with each student individually to create bespoke plans for greatest improvement, and we accept all students, regardless of base score.</p>
+                    <p>Students can see increases of up to 200 points on the SAT using this system. We work with each student individually to create bespoke plans for the greatest improvement, and we accept all students, regardless of base score.</p>
                 </div>
                 <div className='faqGroup'>
                     <p>Our one-on-one tutoring sessions are all completely online with flexible hours and no rescheduling fees!</p>

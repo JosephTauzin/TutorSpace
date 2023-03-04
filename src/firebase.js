@@ -98,6 +98,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         ConnectedAccountCreated:false,
         StartTime:new Date(),
         Availability:[],
+        DisableService:true,
       });
     }
     else if (type == 'Student'){
@@ -138,6 +139,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         CompanyCode:'MeasureUp',
         ConnectedAccountCreated:true,
         StartTime:new Date(),
+        DisableService:true,
       });
     }
     else{
@@ -177,6 +179,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         CompanyCode:'MeasureUp',
         ConnectedAccountCreated:true,
         StartTime:new Date(),
+        DisableService:true,
       });
     }
   } catch (err) {

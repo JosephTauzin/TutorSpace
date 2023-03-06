@@ -825,7 +825,7 @@ function HeadSection(props) {
 
       <div style={{height:30}}></div>
        <div className="features" data-aos="fade-down" data-aos-duration="500">
-              <h2 style={{textAlign:'center', marginTop:60}}>Visualise your students’ progress</h2>
+              <h2 style={{textAlign:'center', marginTop:60}}>Visualise your student's progress</h2>
               <div class ="imageDiv2">
                   <span ></span>
                   <span></span>
@@ -843,6 +843,33 @@ function HeadSection(props) {
        </div>
 
       </div>
+      <div style={{height:40}}></div>
+      <div class="featuresPlan" data-aos="fade-down" data-aos-duration="500">
+              <h2 style={{textAlign:'center'}}>Our Three Step Success Plan</h2>
+              <div class ="featuresContentWrap">
+                  <div class="softwareSuccess icon">
+                    <img src={require("./images/PurpleProgress2.png")}/>
+                  </div>
+                  <div class="refinedPractice icon">
+                      <img src={require("./images/OnlineTutor2.png")}/>
+                  </div>
+                  <div class="enableImprove icon">
+                      <img src={require("./images/Exam.png")}/>
+                  </div>
+                  <div class="ssCaption text">
+                      <h3>Step 1</h3>
+                      <p>We start by giving your student a diagnostics test in order to uncover their strengths and weaknesses.</p>
+                  </div>
+                  <div class="rpCaption text">
+                      <h3>Step 2</h3>
+                      <p>We pair you with an experienced, yet relatable, tutor who recently scored within the top 1% on their standardized tests.</p>
+                  </div>
+                  <div class="eiCaption text">
+                      <h3>Step 3</h3>
+                      <p>We combine weekly individual practice with mock exams and tageted homework modules to give you the tools that you need to succeed!</p>
+                  </div>
+                </div>
+       </div>
       <div style={{height:70}}></div>
     {ShowSchool()}
     <Contact />

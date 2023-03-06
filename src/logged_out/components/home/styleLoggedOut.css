@@ -143,13 +143,14 @@ a {
     color: #342E37;
 }
 .imageDiv2{
-    width:100%;
+    
     margin-top:9vh;
     margin-left: 1.5vw;
-    height:90vh;
+   
     flex-direction: row;
     display:flex;
-    margin-bottom: -4vw;
+    margin-bottom: 5vw;
+   
 }
 .headerTitle {
     grid-area: headerTitle;
@@ -385,7 +386,7 @@ h3 {
 }
 
 p {
-    font-size: calc(5px + 0.8vw);
+    font-size: calc(6px + 0.8vw);
     font-family: 'Lato', sans-serif;
     color:#342E37;
 
@@ -398,9 +399,15 @@ p {
 .features {
     text-align: center;
 }
+.featuresPlan{
+    text-align: center;
+    width:80vw;
+    margin-left: 10vw;
+   
+}
 .ProgressImage{
-    width: 400vw;
-    height: 100vh;
+    
+    
     margin: auto;
     padding: 0 0 0 0;
 }

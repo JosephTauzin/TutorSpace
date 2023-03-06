@@ -2604,7 +2604,7 @@ function UpdateDate(){
     }
   }
 
-  function DeleteFromPDFLinks(name,link){
+  function DeleteFromPDFLinks(name){
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
@@ -2617,6 +2617,11 @@ function UpdateDate(){
       }
     }
 
+    function removeSubstringFromString(str, subStr) {
+      const segments = str.split('~');
+      const filteredSegments = segments.filter(segment => !segment.includes(subStr));
+      return filteredSegments.join('~');
+    }
 
     
     const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
@@ -2629,8 +2634,8 @@ function UpdateDate(){
     });
   
     const tutorDef = doc(db, "users", FindMatchingUid());
-    var StringToDelete = name + '%' + link 
-    var NewString = AdditionalPDFUrl.replace(StringToDelete, '')
+ 
+    var NewString = removeSubstringFromString(AdditionalPDFUrl, name )
   
     updateDoc(tutorDef, {
       AdditionalPDFUrl: NewString //.slice(0, -1) 
@@ -2657,6 +2662,10 @@ function UpdateDate(){
           }
         }
       }
+
+      function removeEmptyStrings(arr) {
+        return arr.filter(str => str !== "");
+      }
  
     const X = query(usersRef, where("uid", "==", FindMatchingUid())) //query(usersRef, where("id", "==", FindMatchingUid()));
     var AdditionalPDFUrl = ''
@@ -2668,20 +2677,21 @@ function UpdateDate(){
           AdditionalPDFUrl = String[0]
     
 
-
-    var FirstSplit = AdditionalPDFUrl.split('#')
-   
+    console.log('AdditionalPDFUrl')
+    console.log(AdditionalPDFUrl)
+    var FirstSplit = removeEmptyStrings( AdditionalPDFUrl.split('~'))
+    console.log('FirstSplit')
+    console.log(FirstSplit)
+    var NewPDFLinksLocal = []
     for(var i = 0; i<FirstSplit.length; i++){
-      if(FirstSplit[i] == ''){
-      
-      }else{
-        var SecondSplit = FirstSplit[i].split('%')
-        NewPDFLinks.push(SecondSplit)
-      }
+      var SecondSplit = FirstSplit[i].split('%')
+      NewPDFLinksLocal.push(SecondSplit)
      
     }
+    setNewPDFLinks(NewPDFLinksLocal)
+    console.log('NewPDFLinks')
+    console.log(NewPDFLinksLocal)
     
-    setNewPDFLinks(NewPDFLinks)
   });
   }catch(e){
     console.log(e)
@@ -2699,11 +2709,13 @@ function UpdateDate(){
   const [ButtonPressed, setButtonPressed] = useState(false)
 
   const [FirstStart, setFirstStart] = useState(true)
+
+
   useEffect(()=>{
   
     try{
     //PlaceholderURL
-  
+    console.log("WE ARE HERE")
     function FindMatchingUid(){
       //NameId
       //CurrentStudent
@@ -2712,6 +2724,17 @@ function UpdateDate(){
       
         if(UserName.toString() == NameId[i][0]){
           return(NameId[i][2])
+        }
+      }
+    }
+    function FindMatchingUidUpdate(){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(UserName.toString() == NameId[i][0]){
+          return(NameId[i][1])
         }
       }
     }
@@ -2727,14 +2750,20 @@ function UpdateDate(){
           AdditionalPDFUrl = String[0]
     });
   
-    const tutorDef = doc(db, "users", FindMatchingUid());
+
+    console.log(AdditionalPDFUrl)
+    console.log(FindMatchingUid())
+    const tutorDef = doc(db, "users", FindMatchingUidUpdate());
     
-    var NewString = AdditionalPDFUrl + NewPDFName + '%' + NewPDFURL + '#'
-  
+    var NewString = AdditionalPDFUrl + NewPDFName + '%' + NewPDFURL + '~'
+    console.log(NewString)
+    if(NewString == '%~'){
+      console.log("EMPTY New string")
+    }else{
     updateDoc(tutorDef, {
       AdditionalPDFUrl: NewString //.slice(0, -1) 
       });
-
+    }
     setTimeout(() => {
 
       if(SwitchText == 'Add'){
@@ -9678,6 +9707,31 @@ var optionGroups = {
 var pdfLinksSAT = ['1m1ILrGW4PEbDVJ13fmcAxEZxyEO3WgBE','1vLyCwsfdCWPNzffJC2LCkJ9uFPlBz_oD','1PVRRrp4ixtsK-CEh3Ao-zulWmAxOdzhG','1Ow-Zfvrj7UrTT71ii8_Ivzi6wPPSTWEP','1LotFzgn8hOQTmrXIjryCibqxPHAGmPyH','1UwwQJsXnIN_XTDebuckYJB--K2p5w8Xx','1BF0EFI4fZuCHtw4N-DTflvD_mneNgNXg','1IG-9JUVlhw5fybYnkwlzcbVU6YgbmMAU','1L4Ix7aKsVrNnWsaGRU107bj_Flc4Dtmm','1Bm5WNRw4oICRpXpZhf0rV2vItQgRLLi7','1FKdqKsW87FmV1V8J7291lT7Jk_skrHHT','19LJgs1oPagA7pLSMDfCBUEodA_z7s5dM','17h5GjU7aEpZdTCmQViuK7JKKb-Eev6-a']
 var pdfLinksACT = ['1tvIecv6wR8VF-UQt9RgfdcqcnYZ_9JAa','1ZMC5eZALFBGji3-T-otgCClQQp50zfPs','1aLikRZWW5GRzA4iMGjbBWqsnAoNOhvYW','19rNXL5DRIwwOSVaj_7J7gCoCYWByeDl6','13siuyTAB1KxZqkOvAPZ9_a72VO1_hNRd','1LZQswWfQjJ7Xc9Hu-MOvsbO-KmCMV-74','17JvXhik4czV_fTJaeaPUyZMs1bFeknNC','1IfAZJEJJGF4TNm5sQ1IlTp58NFJgd6X9','14khBy-ei1HDftExWwuYt96tgisXJKQci','1iV5TtPPJGxN0Z97iSsb7DPEOfAhdnlxO','1_ZNyYCkW1f3JC5ias8ZNfmVeVzDq4nh6','1RjOEeEmfmhmXdUjkeVDwXiCMYYV9V_bi','17h5GjU7aEpZdTCmQViuK7JKKb-Eev6-a']
 //https://drive.google.com/file/d/1FKdqKsW87FmV1V8J7291lT7Jk_skrHHT/view?usp=sharing
+
+function AddDeletePDFButton(){
+  for(var i = 0; i < NewPDFLinks.length; i++){
+    if(currPDF.includes(NewPDFLinks[i][0])){
+      return(
+    
+          <Button onChange={()=>{DeleteFromPDFLinks(NewPDFLinks[i][0])}} variant="outlined" color="black" >Delete</Button>
+       
+      )
+    }
+    else{
+      return(null)
+    }
+  }
+}
+
+function PullPDFNames(){
+  var pdfNames = ['Whiteboard','Practice Test 1','Practice Test 2','Practice Test 3','Practice Test 4','Practice Test 5','Practice Test 6','Practice Test 7','Practice Test 8','Practice Test 9','Practice Test 10', 'Grammar Book', 'Math Book','Reading Book']
+  
+  for(var i = 0; i < NewPDFLinks.length; i++){
+    pdfNames.push(NewPDFLinks[i][0])
+  }
+  return(pdfNames)
+}
+
 function GetCorrectPDFLink(){
   //currPDF
   for(var i = 0; i < NewPDFLinks.length; i++){
@@ -9731,11 +9785,19 @@ function GetCorrectPDFLink(){
 }
 function FormatLink(){
   var num = GetCorrectPDFLink()
+  console.log('num',num)
+ 
+  function RemoveExtra(url){
+    
+    var URLX = url.toString()
+    var newURL = URLX.replace('https://drive.google.com/file/d/','').replace('/view?usp=sharing','')
+    return(newURL)
+  }
   if(num == null){
     return(null)
   }
   if(num.length>1){
-    return('https://drive.google.com/file/d/'+NewPDFLinks[num[1]][1]+'/preview')
+    return('https://drive.google.com/file/d/'+RemoveExtra(NewPDFLinks[num[1]][1])+'/preview')
   }
   else if(num.length == 1 ){
     if(CurrentTest == 'ACT'){
@@ -9868,7 +9930,11 @@ if(PageSwitch == 6){
           />
       </div>
       </div>
+      
       <div className="rowDivWhiteboard">
+
+      
+
         <Tooltip title="Calculator">
         <Button onClick={()=>{setshowCalculator(!(showCalculator))}}>
           <FaCalculator size ={35} />
@@ -9917,7 +9983,10 @@ if(PageSwitch == 6){
        </div>
       </div>
       <div className="PDFDropdown">
-        <Dropdown options={['Whiteboard','Practice Test 1','Practice Test 2','Practice Test 3','Practice Test 4','Practice Test 5','Practice Test 6','Practice Test 7','Practice Test 8','Practice Test 9','Practice Test 10', 'Grammar Book', 'Math Book','Reading Book']} onChange={(x)=>{setcurrPDF(x.value)}}  placeholder="Select a PDF"  />
+        <Dropdown options={PullPDFNames()} onChange={(x)=>{setcurrPDF(x.value)}}  placeholder="Select a PDF"  />
+        <div style={{marginLeft:10}}>
+          {AddDeletePDFButton()}
+        </div>
        </div>
         {GetPDF()}
 

@@ -47,6 +47,7 @@ import {FaFileExport} from "react-icons/fa"
 import {FaEraser} from "react-icons/fa";
 import {FaPen} from "react-icons/fa";
 import {FaTrash} from "react-icons/fa";
+import {FaCog} from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
 import { FaDesktop } from "react-icons/fa";
 import { FaPowerOff } from "react-icons/fa";
@@ -98,6 +99,7 @@ import LabelColumn from './LabelColumn'
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 
+
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -114,6 +116,8 @@ import {
 import { SketchPicker, TwitterPicker, GithubPicker, CirclePicker } from 'react-color'
 //import DashboardScheduleSelector from "./DashboardScheduleSelector"
 import TimeSelect from "./TimeSelect";
+import { isAdmin } from "@firebase/util";
+import e from "cors";
 
 
 
@@ -245,8 +249,13 @@ class InputShort extends React.Component {
 		</Provider>
 	)
 
-	function GetAlert(){
-		
+	function GetAlert(message, functionToRun){
+    
+      if ( window.confirm(message)) {
+        // Your code to be executed after confirming
+        functionToRun();
+      }
+    
 	}
 	
 
@@ -436,6 +445,7 @@ function Dashboard(props) {
   const [TestIndexConst, setTestIndexConst] = useState(1)
 
   const [DisableService, setDisableService] = useState(true)
+  const [DisableBilling, setDisableBilling] = useState(true)
 
   const[AtStart, setAtStart] = useState(0)
   const openMobileDrawer = useCallback(() => {
@@ -462,6 +472,7 @@ function Dashboard(props) {
   const [CurrentTest, setCurrentTest] = useState()
 
   const [ClassroomTest,setClassroomTest] = useState('SAT')
+  const [CurrentClassroomNumber, setCurrentClassroomNumber] = useState(1)
   const [UpdatedCurrentTest, setUpdatedCurrentTest] = useState()
   const [Tutor, setTutor] = useState()
   const [ErrorScreenOn, setErrorScreenOn] = useState(false)
@@ -675,6 +686,8 @@ function Dashboard(props) {
   const [PrivatePriceTutor, setPrivatePriceTutor] = useState('')
   const [ClassroomPriceTutor, setClassroomPriceTutor] = useState('')
   const [AllCompanyCodeMembers, setAllCompanyCodeMembers] = useState([])
+  const [SATCLassroomNumbers, setSATCLassroomNumbers] = useState([])
+  const [ACTClassroomNumbers, setACTClassroomNumbers] = useState([])
 
 
   useEffect(() => {
@@ -700,6 +713,8 @@ function Dashboard(props) {
         setStudents(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Students.arrayValue.values))
         setClassroomStudents(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Class.arrayValue.values))
         setClassroomStudentsACT(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassACT.arrayValue.values))
+        setSATCLassroomNumbers(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassNumbersSAT.arrayValue.values))
+        setACTClassroomNumbers(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.ClassNumbersACT.arrayValue.values))
         setTutor(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.name.stringValue))
         setAdminBool(querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.Admin.booleanValue)[0])
      
@@ -795,7 +810,7 @@ function Dashboard(props) {
 
         
 
-        const x = query(usersRef, where("Type", "==", "Parent"));
+        const x = query(usersRef, where("Type", "==", "Parent"),where("CompanyCode", "==", CompanyCode));
       
         //const q = query(collection(db, "users"))
         const unsub = onSnapshot(x, (querySnapshot) => {
@@ -836,7 +851,7 @@ function Dashboard(props) {
 
         
 
-        const x = query(usersRef, where("Type", "==", "Tutor"));
+        const x = query(usersRef, where("Type", "==", "Tutor"),where("CompanyCode", "==", CompanyCode));
       
         //const q = query(collection(db, "users"))
         const unsub = onSnapshot(x, (querySnapshot) => {
@@ -915,6 +930,38 @@ function Dashboard(props) {
       }
     }
   },[ClassroomStudentsACT])
+
+  useEffect(()=>{
+    if(ClassroomTest == 'SAT'){
+      if(ClassroomStudents){
+        try{
+          var CS = ClassroomStudents[0]
+      
+          var TempArr = []
+          for(var i = 0; i< CS.length; i++){
+            TempArr.push(CS[i].stringValue)
+          }
+          setClassroomStudentsClean(TempArr)
+        }catch(err){
+  
+        }
+      }
+    }else if(ClassroomTest == 'ACT'){
+      if(ClassroomStudentsACT){
+        try{
+          var CS = ClassroomStudentsACT[0]
+        
+          var TempArr = []
+          for(var i = 0; i< CS.length; i++){
+            TempArr.push(CS[i].stringValue)
+          }
+          setClassroomStudentsClean(TempArr)
+        }catch(err){
+  
+        }
+      }
+    }
+  },[ClassroomTest])
 
   function dateInPast(firstDate, secondDate) {
     if (firstDate <= secondDate) {
@@ -1170,6 +1217,150 @@ function Dashboard(props) {
     }, 1000)
   }
 
+
+  function AddOrRemoveStudentToClass(name,func){
+    console.log("LKFDJLKJLKJLKJLKKLJKLMFDFSDSFDFSDSFFDS")
+    function FindMatchingId(ID){
+      //NameId
+      //CurrentStudent
+      
+      for(var i = 0; i< NameId.length; i++){
+      
+        if(ID == NameId[i][2]){
+          return(NameId[i][1])
+        }
+      }
+    }
+
+    /* Function to find the max number in an array*/
+    if(ClassroomTest == 'SAT'){
+      var SATClassroomNumbers = []
+      for(var i = 0; i < SATCLassroomNumbers[0].length; i++){
+        if(SATClassroomNumbers.includes(SATCLassroomNumbers[0][i].integerValue) == false){
+          SATClassroomNumbers.push(SATCLassroomNumbers[0][i].integerValue)
+        }
+      }
+    }
+    else if(ClassroomTest == 'ACT'){
+      var SATClassroomNumbers = []
+      for(var i = 0; i < ACTClassroomNumbers[0].length; i++){
+
+        if(SATClassroomNumbers.includes(ACTClassroomNumbers[0][i].integerValue) == false){
+          SATClassroomNumbers.push(ACTClassroomNumbers[0][i].integerValue)
+        }
+      }
+    }
+    //Find index to be removed
+
+    //Function to pop the a given index out of an array
+    function RemoveIndexFromArray(array, index){
+      var TempArray = []
+      for(var i = 0; i< array.length; i++){
+        if(i != index){
+          TempArray.push(array[i])
+        }
+      }
+      return(TempArray)
+    }
+
+    //FUnction to find the index of someone in an array
+    function FindIndexInArray(array, name){
+      for(var i = 0; i< array.length; i++){
+        if(array[i][0] == name){
+          return(i)
+        }
+
+      }
+    }
+
+    var IndexOfPerson = FindIndexInArray(ClassroomStudentsClean, name)
+    var RemovedPersonIndex = FindIndexInArray(SATClassroomNumbers, IndexOfPerson)
+
+    function ChangeToGoodArray(){
+      if(ClassroomTest == 'SAT'){
+        var TempArray = []
+        for(var i = 0; i< SATCLassroomNumbers[0].length; i++){
+          console.log(SATCLassroomNumbers[0][i])
+          console.log(SATCLassroomNumbers[0][i].integerValue)
+          TempArray.push(SATCLassroomNumbers[0][i].integerValue)
+        }
+        return(TempArray)
+      }
+      else if(ClassroomTest == 'ACT'){
+        var TempArray = []
+        for(var i = 0; i< ACTClassroomNumbers[0].length; i++){
+          console.log(ACTClassroomNumbers[0][i])
+          console.log(ACTClassroomNumbers[0][i].integerValue)
+          TempArray.push(ACTClassroomNumbers[0][i].integerValue)
+
+        }
+        return(TempArray)
+      }
+    }
+
+    function getMaxOfArray(numArray) {
+      return Math.max.apply(null, numArray);
+    }
+
+
+    console.log(getMaxOfArray( ChangeToGoodArray() ))
+
+    var NextNumber = getMaxOfArray( ChangeToGoodArray() ) + 1
+    var IndexToRemove = 0
+    if(func == 'remove'){
+      for(var i = 0; i< ClassroomStudentsClean.length; i++){
+        if(ClassroomStudentsClean[i][0] == name){
+          IndexToRemove = i
+        }
+      }
+    }
+    console.log("klgfdsjlkgjgfdlkjfgds")
+    console.log(name)
+      var studentDef = doc(db, "users", FindMatchingId(auth.currentUser.uid.toString()));
+      if(CurrentTest == 'SAT'){
+      if(func == 'add'){
+        updateDoc(studentDef, {
+          Class: arrayUnion(name.value)
+        
+          });
+          updateDoc(studentDef, {
+            ClassNumbersSAT: arrayUnion(parseInt(CurrentClassroomNumber.replace('Class ', '')))
+          
+            });
+      }else if (func == 'remove'){
+        updateDoc(studentDef, {
+          Class: arrayRemove(name.value)
+        
+          });
+
+          updateDoc(studentDef, {
+            ClassNumbersSAT: RemovedPersonIndex
+          
+            });
+
+      };
+    }else if(CurrentTest == 'ACT'){
+      updateDoc(studentDef, {
+        ClassACT: arrayUnion(name.value)
+      
+        });
+        updateDoc(studentDef, {
+          ClassNumbersACT: arrayUnion(parseInt(CurrentClassroomNumber.replace('Class ', '')))
+        
+          });
+    }else if (func == 'remove'){
+      updateDoc(studentDef, {
+        ClassACT: arrayRemove(name.value)
+      
+        });
+
+        updateDoc(studentDef, {
+          ClassNumbersACT: RemovedPersonIndex
+        
+          });
+        }
+    
+  }
   
 
  
@@ -1788,11 +1979,12 @@ function UpdateDate(){
      
       const unsub = onSnapshot(x, (querySnapshot) => {
         var AssignmentString = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.DisableService.booleanValue)
-
+        var DisableBilling = querySnapshot.docs.map(d => d._document.data.value.mapValue.fields.DisableBilling.booleanValue)
       
         
 
         setDisableService(AssignmentString[0])
+        setDisableBilling(DisableBilling[0])
         
       });
 
@@ -1999,12 +2191,45 @@ function UpdateDate(){
             }
   }
 
+  function updateDisabledBilling(t, name){
+    // d could just feed in date
+    //setDisableService
+    if(true){
+      function FindMatchingUid(){
+        //NameId
+        //CurrentStudent
+
+        for(var i = 0; i< NameId.length; i++){
+
+          if(name.toString() == NameId[i][0]){
+            return(NameId[i][1])
+          }
+        }
+      }
+
+      const studentDef = doc(db, "users", FindMatchingUid());
+
+      updateDoc(studentDef, {
+              DisableBilling: t
+
+              });
+
+            }
+  }
+
   const handleChangeDisabled = (event) => {
-    console.log(event.target.checked)
     console.log("handleChangeDisabled")
     setDisableService(event.target.checked);
     for(var i = 0; i< AllCompanyCodeMembers.length; i++){
       updateDisabled(event.target.checked, AllCompanyCodeMembers[i])
+    }
+  };
+
+  const handleChangeDisabledBilling = (event) => {
+    
+    setDisableBilling(event.target.checked);
+    for(var i = 0; i< AllCompanyCodeMembers.length; i++){
+      updateDisabledBilling(event.target.checked, AllCompanyCodeMembers[i])
     }
   };
 
@@ -2969,8 +3194,7 @@ function UpdateDate(){
 
   
   const [errorCheck, setErrorCheck] = useState()
-	//const alert = useAlert();
-  //const alert = useAlert();
+	
 
 
  
@@ -3974,7 +4198,8 @@ function UpdateDate(){
      }
 
     }
-
+    console.log("LKJFHKSAJLKFASJLKFSAJFDASLKJSADLOKOFDJ")
+    console.log(index)
 
     const unsub = onSnapshot(x, (querySnapshot) => {
       
@@ -4233,7 +4458,7 @@ function UpdateDate(){
        
       }
       else if(index == 100){
-       
+        console.log("IN INDEXXXXX")
         var Arr = ArrStringTotal
         
      
@@ -4266,13 +4491,14 @@ function UpdateDate(){
             }
            
           
-          for(var i = 0; i < ClassroomRows.length; i++){
+          for(var i = 0; i <= ClassroomRows.length; i++){
             for(var y = 0; y < ClassroomRows[0][i].length; y++){
               ClassroomRows[0][i][y].Percent = Math.round(ClassroomRows[0][i][y].Right / (ClassroomRows[0][i][y].Right+ClassroomRows[0][i][y].Wrong +ClassroomRows[0][i][y].Blank)*100)
             }
           }
-         
-         
+          console.log('ClassroomRows')
+          console.log(ClassroomRows[0][1])
+          console.log(ClassroomRows[0][0])
           setMathrowsGlobalClassroom(ClassroomRows[0][0])
           setVerbalrowsGlobalClassroom(ClassroomRows[0][1])
           return(ClassroomRows)
@@ -4320,14 +4546,15 @@ function UpdateDate(){
 
   function LoopThroughStudents(studentsArr, Test = 'SAT'){
     var RowsTotal= []
-    
-    for(var i = 0; i<studentsArr.length; i++){
-      var RowsTemp  =  PullStudentData(studentsArr[i] , 100,studentsArr.length, Test )
-     
-      RowsTotal.push(RowsTemp)
-     
-    }
-
+    //setClassroomRows([])
+    setTimeout(() => {
+      for(var i = 0; i<studentsArr.length; i++){
+        console.log("WE ARE LOOPING THROUGH STUDENTS")
+        var RowsTemp  =  PullStudentData(studentsArr[i] , 100,studentsArr.length, Test )
+      
+        RowsTotal.push(RowsTemp)
+      }
+    }, 1000);
     
     
   }
@@ -4337,12 +4564,13 @@ function UpdateDate(){
   const [LoopStudentsDone, setLoopStudentsDone] =useState(false)
   
   const [NumUseEffect1, setNumUseEffect1] = useState(0)
+  const [CurrentClassroomStudents, setCurrentClassroomStudents] = useState([])
  
   useEffect(()=>{
     
    
     
-    if(ClassroomRows.length == 0){
+    if( CurrentClassroomStudents.length > 0){
       if(NumUseEffect1 > 0){
         if(ClassroomTest == 'SAT'){
           var Arr = []
@@ -4352,8 +4580,9 @@ function UpdateDate(){
   
           }
         
-
-          LoopThroughStudents(Arr, ClassroomTest)
+          console.log("Loop Through Students")
+          console.log(CurrentClassroomStudents)
+          LoopThroughStudents(CurrentClassroomStudents, ClassroomTest)
         }
         else if(ClassroomTest == 'ACT'){
           var Arr = []
@@ -4369,7 +4598,79 @@ function UpdateDate(){
       }
     }
     setNumUseEffect1(NumUseEffect1 + 1)
-  },[ClassroomRows])
+  },[ClassroomRows,CurrentClassroomStudents])
+
+
+  function PullCorrespondingStudentsFromClassroomNumber(){
+
+    console.log("Starter")
+    var ClassroomNumber = CurrentClassroomNumber
+   
+    function ClassroomNumbersIndexes(ClassroomNumber){
+      var ClassroomNumbersIndexes = []
+      if(ClassroomTest == 'SAT'){
+        for(var i = 0; i < SATCLassroomNumbers[0].length; i++){
+          console.log('SATCLassroomNumbers[0][i].integerValue:', SATCLassroomNumbers[0][i].integerValue)
+          console.log('ClassroomNumber:', ClassroomNumber)
+          if(parseInt(SATCLassroomNumbers[0][i].integerValue) == ClassroomNumber.toString().replace('Class ', '')){
+            
+            ClassroomNumbersIndexes.push(i)
+          }
+        }
+      }
+      else if(ClassroomTest == 'ACT'){
+        for(var i = 0; i < ACTClassroomNumbers[0].length; i++){
+          console.log('ACTCLassroomNumbers[0][i].integerValue:', ACTClassroomNumbers[0][i].integerValue)
+          console.log('ClassroomNumber:', ClassroomNumber)
+          if(parseInt(ACTClassroomNumbers[0][i].integerValue) == ClassroomNumber.toString().replace('Class ', '')){
+
+            ClassroomNumbersIndexes.push(i)
+          }
+        }
+      }
+      return(ClassroomNumbersIndexes)
+    }
+    
+
+    console.log('ClassroomNumberIndexes:', ClassroomNumbersIndexes(ClassroomNumber))
+
+    var ClassroomNumbersIndexes = ClassroomNumbersIndexes(ClassroomNumber)
+
+    var CorrespondingStudents = []
+    for(var i = 0; i < ClassroomStudentsClean.length; i++){
+      if(ClassroomNumbersIndexes.includes(i)){
+        CorrespondingStudents.push(ClassroomStudentsClean[i])
+      }
+    }
+    console.log('CorrespondingStudents:', CorrespondingStudents)
+ 
+    return(CorrespondingStudents)
+  }
+
+  useEffect(()=>{
+
+    if( ClassroomTest == 'SAT'){
+      if(CurrentClassroomNumber !== null && SATCLassroomNumbers.length > 0){
+        console.log("PullCorrespondingStudentsFromClassroomNumber()")
+        console.log(PullCorrespondingStudentsFromClassroomNumber())
+        setClassroomRows([])
+        setCurrentClassroomStudents(PullCorrespondingStudentsFromClassroomNumber())
+      }
+    }
+    else if(ClassroomTest == 'ACT'){
+      if(CurrentClassroomNumber !== null && ACTClassroomNumbers.length > 0){
+        console.log("PullCorrespondingStudentsFromClassroomNumber()") 
+        console.log(PullCorrespondingStudentsFromClassroomNumber())
+        setClassroomRows([])
+        setCurrentClassroomStudents(PullCorrespondingStudentsFromClassroomNumber())
+      }
+    }
+
+    
+  },[CurrentClassroomNumber,SATCLassroomNumbers, ACTClassroomNumbers ])
+
+
+
 
   function ClassroomTestChange(ClassroomTest){
     setClassroomRows([])
@@ -5049,7 +5350,7 @@ function HandleChangeTabFunction(newValue){
   */
   const [DropdownStudentName, setDropdownStudentName] = useState()
 
-  function GetDropDownNames(){
+  function GetDropDownNames(names){
     if(StudentsTotalBool){
 
       
@@ -5061,11 +5362,15 @@ function HandleChangeTabFunction(newValue){
       }
    
       
-        const options = NewArr
+        const options = names
       
         const defaultOption = 'Please Choose Student';
        
-        return(<Dropdown options={options} onChange={(s)=>{setDropdownStudentName(s)}} value={defaultOption} placeholder="Select an option" />)
+        return(
+          <div style={{height:100, marginBottom:50}}>
+            <Dropdown options={options} onChange={(s)=>{setDropdownStudentName(s)}} value={defaultOption} placeholder="Select an option" />
+          </div>
+        )
       }
       else{
         return(null)
@@ -5347,6 +5652,7 @@ function HandleChangeTabFunction(newValue){
       width:'60%',
       backgroundColor:'#545454',
       borderRadius:10,
+    
     },
   };
   let subtitle;
@@ -5850,6 +6156,7 @@ function HandleChangeTabFunction(newValue){
       }
       setMathrowsGlobal(Mathrows)
       setVerbalrowsGlobal(Verbalrows)
+      console.log('Verbalrows',Verbalrows)
     }else if(CurrTest == 'ACT'){
   
       var Arrs = GetDataFromSpreadsheet(data,CurrTest)
@@ -5870,6 +6177,7 @@ function HandleChangeTabFunction(newValue){
       }
       setMathrowsGlobal(Mathrows)
       setVerbalrowsGlobal(Verbalrows)
+      console.log('Verbalrows ACT',Verbalrows)
     }
    
     
@@ -6135,7 +6443,7 @@ function HandleChangeTabFunction(newValue){
   function GetNavigation(){
     //return(null)
     function GetClassroomIcon(iconsize = 50){
-      if(ClassroomStudentsClean.length >0 || ClassroomStudentsCleanACT.length > 0 && CurrentTest != 'Other'){
+      if( CurrentTest != 'Other'){
         return(
           <Tooltip title="Classroom">
           <Button className={'IconDiv'} onClick={()=>setPageSwitch(3)} startIcon={<FaChalkboardTeacher size ={iconsize}/>}>
@@ -6171,17 +6479,30 @@ function HandleChangeTabFunction(newValue){
         null
       )
     }
-    if(PageSwitch == 10 && Type == 'Tutor'){
+
+    if((PageSwitch == 10 || PageSwitch == 7) && Type == 'Tutor'){
+      function ShowSettings(){
+        if(AdminBool == true){
+          return(
+            <Tooltip title="Settings">
+            <Button className={'IconDiv'} onClick={() => { setPageSwitch(7); } } startIcon ={<FaCog size={iconsize} />}>
+              <p>Settings</p>
+            </Button>
+            </Tooltip>
+          )
+        }
+      }
       var iconsize  = 25
       return(
         <><div className={'NavDiv'}>
           <Tooltip title="Admin">
-            <Button className={'IconDiv'} onClick={()=>{RefreshPage()}} startIcon={<FaBriefcase size={iconsize} />}>
+            <Button className={'IconDiv'} onClick={()=>{setPageSwitch(10)}} startIcon={<FaBriefcase size={iconsize} />}>
 
 
               <p> Admin</p>
             </Button>
           </Tooltip>
+          {ShowSettings()}
         </div><div className={'IconDivLogOffTutor'}>
             <Tooltip title="">
               <Link
@@ -6435,6 +6756,7 @@ function HandleChangeTabFunction(newValue){
   const [showPDF, setshowPDF] = useState(false)
   const [whiteboardStyle, setwhiteboardStyle] = useState('sketchDivOutside')
   const [showCalculator, setshowCalculator] = useState(false)
+  const [AddOrRemoveStudent, setAddOrRemoveStudent] = useState('add')
 
 
   useEffect(()=>{
@@ -6841,9 +7163,13 @@ function HandleChangeTabFunction(newValue){
 
 
     if(AdminInfo !== null &&  AdminInfoParent !== null){
-      for(var x = 0; x < AdminInfo.length; x++){
+
+
+     
+      for(var x = 0; x < AdminInfo[0].length; x++){
         rows.push(createData(AdminInfo[1][x], AdminInfo[0][x], humanReadableDate(AdminInfo[2][x]), AdminInfo[3][x], [FindParents(AdminInfo[0][x])], AdminInfo[4][x]))
       }
+     
     }
 
     if(AdminInfoTutor !== null ){
@@ -7021,9 +7347,17 @@ function HandleChangeTabFunction(newValue){
           return(<p style={{color:'red', fontWeight:'bold', fontSize:18}}>Disabled</p>)
         }
       }
+      function ChangeActiveBilling(){
+       
+        if(DisableBilling == true){
+          return(<p style={{color:'green', fontWeight:'bold', fontSize:18}}>Active</p>)
+        }else{
+          return(<p style={{color:'red', fontWeight:'bold', fontSize:18}}>Disabled</p>)
+        }
+      }
       if(AdminBool == true){
         return(
-          <>
+          <div >
           <p className="TextStyleLight">Students/Parents:</p>
           <p className="TextStyleLight"> </p>
           <div className="MaxHeightDivLarge">
@@ -7087,154 +7421,8 @@ function HandleChangeTabFunction(newValue){
       </div>
 
       {showAvailability()}
-      <div className="FinancialsDiv">
-        <div className="Financials">
-            <p className="TextStyleLight">Financials: {PullFreeTrialData()}</p>
-          </div>
-          <div className="rowDiv">
-         
-          <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Cost per hour (One on One):</p>
-
-          <Dropdown options={[
-            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
-            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
-            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
-            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
-            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
-            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
-            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
-            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
-            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
-            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
-            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
-            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
-            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
-            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
-            '$500'
-          ]} onChange={(x)=>{UpdateFinancials(x, 'Private')}}  placeholder="Select cost"  value={PrivatePrice}/>
-          </div>
-          <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Tutor Salary Per Hour:</p>
-          
-          <Dropdown options={[
-            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
-            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
-            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
-            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
-            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
-            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
-            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
-            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
-            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
-            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
-            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
-            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
-            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
-            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
-            '$500'
-          ]} onChange={(x)=>{UpdateFinancials(x, 'PrivateTutor')}}  placeholder="Select cost"  value={PrivatePriceTutor}/>
-          </div>
-          </div>
-          <div className="rowDiv">
-          <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Cost per hour (Class):</p>
-          <Dropdown options={[
-            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
-            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
-            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
-            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
-            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
-            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
-            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
-            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
-            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
-            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
-            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
-            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
-            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
-            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
-            '$500'
-          ]} onChange={(x)=>{UpdateFinancials(x, 'Classroom')}}  placeholder="Select cost"  value={ClassroomPrice}/>
-          </div>
-          <div className="columnDivNoOverflow">
-          <p className="TextStyleLightInstructions">Class Tutor Salary Per Hour:</p>
-          <Dropdown options={[
-            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
-            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
-            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
-            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
-            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
-            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
-            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
-            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
-            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
-            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
-            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
-            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
-            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
-            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
-            '$500'
-          ]} onChange={(x)=>{UpdateFinancials(x, 'Group')}}  placeholder="Select cost"  value={ClassroomPriceTutor}/>
-          </div>
-          
-          </div>
-          <p></p>
-          <div className="rowDivService">
-          <p className="TextStyleLightInstructions">Service:</p>
-          <div style={{marginTop:11}}>
-            <Switch checked={(DisableService)} label="Label"  onChange={handleChangeDisabled}/>
-          </div>
-           {ChangeActive()}
-          </div>
+     
         </div>
-
-
-      <div className=""> 
-        <div className="columnDivBig">
-        <p className="TextStyleLight">Files:</p>
-        <p className="TextStyleLightInstructions">Tutor</p>
-        <div className={'fieldSmall active false'}>
-        <textarea
-            id={2}
-            type="text"
-            value={NewTutorURL}
-            placeholder={'Enter File URL For Tutors Here'}
-            onChange={handleTutorURLChange}
-            className='textareaTransparent'
-            //onKeyPress={this.handleKeyPress.bind(this)}
-            //onFocus={() => !locked && this.setState({ active: true })}
-            // onBlur={() => !locked && this.setState({ active: true })}
-          />
-          </div>
-          <div className ={'ButtonDivWaiting'} >
-          
-        </div>
-        <p className="TextStyleLightInstructions">Student</p>
-        <div className={'fieldSmall active false'}>
-        <textarea
-            id={2}
-            type="text"
-            value={NewStudentURL}
-            placeholder={'Enter File URL For Students Here'}
-            onChange={handleStudentURLChange}
-            className='textareaTransparent'
-            //onKeyPress={this.handleKeyPress.bind(this)}
-            //onFocus={() => !locked && this.setState({ active: true })}
-            // onBlur={() => !locked && this.setState({ active: true })}
-          />
-          </div>
-          <div className ={'ButtonDivWaiting'} >
-          <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
-        </div>
-       
-        </div>
-        
-      </div>
-      <div className="lowerPadding">
-
-      </div>
-        </>
         )
       }
     }
@@ -7258,9 +7446,9 @@ function HandleChangeTabFunction(newValue){
             {GetStudentChecklist()}
           </div>
           {GetMasterButton()}
-          
+          <div className="AdminDiv">
           {IsAdmin()}
-
+          </div>
          
         </div>
       </Fragment>
@@ -9006,6 +9194,7 @@ function ShowCreateQuiz(){
                   onSelectAllClick={handleSelectAllClickVerbal}
                   onRequestSort={handleRequestSortVerbal}
                   rowCount={VerbalrowsGlobal.length} />
+                 
                 <TableBody>
                   {stableSort(VerbalrowsGlobal, getComparator(orderVerbal, orderByVerbal))
 
@@ -9109,12 +9298,130 @@ function ShowCreateQuiz(){
       {EditZoomLink()}
       </>
       )
+
   }
- 
+  console.log(
+    "CurrentClassroomStudents", CurrentClassroomStudents
+  )
   if(PageSwitch == 3){
+    //Placeholder for the SAT page
+  
+   
+    var SATClassroomNumbers = []
+    for(var i = 0; i < SATCLassroomNumbers[0].length; i++){
+      if(SATClassroomNumbers.includes(SATCLassroomNumbers[0][i].integerValue) == false){
+        SATClassroomNumbers.push(SATCLassroomNumbers[0][i].integerValue)
+      }
+    }
+
+
+    var ACTClassroomNumbersLocal = []
+    for(var i = 0; i < ACTClassroomNumbers[0].length; i++){
+      if(ACTClassroomNumbersLocal.includes(ACTClassroomNumbers[0][i].integerValue) == false){
+        ACTClassroomNumbersLocal.push(ACTClassroomNumbers[0][i].integerValue)
+      }
+    }
+    
+    /* Create an array with the prefix class to the SATCLassroomNumbers*/
+    var SATClassroomNumbersPrefix = []
+    for(var i = 0; i < SATClassroomNumbers.length; i++){
+      SATClassroomNumbersPrefix.push('Class ' + SATClassroomNumbers[i])
+    }
+    if(SATClassroomNumbers.length == 0){
+      SATClassroomNumbersPrefix.push('Class 1')
+    }
+    else{
+      SATClassroomNumbersPrefix.push('Class '+ (parseInt(SATClassroomNumbers[SATClassroomNumbers.length-1])+1))
+    }
+    var ACTClassroomNumbersPrefix = []
+    for(var i = 0; i < ACTClassroomNumbersLocal.length; i++){
+      ACTClassroomNumbersPrefix.push('Class ' + ACTClassroomNumbersLocal[i])
+    }
+    if(ACTClassroomNumbersLocal.length == 0){
+      ACTClassroomNumbersPrefix.push('Class 1')
+    }
+    else{
+      ACTClassroomNumbersPrefix.push('Class '+ (parseInt(ACTClassroomNumbersLocal[ACTClassroomNumbersLocal.length-1])+1))
+    }
+    
+
+    function PullCorrespondingStudentsFromClassroomNumber(){
+
+      console.log("Starter")
+      var ClassroomNumber = CurrentClassroomNumber
+     
+      function ClassroomNumbersIndexes(ClassroomNumber){
+        var ClassroomNumbersIndexes = []
+        if(ClassroomTest == 'SAT'){
+          for(var i = 0; i < SATCLassroomNumbers[0].length; i++){
+            
+            if(parseInt(SATCLassroomNumbers[0][i].integerValue) == ClassroomNumber.toString().replace('Class ', '')){
+              
+              ClassroomNumbersIndexes.push(i)
+            }
+          }
+        }else if(ClassroomTest == 'ACT'){
+          for(var i = 0; i < ACTClassroomNumbers[0].length; i++){
+
+            if(parseInt(ACTClassroomNumbers[0][i].integerValue) == ClassroomNumber.toString().replace('Class ', '')){
+
+              ClassroomNumbersIndexes.push(i)
+            }
+          }
+        }
+        return(ClassroomNumbersIndexes)
+      }
+        
+      
+
+      console.log('ClassroomNumberIndexes:', ClassroomNumbersIndexes(ClassroomNumber))
+
+      var ClassroomNumbersIndexes = ClassroomNumbersIndexes(ClassroomNumber)
+
+      var CorrespondingStudents = []
+      for(var i = 0; i < ClassroomStudentsClean.length; i++){
+        if(ClassroomNumbersIndexes.includes(i)){
+          CorrespondingStudents.push(ClassroomStudentsClean[i])
+        }
+      }
+      console.log('CorrespondingStudents:', CorrespondingStudents)
+   
+      return(CorrespondingStudents)
+    }
+
+    function RemoveStudentsAlreadyInClassroom(){
+
+      if(AddOrRemoveStudent == 'remove'){
+        return(ClassroomStudentsClean)
+      }
+      //StudentsTotalBool
+      var NewArr = []
+      var StudentLength = StudentsTotalBool.length
+      
+      for(var i = 0; i<StudentLength; i++){
+        NewArr[NewArr.length] = StudentsTotalBool[i][0]
+      }
+   
+      
+      const options = NewArr
+      console.log('options:', options)
+      var NewOptions = []
+      /*
+      for(var i = 0; i<ClassroomStudentsClean.length; i++){
+        if(options.includes(ClassroomStudentsClean[i]) == false){
+          NewOptions.push(ClassroomStudentsClean[i])
+        }
+      }
+      */
+      NewOptions = options.filter(item => !ClassroomStudentsClean.includes(item));
+
+      console.log('NewOptions:', NewOptions)
+      return(NewOptions)
+    }
 
     function ShowTestSynopsis(){
-      if(ClassroomTest == 'Other'){
+      if(ClassroomTest == 'Other' || PullCorrespondingStudentsFromClassroomNumber().length == 0){
+     
         return(null)
       }
       else{
@@ -9221,6 +9528,43 @@ function ShowCreateQuiz(){
         )
       }
     }
+
+    function SwitchStudent(){
+      if(AddOrRemoveStudent == 'add'){
+        return(
+          "New Student"
+        )
+      }
+        else if(AddOrRemoveStudent == 'remove'){
+          return(
+            "Remove Student"
+          )
+        }
+
+    }
+
+    function SwitchButton(){
+      if(AddOrRemoveStudent == 'add'){
+        return(
+          <Button  color="black"  style={{marginTop:-100, marginBottom:200}} className ={'quizTopicsAdd'} onClick={()=>{AddOrRemoveStudentToClass(DropdownStudentName, 'add')}}>
+            <p className="quizTopicsPAdd">
+              Add
+            </p>
+          </Button>
+        )
+      }
+        else if(AddOrRemoveStudent == 'remove'){
+          return(
+            <Button color="black" style={{marginTop:-100, marginBottom:200}}  className ={'quizTopicsAdd'} onClick={()=>{AddOrRemoveStudentToClass(DropdownStudentName, 'remove')}}>
+            <p className="quizTopicsPAdd">
+              Remove
+            </p>
+          </Button>
+          )
+        }
+
+    }
+
     return (
       <>
       {GetNavigation()}
@@ -9228,17 +9572,27 @@ function ShowCreateQuiz(){
         <div className="ClassroomTest">
         
           <Dropdown options={['SAT','ACT','Other']} onChange={(x)=>{ClassroomTestChange(x.value)}} value={ClassroomTest} placeholder="Select a test"  />
+          <div style={{marginLeft:10, marginRight:10}}></div>
+          <Dropdown options={SATClassroomNumbersPrefix} onChange={(x)=>{setCurrentClassroomNumber(x.value)}} value={SATClassroomNumbersPrefix[0]} placeholder="Select a test"  />
         
           
         </div>
         <div className={'StudentAssignments'}>
           <p className={'TitleTextStyleLight'}>Your {ClassroomTest} class students:</p>
 
-          {GetClassroomStudents()}
+          {PullCorrespondingStudentsFromClassroomNumber().map((obj)=>
+          <p className="StudentsClassroom">{obj}</p>
+             
+         )}
+
         </div>
         <div className="AddStudentClassroom" >
-        <Button variant="outlined" color="black" onClick={()=>setIsOpenThree(true)}>
+        <Button variant="outlined" color="black" onClick={()=>{setIsOpenThree(true);setAddOrRemoveStudent('add')} }>
           Add student
+        </Button>
+        <div style={{marginLeft:10, marginRight:10}}></div>
+        <Button variant="outlined" color="black" onClick={()=>{setIsOpenThree(true);setAddOrRemoveStudent('remove')} }>
+          Remove student
         </Button>
         </div>
         <p></p>
@@ -9259,18 +9613,14 @@ function ShowCreateQuiz(){
           contentLabel="Example Modal"
           overlayClassName="Overlay"
           >
-          <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{marginTop:-5}}>New Student</h2>
+          <h2 ref={(_subtitle) => (subtitle = _subtitle)} style={{marginTop:-5}} >{SwitchStudent()}</h2>
           
           
-          {GetDropDownNames()}
+          {GetDropDownNames(RemoveStudentsAlreadyInClassroom())}
           {
             //DropdownStudentName
           }
-          <Button className ={'quizTopicsAdd'} onClick={()=>{AddQuiz()}}>
-            <p className="quizTopicsPAdd">
-              Add
-            </p>
-          </Button>
+          {SwitchButton()}
          
         </Modal>
           
@@ -9998,6 +10348,221 @@ if(PageSwitch == 6){
       </>
     )
   }
+
+  if(PageSwitch == 7){
+    function ChangeBool(bool){
+      if(bool == true){
+        return('Active')
+      }
+      else{
+        return('Inactive')
+      }
+    }
+    function PullFreeTrialData(){
+      
+
+      //Write a function that takes a datetime string and returns the number of days until that date
+      function DaysUntilDate(DateString){
+        var date = new Date(DateString);
+        var today = new Date();
+        var Difference_In_Time = date.getTime() - today.getTime();
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        return(Math.round(Difference_In_Days))
+      }
+
+
+      if(InFreeTrial == true){
+        return(
+   
+         <b>(Free Trial ending in {DaysUntilDate(FreeTrialEndingDay)} days)</b>
+       
+          )
+      }
+      else{
+        return(null)
+      }
+    }
+
+    function ChangeActive(){
+      console.log(DisableService)
+      console.log('Changing Active')
+      if(DisableService == true){
+        return(<p style={{color:'green', fontWeight:'bold', fontSize:18}}>Active</p>)
+      }else{
+        return(<p style={{color:'red', fontWeight:'bold', fontSize:18}}>Disabled</p>)
+      }
+    }
+    function ChangeActiveBilling(){
+     
+      if(DisableBilling == true){
+        return(<p style={{color:'green', fontWeight:'bold', fontSize:18}}>Active</p>)
+      }else{
+        return(<p style={{color:'red', fontWeight:'bold', fontSize:18}}>Disabled</p>)
+      }
+    }
+    return(
+      <>
+      {GetNavigation()}
+      <div className="FinancialsDiv">
+        <div className="Financials">
+            <p className="TextStyleLight">Financials: {PullFreeTrialData()}</p>
+          </div>
+          <div className="rowDiv">
+         
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Cost per hour (One on One):</p>
+
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Private')}}  placeholder="Select cost"  value={PrivatePrice}/>
+          </div>
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Tutor Salary Per Hour:</p>
+          
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'PrivateTutor')}}  placeholder="Select cost"  value={PrivatePriceTutor}/>
+          </div>
+          </div>
+          <div className="rowDiv">
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Cost per hour (Class):</p>
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Classroom')}}  placeholder="Select cost"  value={ClassroomPrice}/>
+          </div>
+          <div className="columnDivNoOverflow">
+          <p className="TextStyleLightInstructions">Class Tutor Salary Per Hour:</p>
+          <Dropdown options={[
+            '$10',  '$15',  '$20',  '$25',  '$30',  '$35',  '$40',
+            '$45',  '$50',  '$55',  '$60',  '$65',  '$70',  '$75',
+            '$80',  '$85',  '$90',  '$95',  '$100', '$105', '$110',
+            '$115', '$120', '$125', '$130', '$135', '$140', '$145',
+            '$150', '$155', '$160', '$165', '$170', '$175', '$180',
+            '$185', '$190', '$195', '$200', '$205', '$210', '$215',
+            '$220', '$225', '$230', '$235', '$240', '$245', '$250',
+            '$255', '$260', '$265', '$270', '$275', '$280', '$285',
+            '$290', '$295', '$300', '$305', '$310', '$315', '$320',
+            '$325', '$330', '$335', '$340', '$345', '$350', '$355',
+            '$360', '$365', '$370', '$375', '$380', '$385', '$390',
+            '$395', '$400', '$405', '$410', '$415', '$420', '$425',
+            '$430', '$435', '$440', '$445', '$450', '$455', '$460',
+            '$465', '$470', '$475', '$480', '$485', '$490', '$495',
+            '$500'
+          ]} onChange={(x)=>{UpdateFinancials(x, 'Group')}}  placeholder="Select cost"  value={ClassroomPriceTutor}/>
+          </div>
+          
+          </div>
+          <p></p>
+          <div className="rowDivService">
+          <p className="TextStyleLightInstructions">Service:</p>
+          <div style={{marginTop:11}}>
+            <Switch checked={(DisableService)} label="Label"  onChange={(event)=>{GetAlert("Are you sure you want to change your service status to " + (ChangeBool(!(DisableService))).toString()+ "?",handleChangeDisabled(event))}}/>
+          </div>
+           {ChangeActive()}
+          </div>
+          <div className="rowDivService">
+           <p className="TextStyleLightInstructions">Billing:</p>
+          <div style={{marginTop:11}}>
+            <Switch checked={(DisableBilling)} label="Label"  onChange={(event)=>{GetAlert("Are you sure you want to change your service status to " + (ChangeBool(!(DisableBilling))).toString()+ "?",handleChangeDisabledBilling(event))}}/>
+          </div>
+           {ChangeActiveBilling()}
+          </div>
+        </div>
+
+
+      <div className=""> 
+        <div className="columnDivBig">
+        <p className="TextStyleLight">Files:</p>
+        <p className="TextStyleLightInstructions">Tutor</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewTutorURL}
+            placeholder={'Enter File URL For Tutors Here'}
+            onChange={handleTutorURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          
+        </div>
+        <p className="TextStyleLightInstructions">Student</p>
+        <div className={'fieldSmall active false'}>
+        <textarea
+            id={2}
+            type="text"
+            value={NewStudentURL}
+            placeholder={'Enter File URL For Students Here'}
+            onChange={handleStudentURLChange}
+            className='textareaTransparent'
+            //onKeyPress={this.handleKeyPress.bind(this)}
+            //onFocus={() => !locked && this.setState({ active: true })}
+            // onBlur={() => !locked && this.setState({ active: true })}
+          />
+          </div>
+          <div className ={'ButtonDivWaiting'} >
+          <Button onClick={()=>{UpdateFiles()}} variant="outlined" color="black" >Update Files</Button>
+        </div>
+       
+        </div>
+        
+      </div>
+      <div className="lowerPadding">
+
+      </div>
+       
+      
+      </>
+    )
+  }
+
 }
 //ACTtoSAT
 

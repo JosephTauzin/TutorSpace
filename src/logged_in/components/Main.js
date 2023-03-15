@@ -231,7 +231,7 @@ function Main(props) {
 
   const selectDashboard = useCallback(() => {
     smoothScrollTop();
-    document.title = "MeasureUp! Prep | Your Dashboard";
+    document.title = "TutorSpace | Your Dashboard";
     setSelectedTab("Dashboard");
     if (!hasFetchedCardChart) {
       setHasFetchedCardChart(true);
@@ -248,7 +248,7 @@ function Main(props) {
 
   const selectPosts = useCallback(() => {
     smoothScrollTop();
-    document.title = "MeasureUp! Prep | Posts";
+    document.title = "TutorSpace | Posts";
     setSelectedTab("Posts");
     if (!hasFetchedEmojiTextArea) {
       setHasFetchedEmojiTextArea(true);
@@ -292,7 +292,7 @@ function Main(props) {
 
   const selectSubscription = useCallback(() => {
     smoothScrollTop();
-    document.title = "MeasureUp! Prep | Subscription";
+    document.title = "TutorSpace | Subscription";
     setSelectedTab("Subscription");
   }, [setSelectedTab]);
 

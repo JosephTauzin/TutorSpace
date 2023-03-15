@@ -33,13 +33,13 @@ function Main(props) {
   const selectHome = useCallback(() => {
     smoothScrollTop();
     document.title =
-      "MeasureUp! Prep | Modernized Test Prep for the SAT and ACT";
+      "TutorSpace | Modern Online Tutoring Platform for Students and Tutors";
     setSelectedTab("Home");
   }, [setSelectedTab]);
 
   const selectBlog = useCallback(() => {
     smoothScrollTop();
-    document.title = "MeasureUp! Prep | Blog Posts";
+    document.title = "TutorSpace | Blog Posts";
     setSelectedTab("Blog");
   }, [setSelectedTab]);
 
@@ -119,21 +119,13 @@ function Main(props) {
         open={isCookieRulesDialogOpen}
         onClose={handleCookieRulesDialogClose}
       />
-      <NavBar
-        selectedTab={selectedTab}
-        selectTab={setSelectedTab}
-        openLoginDialog={openLoginDialog}
-        openRegisterDialog={openRegisterDialog}
-        mobileDrawerOpen={isMobileDrawerOpen}
-        handleMobileDrawerOpen={handleMobileDrawerOpen}
-        handleMobileDrawerClose={handleMobileDrawerClose}
-      />
+    
       <Routing
         blogPosts={blogPosts}
         selectHome={selectHome}
         selectBlog={selectBlog}
       />
-      <Footer />
+    
       
     </div>
   );

@@ -115,13 +115,13 @@ function FeatureSection(props) {
             <h2>What Sets Us Apart</h2>
             <div class ="featuresContentWrap">
                 <div class="softwareSuccess icon">
-                  <img src={require("./images/monitor.png")}/>
+              
                 </div>
                 <div class="refinedPractice icon">
-                    <img src={require("./images/university.png")}/>
+                 
                 </div>
                 <div class="enableImprove icon">
-                    <img src={require("./images/improvement.png")}/>
+               
                 </div>
                 <div class="ssCaption text">
                     <h3>Software for Success</h3>

@@ -31,7 +31,8 @@ import NavigationDrawer from "../../../shared/components/NavigationDrawer";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import logout from '../../../firebase.js'
 import MeasureUpLogo from "./MeasureUpLogoTransparent.png"
-import TutorSpaceLogo from "./TutorSpace.png"
+import TutorSpace from "./TutorSpace.png"
+import TutorSpaceLogo from "./images/TutorSpaceNavLogo.png"
 
 
 const styles = (theme) => ({

@@ -6,6 +6,7 @@ import Home from "./home/Home";
 import Blog from "./blog/Blog";
 import About from "./about/about"
 import BlogPost from "./blog/BlogPost";
+import Login from "./Login/Login";
 import useLocationBlocker from "../../shared/functions/useLocationBlocker";
 
 function Routing(props) {
@@ -38,6 +39,12 @@ function Routing(props) {
         exact
         path="/about"
         component={About}
+      
+      />
+      <PropsRoute
+        exact
+        path="/login"
+        component={Login}
       
       />
       <PropsRoute path="/" component={Home} selectHome={selectHome} />

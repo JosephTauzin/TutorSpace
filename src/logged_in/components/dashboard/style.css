@@ -180,7 +180,11 @@ body {
   flex-direction:row;
   width: 100%;
 }
-
+.AdminDiv{
+  
+  width: 100%;
+  height: 100%;
+}
 .rowDivService{
   display:flex; 
   flex-direction:row;
@@ -371,7 +375,10 @@ body {
 }
 .ClassroomTest{
   margin-top: 5vh;
-  width:5vw
+  width:20vw;
+ 
+  flex-direction:row;
+  display: flex;
 }
 .CurrentTest{
   width:7.5vw;
@@ -446,6 +453,8 @@ body {
   margin-bottom: 10vh;
   margin-left: -0.3vw;
   position: absolute;
+  display: flex;
+  flex-direction: row;
 }
 .DateText{
   font-weight: 400;

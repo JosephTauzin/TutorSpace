@@ -33,18 +33,27 @@ import { wrap } from "@popmotion/popcorn"
 import { DateTimePicker, Picklist, PicklistOption } from 'react-rainbow-components';
 import "./styles.scss"
 import Modal from 'react-modal';
-import { IMAGES } from "./Images"
-import studying from "./images/studying.png"
-import VirtualClass from "./images/VirtualClass.png"
-import Progress from "./images/Software.png"
-import Goals from "./images/Goals.png"
-import ReportCard from "./images/ReportCard.png"
+
+
 import { useExitIntent } from 'use-exit-intent'
 import { FaTimes } from "react-icons/fa";
 import Contact from "./Contact";
-import ProgressImage from "./images/ProgressTutorSpace2.png"
 
-
+import TutorSpaceDashboard from "./images/TutorSpaceDashboard.png"
+import TutorSpaceDashboardDarkShadow from "./images/TutorSpaceDashboardDarkShadow.png"
+import TutorSpaceDashboardLightShadow from "./images/TutorSpaceDashboardLightShadow.png"
+import TutorSpaceFeatures from "./images/TutorSpaceFeatures.png"
+import TutorSpaceFooterLogo from "./images/TutorSpaceFooterLogo.png"
+import TutorSpaceMenuDashboard from "./images/TutorSpaceMenuDashboard.png"
+import TutorSpaceMenuRoster from "./images/TutorSpaceMenuRoster.png"
+import TutorSpaceNavLogo from "./images/TutorSpaceNavLogo.png"
+import TutorSpaceNotes from "./images/TutorSpaceNotes.png"
+import TutorSpacePayments from "./images/TutorSpacePayments.png"
+import TutorSpaceProgress from "./images/TutorSpaceProgress.png"
+import TutorSpaceQuiz from "./images/TutorSpaceQuiz.png"
+import TutorSpaceRoster from "./images/TutorSpaceRoster.png"
+import TutorSpaceWhiteboard from "./images/TutorSpaceWhiteboard.png"
+import TutorSpaceWhiteShadow from "./images/TutorSpaceWhiteShadow.png"
 
 
 
@@ -360,7 +369,168 @@ function HeadSection(props) {
     },
   };
   let subtitle;
-  
+
+const [imageToShow, setImageToShow] = useState(TutorSpaceNotes);
+var topProcessMenuButton = document.querySelector('.topProcessMenuButton')
+var secondProcessMenuButton = document.querySelector('.secondProcessMenuButton')
+var thirdProcessMenuButton = document.querySelector('.thirdProcessMenuButton')
+var fourthProcessMenuButton = document.querySelector('.fourthProcessMenuButton')
+var bottomProcessMenuButton = document.querySelector('.bottomProcessMenuButton')
+
+var processTitle = document.getElementById("processTitle")
+var processContent = document.getElementById("processContent")
+var processImage = document.getElementById("processImage")
+
+const updateTopButtonContent = () => {
+    processTitle.style.opacity = 0
+    processContent.style.opacity = 0
+    processImage.style.opacity = 0
+
+    setTimeout(() => {
+        processTitle.innerHTML = 'See <span class="bold">TutorSpace</span> Inside & Out'
+        processContent.innerHTML = 'We’ll show you how TutorSpace can impact your business, dive into its features, and answer any questions you might have about the software. Fill out the contact form below to schedule a demo!'
+        //processImage.src='./images/TutorSpaceDashboard.png'
+        setImageToShow(TutorSpaceDashboard)
+        processTitle.style.opacity = 1
+        processContent.style.opacity = 1
+        processImage.style.opacity = 1
+    }, 300);
+
+    topProcessMenuButton.classList.add("selectedProcessMenuButton")
+    secondProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    thirdProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    fourthProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    bottomProcessMenuButton.classList.remove("selectedProcessMenuButton")
+}
+
+const updateSecondButtonContent = () => {
+    processTitle.style.opacity = 0
+    processContent.style.opacity = 0
+    processImage.style.opacity = 0
+
+    setTimeout(() => {
+        processTitle.innerHTML = 'Hit the Ground Running'
+        processContent.innerHTML = 'We’ll configure TutorSpace to meet your needs, create your student, tutor, and administrative accounts, upload existing data from your business, and show you the ropes to get the most out of the product.'
+        //processImage.src='./images/TutorSpaceMenuRoster.png'
+        setImageToShow(TutorSpaceMenuRoster)
+        processTitle.style.opacity = 1
+        processContent.style.opacity = 1
+        processImage.style.opacity = 1
+    }, 300);
+
+    secondProcessMenuButton.classList.add("selectedProcessMenuButton")
+    topProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    thirdProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    fourthProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    bottomProcessMenuButton.classList.remove("selectedProcessMenuButton")
+}
+
+const updateThirdButtonContent = () => {
+    processTitle.style.opacity = 0
+    processContent.style.opacity = 0
+    processImage.style.opacity = 0
+
+    setTimeout(() => {
+        processTitle.innerHTML = 'Start Using TutorSpace'
+        processContent.innerHTML = 'Once your accounts have been set up and all your data has been added to TutorSpace, we’ll help make sure things go smoothly as you start using TutorSpace and be available to help solve any problems.'
+        //processImage.src='./images/TutorSpaceNotes.png'
+        setImageToShow(TutorSpaceNotes)
+        processTitle.style.opacity = 1
+        processContent.style.opacity = 1
+        processImage.style.opacity = 1
+    }, 300);
+
+    thirdProcessMenuButton.classList.add("selectedProcessMenuButton")
+    secondProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    topProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    fourthProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    bottomProcessMenuButton.classList.remove("selectedProcessMenuButton")
+}
+
+const updateFourthButtonContent = () => {
+    processTitle.style.opacity = 0;
+    processContent.style.opacity = 0;
+    processImage.style.opacity = 0;
+
+    setTimeout(() => {
+        processTitle.innerHTML = 'Supercharge Your Business'
+        processContent.innerHTML = 'Moving your regular processes into TutorSpace makes your business more efficient and easier to run! Set up integrated Stripe payments and invoicing, automatic emails to parents and students, and more.'
+        //processImage.src='./images/TutorSpacePayments.png'
+        setImageToShow(TutorSpacePayments)
+        processTitle.style.opacity = 1
+        processContent.style.opacity = 1
+        processImage.style.opacity = 1
+    }, 300);
+
+    fourthProcessMenuButton.classList.add("selectedProcessMenuButton")
+    secondProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    thirdProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    topProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    bottomProcessMenuButton.classList.remove("selectedProcessMenuButton")
+}
+
+const updateBottomButtonContent = () => {
+    processTitle.style.opacity = 0;
+    processContent.style.opacity = 0;
+    processImage.style.opacity = 0;
+    
+    setTimeout(() => {
+        processTitle.innerHTML = 'Build Momentum'
+        processContent.innerHTML = 'We provide ongoing support while you‘re using TutorSpace and are available to troubleshoot, answer questions, build new features and tools suited for your business, and incorporate feedback to make TutorSpace better for you.'
+        //processImage.src='./images/TutorSpaceWhiteboard.png'
+        setImageToShow(TutorSpaceWhiteboard)
+        processTitle.style.opacity = 1
+        processContent.style.opacity = 1
+        processImage.style.opacity = 1
+    }, 300);
+
+    bottomProcessMenuButton.classList.add("selectedProcessMenuButton")
+    secondProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    thirdProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    fourthProcessMenuButton.classList.remove("selectedProcessMenuButton")
+    topProcessMenuButton.classList.remove("selectedProcessMenuButton")
+} 
+setTimeout(() => {
+  topProcessMenuButton.addEventListener('click', updateTopButtonContent)
+  secondProcessMenuButton.addEventListener('click', updateSecondButtonContent)
+  thirdProcessMenuButton.addEventListener('click', updateThirdButtonContent)
+  fourthProcessMenuButton.addEventListener('click', updateFourthButtonContent)
+  bottomProcessMenuButton.addEventListener('click', updateBottomButtonContent)
+
+  var contactForm = document.getElementById("contact")
+  var contactLink = document.querySelectorAll(".contactLink")
+
+  contactLink.forEach(formLink => {
+      formLink.addEventListener('click', () => contactForm.scrollIntoView({behavior: 'smooth', block: 'center'}))
+  })
+  onPageContactLink.addEventListener('click', () => {
+    handleMenuClick();
+    contactForm.scrollIntoView({behavior: 'smooth', block: 'center'})
+})
+}, 300);
+
+//Mobile Menu Fuctionality
+var mobileMenu = document.querySelector(".mobileMenu")
+var menuIcon = document.getElementById("menuIcon")
+
+
+const handleMenuClick = () => {
+    if (mobileMenu.style.opacity == 0) {
+        mobileMenu.style.transform = "translateX(0%)"
+        mobileMenu.style.opacity = 1
+    }
+    else {
+        mobileMenu.style.transform = "translateX(-100%)"
+        mobileMenu.style.opacity = 0
+    }
+}
+setTimeout(() => {
+  menuIcon.addEventListener('click', handleMenuClick)
+}, 300);
+
+//Contact Form Link Handler
+var onPageContactLink = document.querySelector(".contactLinkMobile")
+
 
   function openModal() {
     if(isMobile == false){
@@ -464,24 +634,6 @@ function HeadSection(props) {
   }
   
   
-  function SwitchImage(){
-    if(AnimationNext2 == 0){
-      return(<img src={studying}/>)
-    }
-    else if(AnimationNext2 == 1){
-      return(<img src={VirtualClass}/>)
-    }
-    else if(AnimationNext2 == 2){
-      return(<img src={Progress}/>)
-    }
-    else if(AnimationNext2 == 3){
-      return(<img src={ReportCard}/>)
-    }
-    else if(AnimationNext2 == 4){
-      return(<img src={Goals}/>)
-    }
-   
-  }
 
   const [width, setWidth] = useState(window.innerWidth);
 
@@ -701,183 +853,250 @@ function HeadSection(props) {
 
 
   return (
-
     <body>
-      
+   <div class="mobileMenu">
+        <a href="index"><div class="mobileNavLinkBlock">
+            <span class="selectedNavLink">Home</span>
+        </div></a>
+        <a href="about"><div class="mobileNavLinkBlock">
+            <span class="navLink">About</span>
+        </div></a>
+        <a href="index#contact"><div class="mobileNavLinkBlock contactLinkMobile">
+            <span class="navLink">Contact</span>   </div></a>
      
-      
-      
-      <Modal
-          isOpen={modalIsOpen}
-          onAfterOpen={afterOpenModal}
-          onRequestClose={closeModal}
-          style={ModalCustomStyles}
-          contentLabel="Example Modal"
-          overlayClassName="Overlay"
-        >
-          <div className="rowDiv">
-          <div className="modalText">
-            <p>Sign Up For A Free Session With A Dedicated Expert. On Your Schedule.</p>
-          
-            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={'buttonClassLearnMoreModal'}>Schedule Free Session!</button></a>
-          
-          
-          </div>
-         
-          <div className="modalPic">
-            <img src={studying}  />
-          </div>
-          <Button onClick={closeModal} className={'CloseModel'} >
+        <a href="login"><div class="mobileNavLinkBlock">
+            <span class="navLink">Log In</span>
+        </div></a>
+    </div>
 
-          {
-            isMobile ? <FaTimes size ={20}/> : <FaTimes size ={30} color={'black'}/>
-
-
-          }
-          </Button>
-          </div>
-        </Modal>
-
-      
-      <Fragment>
-      <div className = "TopPadding">
-
-      </div>
-      
-    <header class="header" data-aos="zoom-in">
-    
-        <motion.div class="headerTitle"
-        initial={{ opacity: 0, scale: 0.5 }}
-        animate={controlsText}
-        transition={{ duration: 1 }}
-        >
-
-            <h1>{GetHeader()}</h1>
-            <p>{GetParagraphs()}</p>
-            <a href="https://calendly.com/measureupprep/45min"  target="_blank"><button class={LearnMoreClass}>Schedule Free Session!</button></a>
-            
-        </motion.div>
-
-        
-        
-        
-        <AnimatePresence initial={false} custom={direction}>
-          
-          <motion.div class="headerImage"
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={controlsImage} 
-            transition={{ duration: 1 }}
-          >
-            <div style={{height:1 * InverseHeightWidth(Dimensions[0],Dimensions[1]), marginTop: 100 * InverseHeightWidth(Dimensions[0],Dimensions[1])}}>
-
-            </div>
-            <div className="imageDiv">
-              {SwitchImage()}
-            </div>
-          </motion.div>
-        </AnimatePresence>
-
-        <div className="dotDiv">
-          <DotList currentDot={AnimationNext2} />
+    <nav>
+        <div class="logo">
+            <img src ={TutorSpaceNavLogo} alt="TutorSpace Logo"/>
         </div>
-        
-     
+        <div class="navLinks">
+            <a href="index"><span class="navLink">Home</span></a>
+            <a href="about"><span class="navLink">About</span></a>
+            <a href="index#contact"><span class="navLink">Contact</span></a>
+            <a href="login"><span class="selectedNavLink">Log In</span></a>
+            <xml version="1.0" encoding="UTF-8"><svg id="menuIcon" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#2e4756"><path d="M3 5h18M3 12h18M3 19h18" stroke="#2e4756" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></xml>
+        </div>
+    </nav>
+
+    <header>
+        <div class="shapedHeaderBackground"></div>
+        <div class="headerContent">
+            <div class="headerText">
+                <h1>Technology for Tutoring Today</h1>
+                <p>Prepare students for tomorrow with all the tools you need to run your tutoring business, all in one place.</p>
+                <button class="headerFreeTrialCTA contactLink">Try 1 Month Free!</button>
+            </div>
+            <div class="headerImage">
+                <img src={TutorSpaceDashboard} class="screenshot" alt="TutorSpace Dashboard Screenshot"/>
+                <img src={TutorSpaceDashboardDarkShadow} class="imageTopDarkShadow"/>
+                <img src={TutorSpaceDashboardLightShadow} class="imageBottomLightShadow"/>
+
+            </div>
+        </div>
     </header>
-    
 
-      <div class="content-wrapper">
-        <div class="collegeBanner">
+    <section class="section1">
+        <div class="captionText">
+            <p>
+                Progress Tracking | Analytics | Billing
+            </p>
+            <p>
+                Scheduling | Reminders | Grading
+            </p>
+            <p>
+                Everything you need in one place
+            </p>
+        </div>
+    </section>
 
-              <h2 data-aos="fade-right" style={{textAlign:'center'}}>Taught by Elite Graduates, 99th Percentile Scorers</h2>
-              <img id="wideCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/collegeBanner.png")}/>
-              {<img id="mobileCollegeBanner" data-aos="fade-right" data-aos-duration="600" src={require("./images/verticalCollegeBanner.png")}/>
-              }
+    <section class="section2">
+        <div class="shapedSection2Background"></div>
+        <div class="section2Content">
+            <div class="feature1Text" data-aos="fade-up" data-aos-duration="300">
+                <h3>
+                    Manage every student and their progress from one dashboard
+                </h3>
+                <p>
+                    Get a bird’s eye view of your student roster to track engagement and keep information up to date
+                </p>
+            </div>
+            <div class="feature1Screenshot" data-aos="fade-up" data-aos-duration="300">
+                <img src={TutorSpaceRoster} class="feature1Image" alt="TutorSpace Student Roster Screenshot"/> 
+                <img src={TutorSpaceWhiteShadow} class="feature1TopShadow"/>
+                <img src={TutorSpaceWhiteShadow} class="feature1BottomShadow"/>
+            </div>
 
+            <div class="feature2Text" data-aos="fade-up" data-aos-duration="300">
+                <h3>
+                    Test students and find areas of weakness with one tool
+                </h3>
+                <p>
+                    Dive into student performance across different topics to identify areas of improvement and customize tutoring to the <span class="italics">individual</span>
+                </p>
+            </div>
+            <div class="feature2Screenshot" data-aos="fade-up" data-aos-duration="300">
+                <img src={TutorSpaceQuiz} class="feature2Image" alt="TutorSpace Quiz Feature Screenshot"/> 
+                <img src={TutorSpaceWhiteShadow} class="feature2TopShadow"/>
+                <img src={TutorSpaceWhiteShadow} class="feature2BottomShadow"/>
+            </div>
+
+            <div class="feature3Text" data-aos="fade-up" data-aos-duration="300">
+                <h3>
+                    Visualize progress over time across different topics and test scores
+                </h3>
+                <p>
+                    Let your performance data speak for itself and use it to adapt tutoring plans to match a student’s growth                
+                </p>
+            </div>
+            <div class="feature3Screenshot" data-aos="fade-up" data-aos-duration="300">
+                <img src={TutorSpaceProgress} class="feature3Image" alt="TutorSpace Progress Tracking Feature Screenshot"/> 
+                <img src={TutorSpaceWhiteShadow} class="feature3TopShadow"/>
+                <img src={TutorSpaceWhiteShadow} class="feature3BottomShadow"/>
+            </div>
+        </div>
+    </section>
+
+    <section class="section3">
+        <div class="section3Content">
+            <div class="section3Text">
+                <h4>Take charge of your business with tools to empower your operations</h4>
+                <p>Take the spreadsheets and checklists out of your day to day. <span class="bold">TutorSpace</span> makes it easy to run your business so you can focus on what matters: teaching.</p>
+                <button class="learnMoreCTA contactLink">Learn More</button>
+            </div>
+            <div class="section3Image">
+                <img src={TutorSpaceFeatures} alt="TutorSpace Features List"/>
+            </div>
+        </div>
+    </section>
+
+    <section class="section4">
+        <div class="section4Content">
+            <h3>Getting Started</h3>
+            <div class="processMenu">
+                <div class="processButtons">
+                    <button class="processMenuButton topProcessMenuButton selectedProcessMenuButton">1. Demo</button>
+                    <button class="processMenuButton secondProcessMenuButton">2. Setup</button>
+                    <button class="processMenuButton thirdProcessMenuButton">3. Onboard</button>
+                    <button class="processMenuButton fourthProcessMenuButton">4. Integrate</button>
+                    <button class="processMenuButton bottomProcessMenuButton">5. Support</button>
+                </div>
+                <div class="processContent">
+                    <h5 id="processTitle">See <span class="bold">TutorSpace</span> Inside & Out</h5>
+                    <p id="processContent">We’ll show you how TutorSpace can impact your business, dive into its features, and answer any questions you might have about the software. Fill out the contact form below to schedule a demo!</p>
+                    <img src={imageToShow} id="processImage" alt="TutorSpace Feature Screenshot"/>           
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section5">
+        <div class="section5Content">
+            <div class="pricingBoxes">
+                <div class="starterPricing priceBox" data-aos="fade-up" data-aos-duration="250">
+                    <h4>Starter</h4>
+                    <p>Up to 15 student seats</p>
+                    <div class="listedCost starterCost">
+                        <span class="bigDollar">$10</span>
+                        <div class="smallCost">
+                            <p><span class="perStudent">per student</span></p>
+                            <p><span class="costCaption">billed monthly</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="businessPricing priceBox" data-aos="fade-up" data-aos-duration="350">
+                    <h4>Business</h4>
+                    <p>Up to 50 student seats</p>
+                    <div class="listedCost businessCost">
+                        <span class="bigDollar">$8</span>
+                        <div class="smallCost">
+                            <p><span class="perStudent">per student</span></p>
+                            <p><span class="costCaption">billed monthly</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="enterprisePricing priceBox" data-aos="fade-up" data-aos-duration="450">
+                    <h4>Enterprise</h4>
+                     <p>Need more seats? Let’s talk!</p>
+                     <button class="enterpriseCTA contactLink">Contact Us</button>
+                </div>
+            </div> 
+
+
+            <div class ="freeTrialCaption">
+                <p>Try <span class="bold">TutorSpace</span> for free for 1 month, no strings attached!</p>
+            </div>
+        </div>
+    </section>
+
+    <section class ="section6">
+        <div class="section6Content">
+            <div class="contactCTAText">
+                <h3>See What TutorSpace Can Do For You</h3>
+                <p>Ready to see how TutorSpace can help you run your business? Tell us a bit about yourself and we’ll reach out to set up a demo of the platform and answer any questions about the product!</p>
+            </div>
+
+            <div class="contactForm">
+                <form id="contact">
+                    <div class="inputs">
+                        <div class="contactBlock" id="firstNameBlock">
+                            <label for="firstName" class="requiredField">First Name</label>
+                            <input type="text" name="firstName" required/>
+                        </div>
+
+                        <div class="contactBlock" id="lastNameBlock">
+                            <label for="lastName" class="requiredField">Last Name</label>
+                            <input type="text" name="lastName" required/>
+                        </div>
+
+                        <div class="contactBlock" id="emailBlock">
+                            <label for="email" class="requiredField">Email</label>
+                            <input type="email" name="email" required/>
+                        </div>
+
+                        <div class="contactBlock" id="companyNameBlock">
+                            <label for="companyName" class="requiredField">Company Name</label>
+                            <input type="text" name="companyName" required/>
+                        </div>
+
+                        <div class="contactBlock" id="companyWebsiteBlock">
+                            <label for="companyWebsite">Company Website <span class="optional">(Optional)</span></label>
+                            <input type="text" name="companyWebsite"/>
+                        </div>
+                    </div> 
+
+                    <div class="contactBlock" id="messageBlock">
+                        <label for="message">What can we do for you? <span class="optional">(Optional)</span></label>
+                        <textarea name="message" id="message" rows="6"></textarea>
+                    </div>
+                    
+                    <button class="formSubmit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footerLogo">
+            <img src={TutorSpaceFooterLogo} alt="TutorSpace Logo"/>
         </div>
 
-      
-        <div class="features" data-aos="fade-down" data-aos-duration="500">
-              <h2 style={{textAlign:'center'}}>What Sets Us Apart</h2>
-              <div class ="featuresContentWrap">
-                  <div class="softwareSuccess icon">
-                    <img src={require("./images/monitor.png")}/>
-                  </div>
-                  <div class="refinedPractice icon">
-                      <img src={require("./images/university.png")}/>
-                  </div>
-                  <div class="enableImprove icon">
-                      <img src={require("./images/improvement.png")}/>
-                  </div>
-                  <div class="ssCaption text">
-                      <h3>Software for Success</h3>
-                      <p>MeasureUp! is proud to be powered by TutorSpace's innovative Test Prep software. Forget about paper tests and printed progress reports - we make it easy to track improvement online.</p>
-                  </div>
-                  <div class="rpCaption text">
-                      <h3>Refined by Practice</h3>
-                      <p>Taught by students and alumni from the top universities in the country, we know what it takes to ace the admissions process and how to achieve it. </p>
-                  </div>
-                  <div class="eiCaption text">
-                      <h3>Enable Improvement</h3>
-                      <p>We provide insight into how your students are performing to create targeted plans of action for growth. On average, we've raised scores by 150+ points on the SAT!</p>
-                  </div>
-                </div>
-       </div>
+        <div class="navLinks">
+            <a href="index.html"><span class="navLink">Home</span></a>
+            <a href="about.html"><span class="navLink">About</span></a>
+            <span class="navLink contactLink">Contact</span>
+            <a href="login.html"><span class="navLink">Log In</span></a>
+        </div>
+    </footer>
 
-      <div style={{height:30}}></div>
-       <div className="features" data-aos="fade-down" data-aos-duration="500">
-              <h2 style={{textAlign:'center', marginTop:60}}>Visualise your student's progress</h2>
-              <div class ="imageDiv2">
-                  <span ></span>
-                  <span></span>
-                  <div class="ProgressImage">
-                    <img className="TutorSpaceImage" src={ProgressImage}/>
-                  </div>
-                 
-                 
-                 
-                </div>
-                <div class="ssCaption text">
-                   
-                   <h3>As your student prepares for their upcoming tests, we'll work together to identify their problem areas and provide them with personalized tools to succeed, all while you follow along with their progress online.</h3>
-               </div>
-       </div>
 
-      </div>
-      <div style={{height:40}}></div>
-      <div class="featuresPlan" data-aos="fade-down" data-aos-duration="500">
-              <h2 style={{textAlign:'center'}}>Our Three Step Success Plan</h2>
-              <div class ="featuresContentWrap">
-                  <div class="softwareSuccess icon">
-                    <img src={require("./images/PurpleProgress2.png")}/>
-                  </div>
-                  <div class="refinedPractice icon">
-                      <img src={require("./images/OnlineTutor2.png")}/>
-                  </div>
-                  <div class="enableImprove icon">
-                      <img src={require("./images/Exam.png")}/>
-                  </div>
-                  <div class="ssCaption text">
-                      <h3>Step 1</h3>
-                      <p>We start by giving your student a diagnostics test in order to uncover their strengths and weaknesses.</p>
-                  </div>
-                  <div class="rpCaption text">
-                      <h3>Step 2</h3>
-                      <p>We pair you with an experienced, yet relatable, tutor who recently scored within the top 1% on their standardized tests.</p>
-                  </div>
-                  <div class="eiCaption text">
-                      <h3>Step 3</h3>
-                      <p>We combine weekly individual practice with mock exams and tageted homework modules to give you the tools that you need to succeed!</p>
-                  </div>
-                </div>
-       </div>
-      <div style={{height:70}}></div>
-    {ShowSchool()}
-    <Contact />
-      <div className='bottomDiv'>
-
-      </div>
-    </Fragment>
-    </body>
+</body>
+ 
   );
 }
 /*

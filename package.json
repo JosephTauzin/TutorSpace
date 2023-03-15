@@ -1,9 +1,9 @@
 {
-  "name": "MeasureUp!",
-  "version": "1.2.0",
+  "name": "TutorSpace",
+  "version": "1.0.0",
   "private": true,
   "homepage": "http://measureupprep.com/",
-  "description": "At MeasureUp! We help our clients reach their full academic potential!",
+  "description": "TutorSpace | Prepare students for tomorrow with all the tools you need to run your tutoring business, all in one place.",
   "dependencies": {
     "@aldabil/react-scheduler": "^2.5.7",
     "@date-io/date-fns": "^1.3.13",

@@ -67,7 +67,7 @@ const logInWithEmailAndPassword = async (email, password) => {
     
  
 };
-const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber, companyCode = 'MeasureUp') => {
+const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber, companyCode ) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -78,7 +78,8 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         authProvider: "local",
         email,
         Type: type,
-      
+        ClassNumbersSAT:[],
+        ClassNumbersACT:[],
         topics:'',
         ClassDate:new Date(),
         NextMeetingDate: new Date(),
@@ -94,11 +95,12 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Admin:false,
         PhoneNumber:phonenumber,
         AdditionalPDFUrl:'',
-        CompanyCode:'MeasureUp',
+        CompanyCode:companyCode,
         ConnectedAccountCreated:false,
         StartTime:new Date(),
         Availability:[],
         DisableService:true,
+        DisableBilling:true,
       });
     }
     else if (type == 'Student'){
@@ -130,13 +132,13 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         topics:'',
         HistMeetingTimes:[],
         HistMeetingTimesEnd:[],
-        Tutor:'Joseph Tauzin',
+        Tutor:'',
         Test: test,
         TutorNotes:'',
         Improvement:'',
         PhoneNumber:phonenumber,
         SVG:'',
-        CompanyCode:'MeasureUp',
+        CompanyCode:companyCode,
         ConnectedAccountCreated:true,
         StartTime:new Date(),
         DisableService:true,
@@ -172,11 +174,11 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         topics:'',
         HistMeetingTimes:[],
         HistMeetingTimesEnd:[],
-        Tutor:'Joseph Tauzin',
+        Tutor:'',
         Test: test,
         Improvement:'',
         PhoneNumber:phonenumber,
-        CompanyCode:'MeasureUp',
+        CompanyCode:companyCode,
         ConnectedAccountCreated:true,
         StartTime:new Date(),
         DisableService:true,

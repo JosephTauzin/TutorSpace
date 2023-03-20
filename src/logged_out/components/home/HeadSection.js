@@ -877,7 +877,7 @@ var onPageContactLink = document.querySelector(".contactLinkMobile")
             <a href="index"><span class="navLink">Home</span></a>
             <a href="about"><span class="navLink">About</span></a>
             <a href="index#contact"><span class="navLink">Contact</span></a>
-            <a href="login"><span class="selectedNavLink">Log In</span></a>
+            <a href="login"><span class="navLink">Log In</span></a>
             <xml version="1.0" encoding="UTF-8"><svg id="menuIcon" width="20px" height="20px" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" color="#2e4756"><path d="M3 5h18M3 12h18M3 19h18" stroke="#2e4756" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></xml>
         </div>
     </nav>

@@ -67,7 +67,7 @@ const logInWithEmailAndPassword = async (email, password) => {
     
  
 };
-const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber, companyCode ) => {
+const registerWithEmailAndPassword = async (name, email, password, type, test, studentName, phonenumber, companyCode , IsAdmin = false) => {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
@@ -92,7 +92,7 @@ const registerWithEmailAndPassword = async (name, email, password, type, test, s
         Class:[],
         Students:[],
         ZoomLink:'',
-        Admin:false,
+        Admin:IsAdmin,
         PhoneNumber:phonenumber,
         AdditionalPDFUrl:'',
         CompanyCode:companyCode,

@@ -27,6 +27,7 @@ import { doc, onSnapshot, collection, query, where,updateDoc, arrayUnion, arrayR
 import Spreadsheet from "react-spreadsheet";
 import '@firebase/firestore';
 import Quiz from './libQuiz/Quiz';
+
 import {  ref, getDownloadURL } from "firebase/storage";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -98,7 +99,6 @@ import LabelColumn from './LabelColumn'
 
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-
 
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -3565,8 +3565,46 @@ function UpdateDate(){
     }
   }
 
+
+
+
+
   function setQuizResults(obj){
- 
+
+    function ChangeCheck(num){
+      var CurrentCheck = StudentAssignments[num][1]
+      var CurrentArr = StudentAssignments
+   
+      if(CurrentCheck == true){
+        CurrentArr[num][1] = false
+        setStudentAssignments(CurrentArr)
+        UpdateStudentAssignments(CurrentArr)
+      }else{
+        CurrentArr[num][1] = true
+       
+        setStudentAssignments(CurrentArr)
+        UpdateStudentAssignments(CurrentArr)
+      }
+    }
+
+    function FindNumFromList(name){
+      for(var i = 0; i<StudentAssignments.length; i++){
+        if((StudentAssignments[i][0]).toString().toLowerCase().replaceAll(' ','') == name){
+          return(i)
+        }
+      }
+
+    }
+
+    
+    console.log("setQuizResults")
+    console.log(obj)
+    var CurrentQuizTopicConst = obj.currentQuizTopic.toString().replaceAll(' ','').toLowerCase()
+    console.log(CurrentQuizTopicConst)
+    console.log(FindNumFromList(CurrentQuizTopicConst))
+    ChangeCheck(FindNumFromList(CurrentQuizTopicConst))
+
+
     var UserInput = obj.userInput
     if(UserInput.length !== 0){
       var numberOfCorrectAnswers = obj.numberOfCorrectAnswers
@@ -7163,13 +7201,9 @@ function HandleChangeTabFunction(newValue){
 
 
     if(AdminInfo !== null &&  AdminInfoParent !== null){
-
-
-     
       for(var x = 0; x < AdminInfo[0].length; x++){
         rows.push(createData(AdminInfo[1][x], AdminInfo[0][x], humanReadableDate(AdminInfo[2][x]), AdminInfo[3][x], [FindParents(AdminInfo[0][x])], AdminInfo[4][x]))
       }
-     
     }
 
     if(AdminInfoTutor !== null ){
@@ -7849,14 +7883,14 @@ function HandleChangeTabFunction(newValue){
         </div>
         <div className={'TopicsDiv'}>
         
-        <FormGroup>
-         
-          {
-            
-            ShowTopics()
-          }    
-         
-        </FormGroup>
+          <FormGroup>
+          
+            {
+              
+              ShowTopics()
+            }    
+          
+          </FormGroup>
         </div>
 
 
@@ -9333,6 +9367,7 @@ function ShowCreateQuiz(){
     else{
       SATClassroomNumbersPrefix.push('Class '+ (parseInt(SATClassroomNumbers[SATClassroomNumbers.length-1])+1))
     }
+
     var ACTClassroomNumbersPrefix = []
     for(var i = 0; i < ACTClassroomNumbersLocal.length; i++){
       ACTClassroomNumbersPrefix.push('Class ' + ACTClassroomNumbersLocal[i])
@@ -9343,7 +9378,7 @@ function ShowCreateQuiz(){
     else{
       ACTClassroomNumbersPrefix.push('Class '+ (parseInt(ACTClassroomNumbersLocal[ACTClassroomNumbersLocal.length-1])+1))
     }
-    
+
 
     function PullCorrespondingStudentsFromClassroomNumber(){
 

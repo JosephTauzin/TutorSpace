@@ -31,7 +31,7 @@ import { FaStepBackward } from "react-icons/fa";
 import { FaStepForward } from "react-icons/fa";
 import { wrap } from "@popmotion/popcorn"
 import { DateTimePicker, Picklist, PicklistOption } from 'react-rainbow-components';
-import "./styles.scss"
+
 import Modal from 'react-modal';
 
 
@@ -58,99 +58,7 @@ import TutorSpaceWhiteShadow from "./images/TutorSpaceWhiteShadow.png"
 
 
 const styles = (theme) => ({
-  extraLargeButtonLabel: {
-    fontSize: theme.typography.body1.fontSize,
-    [theme.breakpoints.up("sm")]: {
-      fontSize: theme.typography.h6.fontSize,
-    },
-  },
-  extraLargeButton: {
-    paddingTop: theme.spacing(1.5),
-    paddingBottom: theme.spacing(1.5),
-    [theme.breakpoints.up("xs")]: {
-      paddingTop: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
-    },
-    [theme.breakpoints.up("lg")]: {
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(2),
-    },
-  },
-  card: {
-    boxShadow: theme.shadows[0],
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    [theme.breakpoints.up("xs")]: {
-      paddingTop: theme.spacing(3),
-      paddingBottom: theme.spacing(3),
-    },
-    [theme.breakpoints.up("sm")]: {
-      paddingTop: theme.spacing(5),
-      paddingBottom: theme.spacing(5),
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4),
-    },
-    [theme.breakpoints.up("md")]: {
-      paddingTop: theme.spacing(5.5),
-      paddingBottom: theme.spacing(5.5),
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(5),
-    },
-    [theme.breakpoints.up("lg")]: {
-      paddingTop: theme.spacing(6),
-      paddingBottom: theme.spacing(6),
-      paddingLeft: theme.spacing(6),
-      paddingRight: theme.spacing(6),
-    },
-    [theme.breakpoints.down("xl")]: {
-      width: "auto",
-    },
-    borderRadius:20,
-    background:'#FBFCF8',
-    marginLeft:-400,
-    width:1000,
-  },
-  wrapper: {
-    position: "relative",
-    //background: 'linear-gradient(to right bottom, #7a91a1, #526572)',
-    paddingBottom: theme.spacing(2),
-    marginTop:-80,
-    marginBottom:400
-    
-  },
-  image: {
-    maxWidth: "100%",
-    verticalAlign: "middle",
-    borderRadius: theme.shape.borderRadius,
-    boxShadow: theme.shadows[4],
-  },
-  container: {
-    marginTop: theme.spacing(12),
-    marginBottom: theme.spacing(12),
-    [theme.breakpoints.down("lg")]: {
-      marginBottom: theme.spacing(9),
-    },
-    [theme.breakpoints.down("md")]: {
-      marginBottom: theme.spacing(6),
-    },
-    [theme.breakpoints.down("md")]: {
-      marginBottom: theme.spacing(3),
-    },
-   
-  },
-  containerFix: {
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "none !important",
-    },
-   
-  },
-  waveBorder: {
-    paddingTop: -theme.spacing(1),
-    marginTop: -50
-  },
-  textBox:{
-    width:20,
-  }
+ 
   
   
 });
@@ -159,7 +67,7 @@ function HeadSection(props) {
 
   //var perf =require('./index.html');
   const { classes, theme } = props;
-  const isWidthUpLg = useMediaQuery(theme.breakpoints.up("lg"));
+  //const isWidthUpLg = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [CurrTest, setCurrTest] = useState('SAT')
   const [value, setValue] = React.useState(1410);
@@ -912,9 +820,9 @@ var onPageContactLink = document.querySelector(".contactLinkMobile")
             </p>
         </div>
     </section>
-
+    <div class="shapedSection2Background"></div>
     <section class="section2">
-        <div class="shapedSection2Background"></div>
+    
         <div class="section2Content">
             <div class="feature1Text" data-aos="fade-up" data-aos-duration="300">
                 <h3>
@@ -1087,10 +995,10 @@ var onPageContactLink = document.querySelector(".contactLinkMobile")
         </div>
 
         <div class="navLinks">
-            <a href="index.html"><span class="navLink">Home</span></a>
-            <a href="about.html"><span class="navLink">About</span></a>
+            <a href="index"><span class="navLink">Home</span></a>
+            <a href="about"><span class="navLink">About</span></a>
             <span class="navLink contactLink">Contact</span>
-            <a href="login.html"><span class="navLink">Log In</span></a>
+            <a href="login"><span class="navLink">Log In</span></a>
         </div>
     </footer>
 
@@ -1118,7 +1026,7 @@ var onPageContactLink = document.querySelector(".contactLinkMobile")
 
 HeadSection.propTypes = {
   classes: PropTypes.object,
-  theme: PropTypes.object,
+  
 };
 
-export default withStyles(styles, { withTheme: true })(HeadSection);
+export default withStyles(styles, { withTheme: false })(HeadSection);

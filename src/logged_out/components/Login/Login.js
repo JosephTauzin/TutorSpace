@@ -133,6 +133,8 @@ function Login(props) {
 
   const [DropdownError, setDropdownError] = useState(false)
   const [showLogin, setShowLogin] = useState(true);
+  const [IsNewCompany, setIsNewCompany] = useState(false);
+
 
   const register = useCallback(() => {
 
@@ -158,16 +160,16 @@ function Login(props) {
 
     if(registerType.value == 'Parent'){
       try{
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,registerStudentName.current.value, registerPhoneNumber.current.value, registerCompanyCode.current.value);
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,registerStudentName.current.value, registerPhoneNumber.current.value, registerCompanyCode.current.value,IsNewCompany);
         }catch(e){
-          registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null',registerStudentName.current.value, registerPhoneNumber.current.value, registerCompanyCode.current.value);
+          registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null',registerStudentName.current.value, registerPhoneNumber.current.value, registerCompanyCode.current.value, IsNewCompany);
         }
     }
     else{
       try{
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,'', registerPhoneNumber.current.value, registerCompanyCode.current.value);
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, registerTest.value,'', registerPhoneNumber.current.value, registerCompanyCode.current.value, IsNewCompany);
         }catch(e){
-        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null','',registerPhoneNumber.current.value, registerCompanyCode.current.value);
+        registerWithEmailAndPassword( registerName.current.value,  registerEmail.current.value, registerPassword.current.value, registerType.value, 'Null','',registerPhoneNumber.current.value, registerCompanyCode.current.value, IsNewCompany);
         }
     }
   
@@ -360,8 +362,11 @@ function Login(props) {
     }
     else{
       return("You are creating a new company account. Make sure you select the correct code.")
+      
     }
   }
+
+
   const [CompanyCodeAlert, setCompanyCodeAlert] = useState("")
   useEffect(() => {
 
@@ -466,6 +471,9 @@ function Login(props) {
               var CurrCompanyCode = registerCompanyCode.current.value;
  
               setCompanyCodeAlert(FindIfCompanyCodeExists(CurrCompanyCode))
+
+              setIsNewCompany(!CompanyCodesUnique.includes(CurrCompanyCode))
+
             }}
             FormHelperTextProps={{ error: true }}
           />

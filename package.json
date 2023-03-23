@@ -21,7 +21,7 @@
     "@mui/styles": "^5.4.4",
     "@popmotion/popcorn": "^0.4.4",
     "@stripe/react-stripe-js": "^1.4.1",
-    "@stripe/stripe-js": "^1.16.0",
+    "@stripe/stripe-js": "^1.51.0",
     "aos": "^2.3.4",
     "babel-plugin-macros": "^3.1.0",
     "chonky-icon-fontawesome": "^2.3.2",

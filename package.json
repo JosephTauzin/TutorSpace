@@ -30,7 +30,7 @@
     "cors": "^2.8.5",
     "desmos-react": "^1.2.0",
     "emoji-mart": "^3.0.1",
-    "firebase": "^9.12.1",
+    "firebase": "^9.22.2",
     "framer-motion": "^8.4.2",
     "html-react-parser": "^3.0.8",
     "js-cookie": "^3.0.1",

@@ -1,0 +1,1806 @@
+* {
+  box-sizing: border-box;
+}
+/* #7494FB */
+body {
+  background: 'white';
+  
+}
+textarea {
+  border: none;          /* Removes the border */
+  outline: none;         /* Removes the focus outline which usually appears on clicking the textarea */
+  resize: vertical;      /* Allows only vertical resizing; remove this line if you don't want resizing at all */
+  font-family: 'Arial', sans-serif;  /* Setting a generic sans-serif font */
+  font-size: 16px;       /* Setting font size */
+  padding: 10px;         /* Some padding for better appearance */
+  width: 20vw;           /* Full width - adjust as needed */
+  box-sizing: border-box;/* Ensures padding doesn't add to the total width */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+textarea:hover {
+  background-color: #f5f5f5; /* Slight gray background on hover for better user feedback */
+}
+
+textarea:focus {
+  background-color: #e9e9e9; /* Slightly darker background on focus */
+}
+.chatbot {
+  width: 18.5vw;
+ 
+  padding: 10px;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  /*background-color: #f5f5f5;*/
+}
+
+
+
+
+
+
+
+.chat-log {
+  height: 54vh;
+  overflow-y: scroll;
+  margin-bottom: 10px;
+  padding: 5px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 5px 5px; 
+}
+
+.chat-entry {
+  max-width: 80%;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 15px;
+  clear: both;
+  line-height: 1.4;
+  position: relative;
+  font-size: 0.9rem;
+  
+}
+
+.chat-entry.user {
+  background-color: #7494FB;
+  float: right;
+  margin-right: 10px;
+  margin-left: 15%; /* This ensures that the message doesn't take up the full width */
+  font-size: 0.95vw;
+  font-weight: 500;
+}
+
+.chat-entry.bot {
+  background-color: #e9e9e9;
+  float: left;
+  margin-left: 10px;
+  margin-right: 15%; /* This ensures that the message doesn't take up the full width */
+  font-size: 0.95vw;
+  font-weight: 500;
+}
+
+.loading-animation {
+  text-align: center;
+  font-weight: bold;
+  margin: 5px;
+  padding: 5px 0;
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.chat-input {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.chat-input input {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 20px;
+  flex-grow: 1;
+  outline: none;
+}
+
+.chat-input button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #7494FB;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  
+}
+
+.stepsli{
+  margin-bottom: 2vh;
+}
+
+
+.messageButton{
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  background-color: #7494FB;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-size: 0.8vw;
+  font-weight: bold;
+  margin-top: 5vh;
+  left: 50%;
+  margin-left: 5vw;
+}
+
+
+.goBackDiv{
+  position: absolute;
+  margin-top: 65h;
+  width:10vw;
+  margin-left:4vw;
+}
+.chat-input button:hover {
+  background-color: #0056b3;
+}
+.chat-header {
+  padding: 15px;
+  /*margin-bottom: -10px; */
+
+  /*background-color: #7494FB;*/
+  color: black;
+  border-radius: 5px 5px 5px 5px; 
+  text-align: center;
+  height: 20vh;
+}
+
+.chat-header h2 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5rem;
+}
+
+.chat-header p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+}
+
+.loadingDiv {
+  width:100%;
+  align-items: center;
+  /*background-color: red;*/
+  justify-content: center;
+  margin: auto;
+  padding-left: 37%;
+  margin-top: -2%;
+}
+.quizTopics{
+  width:100%;
+  height: 50px;
+  /*margin-top:10%;*/
+  text-align: center;
+  border-radius: 5%;
+  /*background-color: red;*/
+  padding-top: 2%;
+  border-width: 5;
+  border-color: black;
+  margin-bottom: 8%;
+  
+  
+}
+.quizTopics:hover {
+  background-color: #aebff5;
+}
+.tableRow:hover{
+  background-color: #aebff5;
+}
+.quizTopicsAdd{
+  width:10vw;
+  height: 50px;
+  /*margin-top:10%;*/
+  text-align: center;
+  border-radius: 15%;
+  /*background-color: red;*/
+  padding-top: 2%;
+  border-width: 5;
+  border-color: black;
+
+  margin-left: 47vw;
+  display:flex; 
+  flex-direction:row;
+  margin-top:-11vh;
+  margin-bottom: 20vh;
+  
+}
+.quizTopicsAddAssignment{
+  width:20%;
+  height: 50px;
+  /*margin-top:10%;*/
+  text-align: center;
+  border-radius: 15%;
+  /*background-color: red;*/
+  padding-top: 2%;
+  border-width: 5;
+  border-color: black;
+  margin-bottom: 8%;
+  margin-left: 43vw;
+}
+
+.sketchDiv{
+  width: 100%;
+  height: 500vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+ 
+}
+.sketchDivPractice{
+  width: 69vw;
+  height: 70vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+  margin-top: 8vh;
+ 
+}
+.sketchDivPracticeOverflow{
+  width: 69vw;
+  height: 70vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+  margin-top: 8vh;
+  overflow: auto;
+  padding: 1vh;
+
+ 
+}
+.imageWhiteboard{
+  width: 38vw;
+  height: 85vh;
+  margin-top: -105vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: -85vh;
+
+
+}
+.sketchDivWhiteboard{
+  width:  40vw;
+  height: 99vh;
+  
+  margin-left: 0%;
+  margin-right: 0%;
+  margin-bottom: 0%;
+
+ 
+}
+.pdfImage{
+  width: 40vw;
+  height: 100vh;
+
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+}
+.sketchDivOutside{
+  width: 80vw;
+  height: 73vh;
+  margin-top: 5vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+
+.sketchDivOutsideSmall{
+  width: 35vw;
+  height: 100vh;
+  margin-top: -15vh;
+  margin-left: 40vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+ overflow: auto;
+ 
+}
+.calculatorDiv {
+  width: 40vw;
+  height: 45vh;
+  margin-top: 15vh;
+  margin-left: -5vw;
+  margin-right: 0%;
+  margin-bottom: 0%;
+  border-width: 10px;
+  border-color:#aebff5;
+  border-style:solid;
+  border-radius: 10px;
+
+}
+.ImageButtons{
+  margin-left: -5vw;
+  width:30vw;
+ 
+}
+.columnDiv{
+  
+  width:32%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+ 
+}
+.columnDivIndividual{
+  width:15vw;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  margin-left: 32vw;
+}
+.IndividualWelcome{
+  height: 15vh;
+  display:flex; 
+  flex-direction:row;
+  width:80vw;
+
+}
+.columnDivBluebook{
+  
+  width:5vw;
+  flex-direction:column;
+  display: inline-block;
+
+  margin-right: 2vw;
+
+ 
+}
+.columnDivProgress{
+  
+  width:32%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  margin-top: -7vh;
+  
+ 
+}
+.columnDivProgressIndividual{
+  
+  width:32%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  margin-top: -7vh;
+  margin-bottom: -30vh;
+  
+ 
+}
+.columnDivWide{
+    
+   
+    flex-direction:column;
+    display: inline-block;
+    overflow: auto;
+    width:20vw;
+  
+}
+.columnDivNotes{
+  flex-direction:column;
+    display: inline-block;
+    overflow: auto;
+    width:20vw;
+    margin-top: -2vh;
+    
+}
+
+.columnDivCalendar{
+    
+
+   
+   
+    height: 25vh;
+    margin-left: 0vw;
+    background-color: white;
+    width:20.5vw;
+ 
+    border-radius: 4%;
+    position: absolute;
+}
+
+.columnDivCalendarCal{
+  height: 46vh;
+    margin-left: 0vw;
+    background-color: white;
+    width:20.5vw;
+    padding-left: 4vh;
+    padding-right: 4vh;
+    border-radius: 4%;
+}
+.columnDivCalendarCalClass{
+  height: 20vh;
+    margin-left: 0vw;
+
+    width:20.5vw;
+    padding-left: 4vh;
+    padding-right: 4vh;
+    border-radius: 4%;
+}
+/*
+.calDiv{
+  display: flex;
+  height: 20vh;
+  width:20vw
+
+}
+.calDiv .react-calendar {
+  width: 100%;   
+  height: 100%;
+}
+*/
+.columnDivAssignments{
+  background-color: white;
+  width:20vw;
+  margin-bottom:2vh;
+  padding:1vh;
+  border-radius:4%;
+ 
+}
+.columnDivAssignmentsClass{
+  position: absolute;
+  background-color: white;
+  width:20.5vw;
+  margin-bottom:2vh;
+  padding-left:1vh;
+  padding-right: 1vh;
+  padding-top:1vh;
+  padding-bottom: 1vh;
+  margin-left: -4vw;
+  margin-top: 0vh;
+  border-radius: 4%;
+  height: 74vh;
+
+ 
+}
+.columnDivAssignments2{
+  background-color: white;
+  width:20vw;
+  margin-bottom:-8vh;
+  height: 46vh;
+  padding: 1vw;
+  border-radius: 4%;
+  position: absolute;
+ 
+}
+.middlePart{
+  margin-left: 23vw;
+  margin-right: 2vw;
+  
+}
+.middlePartClassroom{
+  margin-left: 2vw;
+  margin-right: 2vw;
+
+  
+
+}
+.columnDivNotepad{
+    
+
+   
+  width:20.4vw;
+  background-color: white;
+  height: 45vh;
+  padding:1vh;
+  margin-top: 0vh;
+  border-radius: 4%;
+  margin-bottom: 0;
+
+  position: absolute;
+
+}
+.RosterDiv{
+  overflow-x: auto;
+  height:58vh;
+  margin-top:-1vh;
+
+}
+.ImageDiv{
+  width:10vw;
+
+  margin-left:3vw;
+  
+}
+.ImageCont{
+  margin-left: -3vw;
+  margin-bottom: 5vh;
+  margin-top: 4vh;
+ 
+}
+.columnDivShort{
+  
+  width:25vw;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  height: 70vh;
+  margin-left: 2vw;
+  background-color: white;
+  padding:2vh;
+  margin-top:8vh;
+  border-radius: 4%;
+ 
+}
+.QuizSwitchDiv{
+  margin-top: 7vh;
+  position: absolute;
+}
+.columnDivNoOverflow{
+  
+  width:32%;
+  flex-direction:column;
+  display: inline-block;
+  margin-left:1vw;
+ 
+}
+.Financials{
+  margin-left: 1vw;
+}
+.columnDivBig{
+  
+  width:100%;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+ 
+ 
+}
+.FinancialsDiv{
+  margin-left: -2%;
+  margin-bottom: 5%;
+  width:76%;
+  display:none;
+}
+.columnDivImprovement{
+  
+  width:100%;
+  
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  background-color: white;
+  padding:2vh;
+  height: 27vh;
+  border-radius: 4%;
+}
+.hover-component {
+  position: relative;
+
+  height: 4vh;
+  margin-top: 3vh;
+  margin-left: 1vw;
+}
+
+.hover-component .icon {
+
+}
+
+.hover-component .info {
+  position: absolute;
+  top: 100%; /* position below the icon */
+  margin-left: -6vw;
+  width: 200px; /* adjust as needed */
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  display: none;
+}
+
+.hover-component:hover .info {
+  display: block;
+}
+.columnDivImprovementIndividual{
+  height:18.5vh
+}
+
+.columnDivImprovementClear{
+  
+  width:100%;
+  
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+ 
+  padding:2vh;
+  height: 28vh;
+  border-radius: 4%;
+}
+.MasterButton{
+  margin-top: 2vh;
+}
+.columnDivTest{
+  
+  
+  flex-direction:column;
+  display: inline-block;
+  
+  margin-left: 40vw;
+  margin-top: 2.1vh;
+  
+}
+.columnDivDiagnostics{
+  
+  width:64vw;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  margin-left: 2vw;
+  margin-top: -4.5vh;
+}
+.columnDivDiagnosticsTutor{
+  width:64vw;
+  flex-direction:column;
+  display: inline-block;
+  overflow: auto;
+  margin-left: 0vw;
+  margin-top: -1.5vh;
+}
+.ScoreDiv{
+  margin-left: -1.5vw;
+  flex-direction: row;
+  display: flex;
+}
+.TestText{
+  font-weight: 300;
+}
+.rowDiv{
+  display:flex; 
+  flex-direction:row;
+
+}
+.rowDivAssigned{
+  display:flex; 
+  flex-direction:row;
+
+  padding-left: 6vw;
+
+}
+.rowDivMeeting{
+  display:flex; 
+  flex-direction:row;
+
+  padding-left: 4vw;
+
+}
+.rowDivData{
+  display:flex; 
+  flex-direction:row;
+  width: 67vw;
+}
+
+.BluebookDiv{
+  display: flex;
+  flex-direction: row;
+  width:20vw;
+  height:4vh;
+  margin-top: 2vh;
+  margin-left:17vw;
+}
+.rowDivRating{
+  display:flex; 
+  flex-direction:row;
+  width: 17vw;
+  height: 10vh;
+  align-items: center;
+
+  align-items: center;
+
+}
+.rowDivSlim{
+  display:flex; 
+  flex-direction:row;
+  width: 17.5vw;
+  margin-left: 2vw;
+  height: 5vh;
+  position: absolute;
+
+  margin-top: -5vh;
+  margin-left: 0vw;
+  margin-bottom: 5vh;
+ 
+}
+.rowDivWide{
+  display:flex; 
+  flex-direction:row;
+  width: 78vw;
+
+
+  
+}
+
+.askAIDiv{
+
+}
+.AdminDiv{
+  
+  width: 100%;
+  height: 100%;
+}
+.rowDivService{
+  display:flex; 
+  flex-direction:row;
+  width: 100%;
+  margin-left: 2vh;
+}
+.rowDivWhiteboard{
+  display:flex; 
+  flex-direction:row;
+  margin-left: 35vw;
+  width:750px;
+  margin-top: 2vh;
+  position: absolute;
+}
+.CurrentQuestionDiv{
+  width:5vw;
+  margin-left: -10vw;
+  margin-top: -1vh;
+}
+.CirclePickerDiv{
+ 
+  margin-top: 1vh;
+ 
+  width: 15vw;
+  margin-left: 2vw;
+ 
+}
+.loading{
+  width:5vw;
+  height: 5;
+  margin-top: 2vh;
+  margin-left: 60vw;
+  margin-bottom: -13vh;
+}
+.rowDivWhiteboardPractice{
+  display:flex; 
+  flex-direction:row;
+  margin-left: 5vw;
+  width:72vw;
+  margin-top: 1vh;
+  position: absolute;
+  margin-bottom: -2vh;
+  
+}
+.NavTextStyle{
+  font-weight: 500;
+  font-size: 0.7vw;
+  
+}
+.NextQuestionDiv{
+  margin-left: 74vw;
+  margin-top: 4vh;
+  position: absolute;
+}
+.ChooseTopic{
+  position: absolute;
+
+  margin-top: -10vh;
+  margin-left: 60vw;
+}
+.ButtonContainer{
+  height: 10.5vh;
+  width: 325px;
+  border-color: 'black';
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+  margin-right: 2vw;
+
+}
+.ButtonContainerNext{
+  height: 10.5vh;
+  width: 6vw;
+  border-color: 'black';
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 10px;
+
+}
+.TutorNotesDiv{
+  width:500px;
+
+}
+.TutorNotes{
+  width:30vw;
+  max-height: 45vh;
+ 
+  overflow-x: auto;
+}
+.quizTopicsContainer{
+  display:flex; 
+  flex-direction:row;
+  width: 100%;
+  top: 50%;
+ 
+}
+.list {
+  color:white;
+  font-size: 1.25vw;
+  font-weight:200 ;
+  text-align: center;
+  margin-bottom: 5%;
+}
+.TopicsDiv{
+ 
+  overflow: auto;
+  height:67vh;
+  padding: 3vh;
+  background-color: white;
+  border-radius: 4%;
+}
+
+
+.react-calendar {
+ 
+  height: 28vh ;
+}
+
+.centerText{
+  text-align: center;
+  margin-top: 1vh;
+  font-size: 1vw;
+  font-weight: 400;
+}
+
+.react-calendar__tile {
+  width: 5vw;
+  height: 3.2vh;
+}
+
+.react-calendar__navigation__label {
+  font-size: 13px;  /* Adjust this value as needed */
+
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  margin-top: -20px; /* Adjust this value as needed */
+}
+
+.TopicsContainer{
+  margin-top: -26.5vh;
+  margin-bottom: 15vh;
+  margin-left: 45vw;
+  background-color: white;
+ 
+  border-radius: 4%;
+  width:25vw;
+  position: absolute;
+}
+.TopicsContainerClass{
+
+  margin-top: -27vh;
+  margin-bottom: 15vh;
+  margin-left: 45vw;
+  background-color: white;
+  padding-top:1vh;
+  border-radius: 4%;
+  width:25vw;
+  position: absolute;
+}
+.SpreadsheetDiv{
+  margin:auto;
+  
+}
+
+.process {
+  color:"#343a40";
+  font-size: 1.25vw;
+  font-weight:500 ;
+  text-align: center;
+  margin-top: 8%;
+  margin-bottom: 18%;
+}
+.check {
+  display: table;
+  width: 100%; /*Optional*/
+  table-layout: fixed; /*Optional*/
+  border-spacing: 10px; /*Optional*/
+} 
+.checkbox {
+	margin-left: 100;
+  margin-top: 4%;
+  width:100%;
+  display:table-cell;
+}
+.coloring{
+  background-color: '#FBFCF8';
+  padding-bottom: 5%;
+}
+.VideoConferenceDiv{
+  width:25vw;
+  margin-top:-1vh;
+  margin-left: 1vw;
+
+}
+.AIPopup{
+  z-index: 100000000;
+  height: 75vh;
+  width:35vw;
+  position: fixed;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-left:4vw;
+  padding-right: 4vw;
+  padding-top: 2vh;
+  display: grid;
+  place-items: center;
+  border-radius: 5%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #7494FB;
+}
+
+.AIPopupSmall{
+  z-index: 100000000;
+  height: 50vh;
+  width:30vw;
+  position: fixed;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding-left:4vw;
+  padding-right: 4vw;
+  padding-top: 2vh;
+  display: grid;
+  place-items: center;
+  border-radius: 5%;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #7494FB;
+}
+.NotepadButtonDiv{
+  margin-top: -7.5%;
+  margin-left: 45vw;
+  display:flex; 
+  flex-direction:row;
+  width:25vw;
+}
+.NotepadButtonDivClassroom{
+  margin-top: -7.5%;
+  margin-left: 54vw;
+  display:flex; 
+  flex-direction:row;
+  width:25vw;
+}
+.testDateDiv{
+  width:8vw;
+  margin-right: 2vw;
+  height:5vh;
+}
+.NotepadButtonDiv2{
+  margin-top: -7.5vh;
+  margin-left: 25vw;
+  display:flex; 
+  flex-direction:row;
+}
+.TopicsCoveredDiv{
+  max-height: 30vh;
+  overflow-x: auto;
+}
+.NotepadButton{
+  background-color: transparent;
+
+  box-shadow: 'rgba(0, 0, 0, 0.0)';
+  
+
+}
+.SubmitTest{
+  height: 5vh;
+  margin-top: 4vh;
+  margin-bottom: 4vh;
+}
+.LogoDiv2{
+  height:4vh;
+  width:12vw;
+  margin-top: -50vh;
+  margin-left: -6vw;
+  background-color: #ec392f;
+}
+.NotepadClose{
+  margin-top: -22%;
+  margin-left: 94%;
+}
+.quizTopicsP{
+  font-size: 0.95vw;
+  font-weight: 400;
+}
+.quizTopicsPAdd{
+  font-size: 0.95vw;
+  font-weight: 700;
+}
+.TitleTextStyle{
+  font-weight: 400;
+  font-size:2vw;
+  color:black;
+}
+.boxDiv{
+  /*
+  margin-left: 15vw;
+  margin-top: 5vh;
+  wid
+  */
+}
+.buttonText{
+  font-size: 0.75vw;
+  font-weight: 400;
+
+}
+.NavDiv{
+  margin-left: -20.0vw;
+  position: fixed;
+  width:15vw;
+  /*
+  border-right-color: black;
+  border-right-width: 1px;
+  border-right-style: solid;
+  */
+  height: 110vh;
+  margin-top: -6vh;
+  padding-top: 1vh;
+  padding-left: 4vw;
+
+
+  
+  background-color: white;
+ 
+  
+}
+.IconDiv{
+  border-color: #7494FB;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  height: 65px;
+  width:9vw;
+}
+.IconDivLogOff2{
+  border-color: #7494FB;
+  border-top-width: 2px;
+  border-top-style: solid;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  height: 65px;
+  width:8vw;
+  margin-left: 0.25vw;
+}
+.IconDivLogOff{
+  margin-top: 50vh;
+  height: 100px;
+  width:9vw;
+  margin-left: 1vw;
+}
+.Blocker{
+  position: absolute;
+  height: 1000%;
+  width: 88%;
+  margin-top: -355%;
+  margin-left: -7%;
+  background-color:rgb(197, 207, 209);
+}
+.lowerPadding{
+  height: 10vh;
+}
+.IconDivLogOffTutor{
+  margin-top: 85vh;
+  margin-left: -15.8vw;
+  height: 200px;
+  width:9vw;
+  
+
+  flex-direction:column;
+  display: inline-block;
+ 
+  position: fixed;
+}
+.PayrollCheck{
+  margin-top: 1vh;
+  margin-left: 1vw;
+}
+.PDFDropdown{
+  margin-top: 7vh;
+  margin-bottom: 10vh;
+  margin-left: -5vw;
+  width: 240px;
+  display: flex;
+  flex-direction: row;
+  height:5vh
+}
+.PDFViewer{
+  margin-top: -95vh;
+  margin-bottom: 19vh;
+  margin-left: 0vw;
+  height: 73.5vh;
+  width:38vw
+}
+.ClassroomTest{
+  margin-top: 5vh;
+  width:20vw;
+ 
+  flex-direction:row;
+  display: flex;
+}
+.CurrentTest{
+  width:7.5vw;
+  margin-bottom: 4vh;
+  margin-top: -1vh;
+}
+.MaxHeightDiv{
+  max-height: 30vh;
+  overflow-x: auto;
+}
+.MaxHeightDiv2{
+  max-height: 50vh;
+  overflow-x: auto;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.TitleTextStyleLight{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 1.7vh;
+  margin-left: -.1vw;
+}
+.TitleTextStyleTiny{
+  font-weight: 600;
+  font-size: 0.8vw;
+  color:black;
+  margin-bottom: 1.7vh;
+  margin-left: -.1vw;
+}
+.TinyQuestionDiv{
+  position: absolute;
+  margin-top: -0.5vh;
+  margin-left: 20vw;
+  width:10vw;
+
+}
+.TinyQuestionDropdownDiv{
+  position: absolute;
+  margin-top: -0vh;
+  margin-left: 70vw;
+  width:8vw;
+}
+.AskAIDivButton{
+  position: absolute;
+  margin-left: 47.5vw;
+  width:8vw;
+
+}
+
+.TitleTextStyleSmall{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 1.7vh;
+  margin-left: -.1vw;
+  text-align: center;
+
+  
+}
+.TitleTextStyleSmallPopup{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+ 
+  text-align: center;
+  
+}
+
+.TitleTextStyleExtraSmallPopup{
+  font-weight: 400;
+  font-size: 0.8vw;
+  color:black;
+ 
+  text-align: center;
+  
+}
+
+.TitleTextStyleSmallPopupHeader{
+  font-weight: 500;
+  font-size: 1.25vw;
+  color:black;
+ 
+  text-align: center;
+  margin-bottom: -2vh;
+  
+}
+.TitleTextStyleSmallChart{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 1vh;
+  margin-left: 20vw;
+  text-align: center;
+  
+}
+.TitleTextStyleSmall2{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: 1vh;
+  margin-left: -.1vw;
+}
+.TitleTextStyleSmallTopics{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: .1vh;
+  margin-left: -.1vw;
+}
+.TitleTextStyleSmallVC{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: 0vh;
+  margin-left: -.1vw;
+}
+.TitleTextStyleSmallTestDate{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: 0vh;
+  margin-left: -.1vw;
+  margin-top: 1vh;
+}
+.TitleTextStyleLightCorrect{
+  font-weight: 600;
+  font-size: 1.8vw;
+  color:#00D100;
+  margin-bottom: 1.7vh;
+  margin-left: -.1vw;
+
+}
+.TitleTextStyleLightIncorrect{
+  font-weight: 600;
+  font-size: 1.8vw;
+  color:#cc0000;
+  margin-bottom: 1.7vh;
+  margin-left: -.1vw;
+
+}
+
+.TitleTextStyleBold{
+  font-weight: 500;
+  font-size: 1.8vw;
+  color:black;
+  margin-bottom: 0vh;
+  margin-left: -.1vw;
+  margin-top: 2vh;
+}
+.TextStyleLight{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 1.7vh;
+}
+.TextStyleLightLearn{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 8vh;
+  line-height: 5vh
+}
+.TextStyleLightInstructions{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: .1vh;
+}
+
+.TitleTextStyleLight2{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: .2vh;
+  margin-top: 18vh;
+}
+.TitleTextStyleLight3{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+  text-align: center;
+}
+.TitleTextStyleLight4{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 2vh;
+  margin-top: 8vh;
+  text-align: center;
+}
+.AddStudentPadding{
+  height: 1vh;
+}
+.StudentsClassroom{
+  margin-left: 2vw;
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+}
+.AddPDFDiv{
+  margin-left: -5vw;
+  width: 60vw;
+}
+.ChartDiv{
+  margin-top: 1.5vh;
+  background-color: white;
+  margin-bottom: 3vh;
+  width:45vw;
+  margin-left: 21.5vw;
+  position: absolute;
+  height:64vh;
+  border-radius: 4%;
+
+}
+.StudentNotepadDiv{
+  
+}
+.AddStudentClassroom{
+
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+}
+.DateText{
+  font-weight: 400;
+  font-size: 0.95vw;
+  color:black;
+  margin-bottom: 0.5%;
+}
+.TitleTextStyleLightTopic{
+  font-weight: 200;
+  font-size: 1.8vw;
+  color:black;
+  margin-bottom: 64.5vh;
+  margin-top: -64.5vh;
+  margin-left: 55%;
+}
+.TitleTextStyleSmallTopic{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+
+  text-align: center;
+  margin-bottom: -2vh;
+  
+
+}
+.ExtraInfoTextStyle{
+  font-weight: 200;
+  font-size: 1.25vw;
+  color:black;
+}
+.coloringSub{
+
+  padding-bottom: 70%;
+}
+.hoverbox{
+  height: 100%;
+	width:100%;
+  background-color: #e0e0e0;
+  border-radius: 30%;
+  padding: 5px;
+
+}
+.chooseFile {
+  display: 'flex';
+  justifyContent: 'flex-start';
+  alignItems: 'center';
+  flexDirection: 'row';
+  width: '20vw';
+  padding: 5;
+  borderStyle: 'solid';
+  borderWidth: 1;
+  borderColor: 'green';
+  borderRadius: 5;
+  color: 'green';
+}
+.custom-file-upload {
+  border: 2px solid #ccc;
+  border-radius: 10%;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color:#ccc;
+}
+input[type="file"] {
+  display: none;
+}
+.ButtonDiv {
+  margin-left: 90%;
+  margin-top: -7%;
+}
+.ButtonDivEmail {
+  margin-left: 84.5%;
+  margin-top: -4.5%;
+  margin-bottom:27.8%;
+}
+.ButtonDivWaiting {
+  flex-direction:row;
+  display: flex;
+
+  margin-top: 5vh;
+
+  width:7.9vw;
+  margin-left: 6vw;
+  margin-bottom: 1vh;
+  
+}
+.ButtonDivWaitingClass{
+  flex-direction:row;
+  display: flex;
+
+  margin-top: 1vh;
+  text-align: center;
+  width:10vw;
+  margin-left: 6vw;
+  margin-bottom: 1vh;
+  
+}
+.buttonWidthStyling{
+  width: 7.9vw;
+}
+.slider{
+  width:10vw;
+  margin-top: 1vh;
+  margin-bottom: -1vh;
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+.ButtonDivComplete{
+  margin-left: 21.2vw;
+  margin-top: -1%;
+  width:13vw;
+}
+.buttonDivCompleteAssignments{
+  position: absolute;
+  margin-top:1vh;
+  margin-left: 2.52vw;
+}
+.formDivContainer{
+
+  height: 28vh;
+  overflow-x: auto;
+}
+.buttonWidthStylingComplete{
+  width:13vw;
+}
+
+.buttonWidthStylingCompleteSmall{
+  width:6vw;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+ 
+}
+
+.ButtonDivNewQuiz{
+  margin-left: 23vw;
+  margin-top: -1%;
+}
+.StudentAssignments{
+  margin-top: 0vh;
+  height: 200px;
+  width:33.5vw;
+  
+}
+.Check{
+  margin-top: 5px;
+  margin-left: 25px;
+}
+.Format{
+  font-weight: 400;
+  font-size: 1.25vw;
+  color:black;
+  margin-bottom: 2vh;
+  margin-top: 2vh;
+  text-align: center;
+}
+.NextMeetingDiv{
+  margin-top: -27vh;
+  margin-bottom: 25vh;
+  margin-left: 53vw;
+}
+.NextMeetingDivClass{
+  margin-top: -29vh;
+  margin-bottom: 38vh;
+  margin-left: 48vw;
+  position: absolute;
+}
+.FullScreen{
+  height: 100vh;
+}
+
+.field {
+  width: 100%;
+  height: 40vh;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+}
+
+.field:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.field.active {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.field.active textarea {
+  padding: 24px 16px 8px 16px;
+}
+
+.field.active textarea + label {
+  top: 4px;
+  opacity: 1;
+  color: #512da8;
+}
+.Overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+}
+.field.locked {
+  pointer-events: none;
+}
+.PlusStyle{
+  font-size: 1.25vw;
+  font-weight: bold;
+}
+.PlusDiv{
+  margin-left:-1% ;
+  height: 5%;
+}
+.ShowOrHide{
+  height: 5%;
+  margin-top: -1%;
+  margin-left: 10%;
+}
+.field textarea {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  color: #282828;
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+    0.1s padding ease-in-out;
+  -webkit-appearance: none;
+}
+
+.field textarea::-webkit-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea:-ms-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.field textarea:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.field textarea + label {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.1s all ease-in-out;
+}
+
+.field textarea + label.error {
+  color: #ec392f;
+}
+
+.field p.predicted {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #e0e0e0;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.fieldBig {
+  width: 100%;
+  height: 60px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+  margin-bottom: 40px;
+  
+}
+
+
+
+.fieldSmall {
+  width: 33.5vw;
+  height: 60px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
+  margin-bottom: 40px;
+  
+}
+.fieldBig.active {
+  background-color: #ffffff;
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.2);
+}
+
+.fieldSmall:hover {
+  background-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
+
+.fieldSmall.active {
+  background-color: transparent;
+  border-color: #282828;
+  border-width: 0.5px;
+  border-style: solid;
+}
+
+.fieldSmall.active textarea {
+  padding: 24px 16px 8px 16px;
+}
+
+.fieldSmall.active textarea + label {
+  top: 4px;
+  opacity: 1;
+  color: #512da8;
+}
+
+.fieldBig.active textarea {
+  padding: 24px 16px 8px 16px;
+}
+
+.fieldBig.active textarea + label {
+  top: 4px;
+  opacity: 1;
+  color: #512da8;
+}
+
+.fieldSmall.locked {
+  pointer-events: none;
+}
+
+.fieldSmall textarea {
+  width: 100%;
+  height: 56px;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  color: #282828;
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+    0.1s padding ease-in-out;
+  -webkit-appearance: none;
+  
+}
+
+.fieldBig textarea {
+  width: 100%;
+  height: 56px;
+  position: relative;
+  padding: 0px 16px;
+  border: none;
+  border-radius: 4px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  background-color: transparent;
+  color: #282828;
+  outline: none;
+  box-shadow: 0px 4px 20px 0px transparent;
+  transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out,
+    0.1s padding ease-in-out;
+  -webkit-appearance: none;
+  
+}
+
+.fieldSmall textarea::-webkit-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea:-ms-textarea-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+.fieldSmall textarea:-moz-placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.fieldSmall textarea + label {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #ffffff;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.1s all ease-in-out;
+}
+
+.fieldSmall textarea + label.error {
+  color: #ec392f;
+}
+.Error{
+  color: #ec392f;
+}
+.fieldSmall p.predicted {
+  position: absolute;
+  top: 8px;
+  left: 16px;
+  font-family: "Gotham SSm A", "Gotham SSm B", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: #e0e0e0;
+  opacity: 1;
+  pointer-events: none;
+}

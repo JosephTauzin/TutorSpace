@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+.timeSelect td {
+    grid-area: table;
+    border-radius: 5px;
+}
+
+.data td {
+    border: rgba(52, 46, 55, 0.1) 0.5px solid;
+}
+
+.timeSelect h3 {
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: calc(7.5px + 0.5vw);
+    color:#342E37;
+}
+
+
+.timeSelect td:hover {
+    opacity: 0.7;
+}
+
+.tdSelected {
+    background-color: #7494FB;
+}
+
+.timeSelect {
+    display: grid;
+    grid-template-areas: "table table table table table table table table";
+    margin-left: -4vw;
+    margin-top: 2vh;
+}
+
+.labels  {
+    text-align: right;
+    margin-right: 2em;
+    vertical-align: middle;
+}
+
+.labels h3 {
+    text-align: right;
+    font-weight: 400;
+}
+
+.tdUnselectedHover {
+    background-color: #342E37;
+    opacity: 0.5;
+}

@@ -1,0 +1,1223 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+    text-decoration: none;
+}
+
+body {
+    font-family: Montserrat, sans-serif;
+    background-color:#FFFFFF;
+    overflow-x: hidden;
+}
+
+a {
+    color: inherit;
+}
+
+nav {
+    padding: 1% 15% 1% 15%;
+    background-color: #FFFFFF;
+    display: grid;
+    grid-template-columns: 35fr 65fr; 
+    grid-template-rows: 100fr;
+    grid-template-areas: 
+        "logo navLinks";
+}
+
+.logo {
+    padding: 0.2em 0 0 0;
+    grid-area: logo;
+}
+
+.logo img {
+    max-width: calc(5px + 25%);
+    vertical-align: baseline;
+}
+
+.navLinks {
+    font-family: Montserrat, sans-serif;
+    font-size: calc(6px + 1vw);
+    text-align: right;
+    padding: 0.5em 0 0.5em 0;
+    grid-area: navLinks;
+}
+
+.selectedNavLink {
+    color: #7494FB;
+    padding: 0.3em 1em 0.3em 1em;
+    border-radius: 3px;
+    transition: 0.3s ease-in-out;
+}
+
+.navLink {
+    padding: 0.3em 1em 0.3em 1em;
+    color: #2E4756;
+    border-radius: 3px;
+    transition: 0.3s ease-in-out;
+}
+
+.firstNavLink {
+    padding: 0em 1em 0em 1em;
+}
+
+.navLink:hover  {
+    color: #7494FB;
+    cursor: pointer;
+}
+
+.selectedNavLink:hover {
+    color: #2E4756;
+    cursor: pointer;
+}
+
+header {
+    overflow-x: hidden;
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-areas: 
+        "content";
+}
+
+.shapedHeaderBackground {
+    background-color: #7494FB;
+    background: linear-gradient(90deg, rgba(80, 121, 250,1) 0%, rgba(116,148,251,1) 75%);
+    clip-path: polygon(100% 0, 100% 40%, 0 100%, 0 0);
+    grid-area: content;
+    z-index: 0;
+    padding-bottom: 20%;
+    
+}
+
+.headerContent {
+    grid-area: content;
+    padding: 7.5% 15% 10% 15%;
+    display: grid;
+    grid-template-columns: 50fr 50fr;
+    grid-template-areas: "headerText headerImage";
+}
+
+h1 {
+    color: inherit;
+    font-size: calc(8px + 3vw);
+    font-family: Montserrat, sans-serif;
+}
+
+h2 {
+    color: inherit;
+    font-size: calc(8px + 2.5vw);
+    font-family: Montserrat, sans-serif;
+}
+
+p {
+    color: inherit;
+    font-size: calc(8px + 1vw);
+}
+
+.headerText p {
+    margin-top: 5%;
+    padding-right: 2.5%;
+}
+
+.headerText {
+    padding: 2.5% 2.5% 5% 0;
+    grid-area: headerText;
+    z-index: 1;
+    color:#FFFFFF;
+}
+
+.headerImage {
+    grid-area: headerImage;
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+        "imageStacked";
+}
+
+.headerImage img { 
+    border-radius: 0.8vw;
+    margin-left: auto;
+    max-width: 150%;
+}
+
+.screenshot {
+    transform: translateX(15%);
+    grid-area: imageStacked;
+    z-index: 3;
+    box-shadow: -1px 1px 12px rgba(0, 0, 0, 0.2);
+}
+
+.imageTopDarkShadow {
+    grid-area: imageStacked;
+    z-index: 2;
+    transform: translate(20%, -10%);
+}
+
+.imageBottomLightShadow {
+    grid-area: imageStacked;
+    z-index: 1;
+    transform: translate(35%, 12%)
+}
+
+button {
+    font-size: calc(6px + 1vw);
+}
+
+.headerFreeTrialCTA {
+    border-radius: 0.25vw;
+    margin-top: 10%;
+    background-color: #2E4756;
+    color:#FFFFFF;
+    padding: 2.5% 5% 2.5% 5%;
+    transition: 0.3s ease-in-out;
+} 
+
+.headerFreeTrialCTA:hover {
+    background-color: #FFFFFF;
+    color: #2E4756;
+    cursor: pointer;
+}
+
+.section1 {
+    padding: 0 15% 7.5% 15%;
+    color: #2E4756;
+    text-align: center;
+}
+
+.section1 p {
+    color: inherit;
+    font-size: calc(6px + 2.5vw);
+    font-family: Montserrat, sans-serif;
+    padding: 0.5% 0 0.5% 0;
+}
+
+.section1 :nth-child(3) {
+    padding: 2.5% 0 0 0;
+}
+
+h3 {
+    color: inherit;
+    font-size: calc(6px + 2vw);
+    font-family: Merriweather, serif;
+}
+
+.italics {
+    font-style: italic;
+}
+
+.section2 {
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-areas:
+        "section2Content";
+    color: #FFFFFF;
+    overflow-x: hidden;
+}
+
+.section2Content {
+    padding: 5% 15% 5% 15%;
+    margin-top: 7.5%;
+    grid-area: section2Content;
+    display: grid;
+    grid-template-columns: 50fr 50fr;
+    grid-template-areas:
+        "leftColumn1 rightColumn1"
+        "leftColumn2 rightColumn2"
+        "leftColumn3 rightColumn3";
+        
+}
+
+.section2Content > div {
+    margin: 30% 0 30% 0;
+}
+
+.shapedSection2Background {
+    z-index: -3;
+    clip-path: polygon(0 0, 100% 7.5%, 100% 100%, 0 100%, 0 0);
+    background: rgb(116,148,251);
+    background: linear-gradient(0deg, rgba(116,148,251,1) 25%, rgba(80, 121, 250,1) 100%);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    grid-area: section2Content;
+}
+
+.feature1Text {
+    grid-area: leftColumn1;
+    padding: 10% 2.5% 0 0;
+}
+
+.feature1Text p {
+    margin: 5% 0 0 0;
+    font-weight: 600;
+}
+
+.feature1Screenshot {
+    grid-area: rightColumn1;
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: 100fr;
+    grid-template-areas: 
+        "imageStack2";
+}
+
+.feature1Screenshot img {
+    border-radius: 0.8vw;
+    max-width: 190%;
+}
+
+.feature1Image {
+    transform: translateX(17.5%);
+    grid-area: imageStack2;
+    box-shadow: -1px 1px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.feature1TopShadow {
+    grid-area: imageStack2;
+    transform: translate(9%, -10%);
+}
+
+.feature1BottomShadow {
+    grid-area: imageStack2;
+    transform: translate(25%, 12.5%);
+}
+
+.feature2Text {
+    grid-area: rightColumn2;
+    z-index: 2;
+    padding: 10% 2.5% 0 0;
+}
+
+.feature2Text p {
+    margin: 5% 0 0 0;
+    font-weight: 600;
+}
+.loginButtonWrap{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8%;
+    height: 10vh;
+}
+.feature2Screenshot {
+    grid-area: leftColumn2;
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: 100fr;
+    grid-template-areas: 
+        "imageStack3";
+}
+
+.feature2Screenshot img {
+    border-radius: 0.8vw;
+    max-width: 190%;
+}
+
+.feature2Image {
+    transform: translateX(-70%);
+    grid-area: imageStack3;
+    box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.feature2TopShadow {
+    grid-area: imageStack3;
+    transform: translate(-61%, -10%);
+}
+
+.feature2BottomShadow {
+    grid-area: imageStack3;
+    transform: translate(-80%, 12.5%);
+}
+
+.feature3Text {
+    grid-area: leftColumn3;
+    padding: 10% 2.5% 0 0;
+}
+
+.feature3Text p {
+    margin: 5% 0 0 0;
+    font-weight: 600;
+}
+
+.feature3Screenshot {
+    grid-area: rightColumn3;
+    display: grid;
+    grid-template-columns: 100fr;
+    grid-template-rows: 100fr;
+    grid-template-areas: 
+        "imageStack4";
+}
+
+.feature3Screenshot img {
+    border-radius: 0.8vw;
+    max-width: 190%;
+}
+
+.feature3Image {
+    transform: translateX(17.5%);
+    grid-area: imageStack4;
+    box-shadow: -1px 1px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.feature3TopShadow {
+    grid-area: imageStack4;
+    transform: translate(9%, -10%);
+}
+
+.feature3BottomShadow {
+    grid-area: imageStack4;
+    transform: translate(25%, 12.5%);
+}
+
+h4 {
+    color: inherit;
+    font-size: calc(8px + 1.5vw);
+    font-family: Merriweather, sans-serif;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.section3Content p {
+    margin: 5% 0 0 0;
+}
+
+.learnMoreCTA {
+    margin: 7.5% 0 0 0;
+    border-radius: 0.25vw;
+    background-color: #7494FB;
+    color:#FFFFFF;
+    padding: 2.5% 15% 2.5% 15%;
+    transition: 0.3s ease-in-out;
+}
+
+.learnMoreCTA:hover {
+    color: #FFFFFF;
+    background-color: #2E4756;
+    cursor: pointer;
+}
+
+.section3Content {
+    background-color: #FFFFFF;
+    color: #2E4756;
+    padding: 5% 15% 2.5% 15%;
+    display: grid;
+    grid-template-columns: 50fr 50fr;
+    grid-template-areas: 
+        "leftColumn rightColumn";
+    overflow-x: hidden;
+}
+
+.section3Text{
+    grid-area: leftColumn;
+    padding: 25% 7.5% 25% 0;
+}
+
+.section3Image {
+    grid-area: rightColumn;
+    padding-left: 17.5%;
+}
+
+.section3Image img {
+    max-width: 120%;
+    padding: 12.5% 0 12.5% 0;
+}
+
+h5 {
+    font-size: calc(4px + 1.3vw);
+}
+
+.section4Content h3 {
+    font-family: Montserrat, sans-serif;
+    color:#FFFFFF;
+}
+
+.section4Content {
+    padding: 5% 15% 5% 15%;
+    background-color: #2E4756;
+    overflow-x: hidden;
+}
+
+.processMenu {
+    margin-top: 5%;
+    display: grid;
+    grid-template-columns: 40fr 60fr;
+    grid-template-areas: 
+        "processButtons processContent";
+}
+
+.processButtons {
+    grid-area: processButtons;
+    border-top-left-radius: 1vw;
+    border-bottom-left-radius: 1vw;
+}
+
+.processContent {
+    grid-area: processContent;
+    padding: 2.5% 10% 2.5% 10%;
+    background-color: #FFFFFF;
+    color: #2E4756;
+    border-top-right-radius: 0.8vw;
+    border-bottom-right-radius: 0.8vw;
+    border-left: 1px solid #2E4756;
+}
+
+.processMenuButton {
+    padding: 7% 10% 7% 10%;
+    width: 100%;
+    background-color: #FFFFFF;
+    color: #2E4756;
+    text-align: left;
+    position: relative;
+    transition: 0.3s ease-in-out;
+    font-size: calc(6px + 1.4vw);
+    border-bottom: 1px solid #2E4756;
+}
+
+.processMenuButton:hover {
+    box-shadow: 5px 2px 15px 3px rgba(0,0,0, 0.4);
+    z-index: 2;
+    cursor: pointer;
+    background-color: #2E4756;
+    color: #FFFFFF;
+}
+
+.topProcessMenuButton {
+    border-top-left-radius: 0.8vw;
+}
+
+.bottomProcessMenuButton {
+    border-bottom-left-radius: 0.8vw;
+    border-bottom: 0px;
+}
+
+.selectedProcessMenuButton {
+    background-color: #7494FB;
+    color:#FFFFFF;
+    box-shadow: 5px 2px 15px 3px rgba(0,0,0, 0.4);
+    z-index: 1;
+    transition: 0.3s ease-in-out;
+}
+
+.selectedProcessMenuButton:hover {
+    cursor: pointer;
+}
+
+.processContent p {
+    font-size: calc(4px + 0.8vw);
+    margin-top: 2.5%;
+}
+
+.processContent img {
+    margin-top: 5%;
+    max-width: 98%;
+    transition: opacity 0.3s ease-in-out;
+}
+
+#processTitle, #processContent {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.section5 {
+    overflow-x: hidden;
+}
+
+.section5Content {
+    padding: 5% 15% 5% 15%;
+}
+
+.pricingBoxes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 2.5%;
+    grid-template-areas: 
+        "starterPricing businessPricing enterprisePricing";
+}
+
+.priceBox h4 {
+    font-weight: 600;
+    font-size: calc(6px + 1.1vw);
+}
+
+.priceBox p {
+    margin-top: 5%;
+    font-size: calc(4px + 0.7vw);
+    font-weight: 450;
+}
+
+.priceBox {
+    background-color:#F8F8F8;
+    padding: 7.5% 7.5% 15% 7.5%;
+    border-radius: 0.25vw;
+    color:#2E4756;
+}
+
+.starterPricing {
+    grid-area: starterPricing;
+    box-shadow: inset 0 2px 0 0 #7494FB;
+}
+
+.businessPricing {
+    grid-area: businessPricing;
+    box-shadow: inset 0 2px 0 0 #2E4756;
+}
+
+.enterprisePricing {
+    grid-area: enterprisePricing;
+    box-shadow: inset 0 2px 0 0 #E26D5C; 
+}
+
+.listedCost {
+    margin-top: 7.5%;
+    padding: 0 2.5% 0 2.5%;
+}
+
+.starterCost {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-areas: 
+        "bigDollar smallCost";
+}
+
+.businessCost {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    grid-template-areas: 
+        "bigDollar smallCost";
+}
+
+.bigDollar {
+    grid-area: bigDollar;
+    font-weight: 500;
+    font-size: calc(6px + 2.7vw);
+    text-align: right;
+    padding-right: 15%;
+    vertical-align: text-top;
+}
+
+.smallCost {
+    grid-area: smallCost;
+}
+
+.smallCost p:nth-of-type(2) {
+    line-height: 0.8em;
+}
+
+.perStudent {
+    font-weight: 400;
+    font-size: calc(4px + 1.2vw);
+} 
+
+.costCaption {
+    font-size: calc(2px + 0.6vw);
+    color: #a7b4bb;
+}
+
+.freeTrialCaption {
+    display: block;
+    text-align: center;
+    margin-top: 7.5%;
+    color: #2E4756;
+}
+
+.freeTrialCaption p {
+    font-size: calc(4px + 1.2vw);
+}
+
+.enterpriseCTA {
+    width: 100%;
+    margin: 17.5% 0 0 0;
+    border-radius: 0.25vw;
+    background-color: #7494FB;
+    color:#FFFFFF;
+    padding: 3% 15% 3% 15%;
+    transition: 0.3s ease-in-out;
+}
+
+.enterpriseCTA:hover {
+    color: #FFFFFF;
+    background-color: #2E4756;
+    cursor: pointer;
+}
+
+.section6 {
+    overflow-x: hidden;
+}
+
+.section6Content h3 {
+    font-size: calc(6px + 2vw);
+    font-family: Montserrat, sans-serif;
+    font-weight: 500;
+}
+
+.section6Content p {
+    font-size: calc(6px + 1vw);
+    margin-top: 5%;
+}
+
+.section6Content {
+    padding: 5% 15% 5% 15%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "leftColumn rightColumn";
+}
+
+.contactCTAText {
+    grid-area: leftColumn;
+    padding: 0 15% 0 0;
+}
+
+.contactForm {
+    grid-area: rightColumn;
+    padding: 0 5% 0 5%;
+}
+
+#contact {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+        "inputs"
+        "textarea";
+}
+
+.inputs {
+    grid-area: inputs;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas:   
+        "leftColumn1 rightColumn1"
+        "secondRow secondRow"
+        "thirdRow thirdRow"
+        "fourthRow fourthRow";
+}
+
+.contactBlock {
+    display: inline-block;
+    margin-bottom: 4%;
+}
+
+.requiredField::after {
+    content: " *";
+    color: red;
+}
+
+.optional {
+    opacity: 0.6;
+}
+
+input {
+    width: 100%;
+    border: 0px;
+    background-color: #F8F8F8;
+    color:#2E4756;
+    font-family: Montserrat, sans-serif;
+    padding: 3px 3px 3px 3px;
+    font-size: calc(6px + 1vw);
+    border-radius: 0.1vw;
+    margin-top: 1%;
+}
+
+input:focus {
+    outline: 0px;
+}
+
+textarea {
+    width: 100%;
+    border: 0px;
+    background-color: #F8F8F8;
+    resize: vertical;
+    min-height: 50px;
+    color:#2E4756;
+    font-family: Montserrat, sans-serif;
+    padding: 3px 3px 3px 3px;
+    font-size: calc(6px + 1vw);
+    border-radius: 0.1vw;
+    margin-top: 1%;
+}
+
+textarea:focus {
+    outline: 0px;
+}
+
+label {
+    color:#2E4756;
+    font-family: Montserrat, sans-serif;
+    font-size: calc(6px + 0.8vw);
+}
+
+#firstNameBlock {
+    grid-area: leftColumn1;
+    padding: 0 5% 0 0;
+}
+
+#lastNameBlock {
+    grid-area: rightColumn1;
+    padding: 0 0 0 5%;
+}
+
+#emailBlock {
+    grid-area: secondRow;
+}
+
+#companyNameBlock {
+    grid-area: thirdRow;
+}
+
+#companyWebsiteBlock {
+    grid-area: fourthRow;
+}
+
+#messageBlock {
+    grid-area: textarea;
+}
+
+.formSubmit {
+    width: 100%;
+    margin: 2.5% 0 0 0;
+    border-radius: 0.25vw;
+    background-color: #7494FB;
+    color:#FFFFFF;
+    padding: 3% 25% 3% 25%;
+    transition: 0.3s ease-in-out;
+}
+
+.formSubmit:hover {
+    color: #FFFFFF;
+    background-color: #2E4756;
+    cursor: pointer;
+}
+
+footer {
+    display: grid;
+    grid-template-columns: 6fr 4fr;
+    grid-template-areas: 
+        "footerLogo ."
+        "navLinks .";
+    padding: 5% 5% 5% 5%;
+    background-color: #2E4756;
+}
+
+.footerLogo {
+    grid-area: footerLogo;
+}
+
+.footerLogo img {
+    width: 25%;
+}
+
+footer .navLinks {
+    font-family: Montserrat, sans-serif;
+    font-size: calc(6px + 1vw);
+    text-align: left;
+    grid-area: navLinks;
+    margin-top: 5%;
+    padding: 0 0 0 0;
+
+}
+
+footer .navLink {
+    padding: 0 4% 0 0%;
+    color: #FFFFFF;
+    border-radius: 3px;
+    transition: 0.3s ease-in-out;
+}
+
+footer .navLink:hover  {
+    color: #7494FB;
+    cursor: pointer;
+}
+
+footer .selectedNavLink:hover {
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.loginSection {
+    overflow-x: hidden;
+}
+
+.loginSectionContent input {
+    font-size: calc(8px + 1.4vw);
+}
+
+.loginSectionContent label {
+    font-size: calc(8px + 1.2vw);
+
+}
+
+.loginSectionContent {
+    padding: 5% 35% 5% 35%;
+}
+
+.loginInputs {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-areas:   
+        "email"
+        "password"
+        "submit";
+}
+
+.loginBlock {
+    display: inline-block;
+    margin-bottom: 7.5%;
+}
+
+.requiredField::after {
+    content: " *";
+    color: red;
+}
+
+#loginEmailBlock {
+    grid-area: email;
+}
+
+#passwordBlock {
+    grid-area: password;
+}
+
+.loginSubmit {
+    grid-area: submit;
+    width: 100%;
+    margin: 2.5% 0 0 0;
+    border-radius: 0.25vw;
+    background-color: #7494FB;
+    color:#FFFFFF;
+    padding: 2.5% 20% 2.5% 20%;
+    transition: 0.3s ease-in-out;
+    font-size: calc(8px + 1.5vw);
+}
+
+.loginSubmit:hover {
+    color: #FFFFFF;
+    background-color: #2E4756;
+    cursor: pointer;
+}
+
+#loginPricing {
+    margin-bottom: 5%;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+}
+
+.mobileMenu {
+    padding-top: 10%;
+    z-index: 5;
+    position: fixed;
+    height: 100vh;
+    width: 60%;
+    transform: translateX(-100%);
+    opacity: 0;
+    background: rgb(116,148,251);
+    background: linear-gradient(0deg, rgba(116,148,251,1) 25%, rgba(80, 121, 250,1) 100%);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: none;
+    transition: 0.2s ease-in-out;
+}
+
+#menuIcon {
+    display: none;
+    height: 100%;
+}
+
+.mobileNavLinkBlock {
+    padding: 10% 10% 10% 15%;
+}
+
+.mobileMenu .navLink, .mobileMenu .selectedNavLink {
+    color: #FFFFFF;
+    padding: 0;
+    font-size: calc(12px + 2.5vw);
+}
+
+.about1Content {
+    padding: 5% 15% 5% 15%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "aboutTagline aboutCaption";
+}
+
+.aboutTagline h3 {
+    font-family: Montserrat, sans-serif;
+}
+
+.aboutTagline {
+    color: #2E4756;
+    padding: 0 5% 0 0;
+}
+
+.aboutCaption {
+    font-size: calc(6px + 1vw);
+    font-family: Montserrat, sans-serif;
+    color: #2E4756;
+    padding: 0 0 0 5%;
+}
+
+.aboutCaption li {
+    margin-top: 1%;
+}
+
+.about2Content {
+    padding: 5% 15% 5% 15%;
+    color: #2E4756;
+}
+
+.about2Content h4 {
+    color: #7494FB;
+}
+
+.aboutBlock {
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+}
+
+.aboutBlock p {
+    margin-top: 1.25%;
+}
+
+.aboutBlock a {
+    color:#7494FB;
+    transition: 0.3s ease-in-out;
+    font-weight: 500;
+}
+
+.aboutBlock a:hover {
+    color: #2E4756;
+}
+
+.aboutBlock:nth-child(1) {
+    margin-top: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .headerContent {          
+        padding: 10% 5% 20% 5%;
+    }
+
+    .shapedHeaderBackground {
+        clip-path: polygon(100% 0, 100% 68%, 0 100%, 0 0);
+    }
+
+    /*Rearrange grid for mobile menu later, set menu icon*/
+    nav {
+        padding: 1% 5% 1% 5%;
+    }
+    .section1 {
+        padding: 10% 5% 10% 5%;
+    }
+    .shapedSection2Background {
+        clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 100%, 0 0);
+    }
+
+    .section2Content {
+        padding: 15% 5% 10% 5%;
+    }
+
+    .section3Content {
+        padding: 10% 5% 7.5% 5%;
+    }
+
+    .section4Content {
+        padding: 10% 5% 10% 5%;
+    }
+
+    .section5Content {
+        padding: 10% 5% 10% 5%;
+    }
+
+    .section6Content {
+        padding: 10% 5% 10% 5%;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "leftColumn"
+            "rightColumn";
+    }
+
+    .contactForm {
+        padding: 0 0 0 0;
+    }
+
+    .loginSectionContent {
+        padding: 5% 10% 5% 10%;
+    }
+
+    .pricingBoxes {
+        grid-gap: 0;
+        padding: 0 10% 0 10%;
+        text-align: center;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "starterPricing"
+            "businessPricing" 
+            "enterprisePricing";
+    }
+
+    .priceBox {
+        padding-bottom: 7.5%;
+        margin-top: 10%;
+    }
+
+    .priceBox h4 {
+        font-weight: 600;
+        font-size: calc(10px + 1.5vw);
+    }
+    
+    .priceBox p {
+        margin-top: 5%;
+        font-size: calc(8px + 1.2vw);
+        font-weight: 450;
+    }    
+
+    .smallCost {
+        text-align: left;
+    }
+
+    .smallCost p {
+        margin-top: 2.5%;
+    }
+
+    .perStudent {
+        font-size: calc(6px + 1.5vw);
+    }
+
+    .costCaption {
+        font-size: calc(6px + 0.75vw);
+    }
+
+    .bigDollar {
+        text-align: right;
+        padding-right: 7.5%;
+        font-size: calc(8px + 3.5vw);
+    }
+
+    .enterpriseCTA {
+        margin-top: 7.5%;
+        font-size: calc(6px + 1.5vw);
+    }
+
+    .freeTrialCaption p {
+        font-size: calc(6px + 1.5vw);
+    }
+
+    .logo img {
+        max-width: calc(5px + 50%);
+        vertical-align: baseline;
+    }
+    
+    .navLinks .navLink, .navLinks .selectedNavLink {
+        display: none;
+    }
+
+    footer .navLinks .navLink  {
+        display: inline-block;
+    }
+
+    .mobileMenu, #menuIcon {
+        display: inline-block;
+    }
+
+    .section3Text{
+        padding: 5% 5% 5% 0;
+    }
+    
+    .section3Image {
+        padding-left: 10%;
+    }
+    
+    .section3Image img {
+        max-width: 100%;
+        padding: 10% 0 10% 0;
+    }
+
+    .section6Content h3 {
+        font-size: calc(8px + 2.5vw);
+        font-family: Montserrat, sans-serif;
+        font-weight: 500;
+    }
+    
+    .section6Content p {
+        font-size: calc(8px + 1.5vw);
+        margin-top: 5%;
+    }
+
+    .contactCTAText {
+        padding: 0 0 7.5% 0;
+    }
+
+    label {
+        font-size: calc(8px + 1vw);
+    }
+
+    input, textarea {
+        font-size: calc(8px + 1.2vw);
+    }
+
+    .about1Content {
+        padding: 5% 5% 0 5%;
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "aboutTagline" 
+            "aboutCaption";
+    }
+
+    .about2Content {
+        padding: 5% 5% 5% 5%;
+    }
+
+    .aboutTagline {
+        padding: 2.5% 0 2.5% 0;
+    }
+    
+    .aboutCaption {
+        font-size: calc(6px + 2vw);
+        padding: 2.5% 0 2.5% 5%;
+    }
+
+    .aboutTagline h3 {
+        font-size: calc(6px + 3.5vw);
+    }
+
+    .aboutBlock {
+        margin-top: 7.5%;
+        margin-bottom: 7.5%;    
+    }
+
+    .aboutBlock h4 {
+        font-size: calc(8px + 2.5vw);
+    }
+
+    .aboutBlock p {
+        margin-top: 2.5%;
+        font-size: calc(8px + 1.5vw);
+    }
+}

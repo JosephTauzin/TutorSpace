@@ -1,0 +1,840 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+body {
+    background-color: #FBFCF8;
+   
+}
+ 
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.navbar {
+    display: grid; 
+    grid-template-columns: 15fr 45fr 10fr 10fr 10fr 10fr; 
+    grid-template-rows: auto; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "logo . homeLink contactLink signupLink loginLink"; 
+
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #E26D5C;
+    font-size: 1.5vw;
+
+    padding: 2% 5% 2% 5%;
+}
+.TopPadding{
+    height: 15vh;
+}
+.logo {
+    grid-area: logo;
+    letter-spacing: 0.1em;
+    text-transform: capitalize;    
+    font-size: calc(24px + 0.5vw);
+    font-weight: 900;
+    text-align: left;
+    color: #E26D5C;
+
+}
+
+.homeLink {
+    grid-area: homeLink;
+}
+
+.contactLink {
+    grid-area: contactLink;
+}
+
+.signupLink {
+    grid-area: signupLink;
+}
+
+.loginLink {
+    grid-area: loginLink;
+}
+.rowDiv{
+    display:flex; 
+    flex-direction:row;
+    
+    
+  }
+.navbarLink {
+    transition: 0.4s ease-in-out;
+    padding: 0.5em 0em 0.5em 0em;
+    border-radius: 4px;
+}
+
+.navbarLink:hover{
+    background-color: #E26D5C;
+    color: #FBFCF8;
+}
+
+.mobileNavbar {
+    display: none;
+}
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    flex-direction: row;
+}
+.modalText{
+    flex-direction: column;
+    margin-top: 3vh;
+    font-size: small;
+  }
+.modalText p{
+    
+    font-size: calc( 2.5vw);
+    font-family: 'Lato', sans-serif;
+    color:#342E37;
+    font-weight: 200;
+  }
+.modalPic{
+   
+    
+    
+}
+.modalh3{
+    font-size: 5;
+}
+.NotepadClose{
+    margin-top: -22%;
+    margin-left: 94%;
+  }
+.header {
+    padding: 2% 5% 2% 5%;
+    display: grid; 
+    grid-template-columns: 40fr 60fr; 
+    grid-template-rows: auto; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "headerTitle headerImage"; 
+    color: #342E37;
+}
+.imageDiv2{
+    
+    margin-top:9vh;
+    margin-left: 1.5vw;
+   
+    flex-direction: row;
+    display:flex;
+    margin-bottom: 5vw;
+   
+}
+.headerTitle {
+    grid-area: headerTitle;
+    font-family: 'Lato', sans-serif;
+    font-size: calc(30px + 2.5vw);
+    margin: 5% 0% 5% 0%;
+}
+
+.headerTitle p {
+    font-size: calc(15px + 1vw);
+    margin: 2vh 0% 5% 0%;
+    font-family: 'Roboto', sans-serif;
+
+
+}
+.TutorSpaceImage{
+    border: 3px solid #000000;
+    border-radius: 20px;
+    padding: 5px;
+ 
+}
+.TutorSpaceImage:hover{
+    box-shadow: 0 0 15px 3px rgba(226, 109, 92, 0.5);
+}
+.buttonClass {
+    background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) right; 
+    background-size: 200% 100%; 
+    transition: 0.25s ease-in-out;
+    
+    color: #FBFCF8;
+    border-radius: 35px;
+    font-size: calc(15px + 1vw);
+    padding: 0.5em 2.5em 0.5em 2.5em;
+}
+
+.buttonClass:hover {
+    background-position: left;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.4);
+    transform: translate(0px, -3px);
+    cursor: pointer; 
+}
+.dotDiv{
+   position: absolute;
+    margin-top: 10vh;
+    margin-left: 95vw;
+
+}
+.buttonClassLearnMore {
+    margin-top: 5vh;
+    background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) right; 
+    background-size: 200% 100%; 
+    transition: 0.25s ease-in-out;
+    
+    color: #FBFCF8;
+    border-radius: 35px;
+    font-size: calc(15px + 1vw);
+    padding: 0.6em 1.2em 0.6em 1.2em;
+    position: absolute;
+    margin-left: 0;
+}
+
+.buttonClassLearnMoreModal {
+    margin-top: 11%;
+    margin-left: -0%;
+    background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) right; 
+    background-size: 200% 100%; 
+    transition: 0.25s ease-in-out;
+    font-family: 'Roboto', sans-serif;
+    color: #FBFCF8;
+    border-radius: 35px;
+    font-size: calc(0px + 1.55vw);
+    padding: 0.6em 1.2em 0.6em 1.2em;
+    position: absolute;
+}
+.CloseModel{
+    height:5vh;
+    width:1vh;
+    margin-top: -1vh;
+    margin-right: -2vh;
+    border-radius: 10;
+}
+.buttonClassLearnMoreModal:hover {
+    background-position: left;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.4);
+    transform: translate(0px, -3px);
+    cursor: pointer; 
+}
+.buttonClassLearnMoreMobile {
+    margin-top: 5vh;
+ 
+    background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) right; 
+    background-size: 200% 100%; 
+    transition: 0.25s ease-in-out;
+    
+    color: #FBFCF8;
+    border-radius: 35px;
+    font-size: calc(15px + 1vw);
+    padding: 0.6em 1.2em 0.6em 1.2em;
+    position: absolute;
+}
+.buttons{
+    left:0;
+    right:0;
+    margin-left:40vw;
+    margin-right:auto;
+    margin-top: 77vh;
+    display:flex; 
+    flex-direction:row;
+    position: absolute;
+}
+.imageDiv{
+    width:90%;
+    margin-top:10vh;
+    height:80vh;
+}
+.buttonsMobile{
+    left:0;
+    right:0;
+    margin-left:15vw;
+    margin-right:auto;
+    margin-top: 50vh;
+    display:flex; 
+    flex-direction:row;
+    position: absolute;
+}
+.buttonsInner{
+    margin-left: 5vw;
+    margin-top: 0.5vh;
+}
+.LogoDiv{
+    height:5vh;
+    width:18vw;
+    margin-top: .5vh;
+}
+.LogoDivMobile{
+    height:5vh;
+    width:33vw;
+    margin-top: 2vh;
+}
+.buttonClassLearnMore:hover {
+    background-position: left;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.4);
+    transform: translate(0px, -3px);
+    cursor: pointer; 
+}
+
+.headerImage {
+    grid-area: headerImage;
+}
+
+img {
+    width: 100%;
+}
+
+.content-wrapper {
+    margin: 5% 12.5% 5% 12.5%;
+}
+
+h2 {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: calc(20px + 1.5vw);
+    color:#342E37;
+    font-weight: 300;
+}
+
+h2 {
+    text-align: left;
+    font-family: 'Roboto', sans-serif;
+    font-size: calc(20px + 1.5vw);
+    color:#342E37;
+    font-weight: 300;
+}
+
+.featuresContentWrap {
+    display: grid; 
+    grid-template-columns: repeat(3, minmax(0,1fr));
+    grid-template-rows: auto; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "softwareSuccess refinedPractice enableImprove" 
+      "ssCaption rpCaption eiCaption";
+    padding: 5% 0 0 0;
+}
+
+.featuresContentWrap .icon {
+    padding: 2.5% 2.5% 2.5% 2.5%;
+
+}
+
+.featuresContentWrap .text {
+    text-align: center;
+    padding: 2.5% 2% 2.5% 2%;
+}
+
+.softwareSuccess {
+    grid-area: softwareSuccess;
+    margin: auto;
+}
+
+.refinedPractice {
+    grid-area: refinedPractice;
+    margin: auto;
+}
+
+.enableImprove {
+    grid-area: enableImprove;
+    margin: auto;
+}
+
+h3 {
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: calc(7.5px + 1.25vw);
+    color:#342E37;
+}
+
+.ssCaption {
+    grid-area: ssCaption;
+    padding: 0 0.25em 0 0.25em;
+
+}
+
+.rpCaption {
+    grid-area: rpCaption;
+    padding: 0 0.25em 0 0.25em;
+
+}
+
+.eiCaption {
+    grid-area: eiCaption;
+    padding: 0 0.25em 0 0.25em;
+}
+
+p {
+    font-size: calc(6px + 0.8vw);
+    font-family: 'Lato', sans-serif;
+    color:#342E37;
+
+}
+
+.featuresContentWrap .text p {
+    padding: 1em 1.5em 1em 1.5em;
+}
+
+.features {
+    text-align: center;
+}
+.featuresPlan{
+    text-align: center;
+    width:80vw;
+    margin-left: 10vw;
+   
+}
+.ProgressImage{
+    
+    
+    margin: auto;
+    padding: 0 0 0 0;
+}
+.ProgressText{
+    margin-top: 5vh;
+    margin-left: 0;
+    width: 50vw;
+    margin-right: 5vw;
+    margin-bottom: 5vh;
+    font-size: calc(12px + 1vw);
+    font-family: 'Lato', sans-serif;
+    color:#342E37;
+}
+.features button {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: calc(10px + 1vw);
+    margin: 2.5% 0 0 0;
+
+    background: linear-gradient(to left, #E26D5C 50%,#342E37 50%) left; 
+    background-size: 200% 100%; 
+    transition: 0.25s ease-in-out;
+}
+
+.features button:hover {
+    background-position: right;
+}
+
+.collegeBanner {
+    margin: 10% 5% 7.5% 5%;
+}
+.collegeBanner img {
+    padding: 5% 0 5% 0;
+    margin: auto;
+    max-width: 100%;
+}
+
+#mobileCollegeBanner {
+    display: none;
+}
+
+.contact {
+    padding: 0% 12.5% 0% 12.5%;
+    text-align: center;
+    
+}
+.contactForm {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0%;
+    padding: 5% 12.5% 5% 12.5%;
+    border-radius: 10px;
+    
+}
+.bottomDiv{
+    height:2vh;
+}
+.contactField {
+    width: 100%;
+    margin: auto;
+    font-size: calc(10px + 0.75vw);
+    font-family: 'Lato', sans-serif;
+    color:#342E37;
+    margin: 0.4em 0em 0.4em 0em;
+    padding: 0.1em 0.2em 0.1em 0.2em;
+    border-radius: 5px;
+    box-sizing: border-box;
+
+}
+
+input, textarea {
+    border-color: #342E37;
+    border-width: 3px;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #E26D5C;
+    box-shadow: 0px 0px 7px rgba(0, 0, 0, 0.5);
+}
+
+.contact button {
+    background: linear-gradient(to bottom, #FBFCF8 50%,#E26D5C 50%) top; 
+    background-size: 102% 202%; 
+    transition: 0.2s ease-in-out; 
+    color: #342E37;
+    font-size: calc(12px + 1vw);
+    padding: 0.5em 2.5em 0.5em 2.5em;
+    font-family: 'Roboto', sans-serif;
+    margin: 3% 0 0 0;
+    border-radius: 25px;
+}
+
+.contact button:hover {
+    background-position: bottom;
+    color:#FBFCF8
+}
+
+.footer {
+    background-color: #342E37;
+    padding: 2% 7.5% 2% 7.5%;
+    display: grid; 
+    grid-template-columns: 70fr 30fr; 
+    grid-template-rows: auto; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      "info spacer"; 
+}
+
+.footer p {
+    color: #FBFCF8;
+    padding: 0.175em 0 0.175em 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: calc(7.5px + 0.75vw);
+}
+
+.info {
+    grid-area: info;
+}
+
+.spacer {
+    grid-area: spacer;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
+    p {
+        font-size: calc(10px + 2vw);
+        font-family: 'Lato', sans-serif;
+        color:#342E37;
+
+    }
+
+    h3 {
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-size: calc(15px + 3vw);
+        color:#342E37;
+    }
+
+    h2 {
+        font-size: calc(20px + 3.25vw);
+    }
+
+    .featuresContentWrap {
+        display: grid;
+        grid-template-columns: 100fr;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "softwareSuccess" 
+            "ssCaption" 
+            "refinedPractice" 
+            "rpCaption" 
+            "enableImprove" 
+            "eiCaption";
+
+        
+        padding: 2.5% 2.5% 2.5% 2.5%;
+    }
+
+    .featuresContentWrap .icon {
+        margin: 15% 0 0 0;
+        padding: 2.5% 7.5% 2.5% 7.5%;
+    }
+
+    .featuresContentWrap .text p {
+        padding: 1em 0.5em 1em 0.5em;
+    }
+
+    .refinedPractice img {
+        width: 90%;
+    }
+
+    .softwareSuccess.icon {
+        margin-top: 7.5%;
+        
+    }
+
+    .features button {
+        font-size: calc(20px + 2vw);
+        margin: 0;
+    
+    }
+
+    .content-wrapper {
+        margin-left: 2.5%;
+        margin-right: 2.5%;
+    }
+
+    .contactForm {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .contact {
+        padding: 0 2.5% 0 2.5%;
+    }
+
+    .contactField {
+        font-size: calc(15px + 1.5vw);
+        color:#342E37;
+        margin: 0.45em 0em 0.45em 0em;
+        padding: 0.1em 0.3em 0.2em 0.3em;
+        border-radius: 8px;
+    
+    }
+
+    .contact button {
+        font-size: calc(15px + 1.5vw);
+        width: 100%;
+        border-radius: 10px;
+    }
+
+    #mobileCollegeBanner {
+        display: block;
+    }
+
+    #wideCollegeBanner {
+        display: none;
+    }    
+    
+    .collegeBanner {
+        margin: 15% 5% 12.5% 5%;
+    }
+
+    .collegeBanner img {
+        padding: 10% 0 10% 0;
+        max-width: 80%;
+    }
+
+    .header {
+        grid-template-columns: 100fr; 
+        grid-template-rows: auto; 
+        gap: 0px 0px; 
+        grid-template-areas: 
+          "headerImage"
+          "headerTitle";
+          
+          min-height: 50vh;
+    }
+    
+    .header::before {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-image: url("./images/studying.jpg");
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        content: "";
+        z-index: -1;
+        opacity: 0.27;
+        margin-left: -19vw;
+
+    }
+    .centerText{
+        text-align: center;
+        
+    }
+    .headerImage {
+        display: none;
+    }
+    
+    .headerTitle {
+        font-size: calc(30px + 2.5vw);
+        margin: 5% 0% 5% 0%;
+    }
+    
+    .headerTitle p {
+        font-size: calc(15px + 1vw);
+        margin: 0% 0% 5% 0%;    
+    }
+    
+    .footer p {
+        color: #FBFCF8;
+        padding: 0.25em 0 0.25em 0;
+        font-family: 'Roboto', sans-serif;
+        font-size: calc(15px + 1.25vw);
+    }
+    
+    .footer {    
+        padding: 10% 7.5% 10% 7.5%;
+        grid-template-columns: 100fr 0fr; 
+    }    
+
+    .mobileNavbar {
+        display: initial;
+        
+    }
+
+}
+.NewBox {
+   
+    align-items: left;
+    justify-content: left;
+    width:80%;
+    margin-left:-5vw
+  
+}
+.VideoBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.IMG{
+    width: 80%;
+    margin-left: 20%;
+
+    margin-top: -1%;
+    position: absolute;
+}
+.TestBox{
+    width: 10vw;
+    margin-bottom: 10vh;
+}
+.SliderBox{
+    width: 20vw;
+}
+.UniversityBox{
+    width:40vw;
+    float: right;
+    margin-left: 30vw;
+    height: 55vh;
+    overflow-x: auto;
+   
+}
+.TotalBox{
+  display:flex; 
+  flex-direction:row;
+  width:85vw;
+  align-self: center;
+  margin-left: 5vw;
+  margin-top: 10vh;
+}
+.TestSliderBox{
+    margin-left: 5vw;
+    display:flex; 
+    flex-direction:column;
+}
+.heightbox{
+    height:2vh
+}
+.TitleTextStyleLigh{
+    font-weight: 200;
+    font-size: xxx-large;
+    color:black;
+    margin-bottom: 10vh;
+    text-align: center;
+    margin-top: 20vh;
+    
+  }
+  .Score{
+    font-weight: 200;
+    font-size: x-large;
+    color:black;
+    margin-bottom: 3.7vh;
+    
+  }
+  .collegeBanner {
+    margin: 10% 5% 7.5% 5%;
+}
+.collegeBanner img {
+    padding: 5% 0 5% 0;
+    margin: auto;
+    max-width: 100%;
+}
+
+/*
+.FirstTextStyle {
+    font-size: 500;
+    font-weight: 500;
+}
+*/
+
+
+.box{
+    width:200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: blue;
+}
+
+.box2{
+    width:200px;
+    height: 200px;
+    border-radius: 50%;
+    background-color: red;
+}
+
+.faq {
+    margin: 5% 0 10% 0;
+}
+
+.faqGroup {
+    margin: 2.5% 0 2.5% 0;
+}
+
+.faqGroup p {
+    padding: 0.5em 0 0 0.5em;
+}
+.faq h2 {
+    text-align: center;
+}
+
+.faq a {
+    color: #E26D5C;
+}
+
+.faq a:hover {
+    color: #342E37;
+}
+
+@media only screen and (max-width: 768px) {
+    
+    .faqGroup p {
+        padding: 0.5em 0 0 0.5em;
+    }
+
+    .faqGroup {
+        margin: 7.5% 0 7.5% 0;
+    }
+
+    .faq {
+        padding: 0 1em 0 1em;
+    }
+}

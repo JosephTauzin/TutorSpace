@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+npm install tailwindcss
+
+html {
+	scroll-behavior: smooth;
+}
